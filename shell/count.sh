@@ -14,4 +14,4 @@ find $dir -type f -name '*' -exec wc -l {} \;|\
     printf "%-30s: %d: %d\n", $2, $1,sum}\
     END{ print "total line: " sum}';
 
-exit 0
+exit 0  
