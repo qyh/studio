@@ -1,0 +1,86 @@
+
+
+  Listing 21.3
+
+
+
+
+#include &lt;linux/kernel.h&gt;
+#include &lt;linux/module.h&gt;
+#include &lt;linux/kprobes.h&gt;
+#include &lt;linux/kallsyms.h&gt;
+#include &lt;linux/sched.h&gt;
+
+extern int npages; /* Defined in Listing 21.2 */
+
+/* Per-probe structure */
+static struct kprobe bandaid;
+
+/* Pre Handler: Invoked before running probed instruction */
+int
+bandaid_pre(struct kprobe *p, struct pt_regs *regs)
+{
+    if (npages &gt; 10) npages = 10;
+    return 0;
+}
+
+/* Post Handler: Invoked after running probed instruction */
+void
+bandaid_post(struct kprobe *p, struct pt_regs *regs,
+             unsigned long flags)
+{
+    /* Nothing to do */
+}
+
+/* Fault Handler: Invoked if the pre/post-handlers
+   encounter a fault */
+int
+bandaid_fault(struct kprobe *p, struct pt_regs *regs,
+                  int trapnr)
+{
+    return 0;
+}
+
+int
+init_module(void)
+{
+    int retval;
+
+    /* Fill the kprobe structure */
+    bandaid.pre_handler = bandaid_pre;
+    bandaid.post_handler = bandaid_post;
+    bandaid.fault_handler = bandaid_fault;
+
+    /* Arrive at the target address as explained */
+    bandaid.addr = (kprobe_opcode_t*)
+        kallsyms_lookup_name(&quot;memwalkd&quot;) + 0xaa;
+    if (!bandaid.addr) {
+        printk(&quot;Bad Probe Point\n&quot;);
+        return -1;
+    }
+
+    /* Register the kprobe */
+    if ((retval = register_kprobe(&amp;bandaid)) &lt; 0) {
+        printk(&quot;register_kprobe error, return value=%d\n&quot;,
+               retval);
+        return -1;
+    }
+
+    return 0;
+}
+
+void
+module_cleanup(void)
+{
+    unregister_kprobe(&amp;bandaid);
+}
+
+MODULE_LICENSE(&quot;GPL&quot;); /* You can't link the Kprobes API
+                          unless your user module is GPL'ed */
+
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

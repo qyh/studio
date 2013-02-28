@@ -1,0 +1,1000 @@
+﻿/**
+ * Copyright (C)  2011-2011  Jesse Meng (pingf0@gmail.com).
+ * 
+ * This file is part of OOC-GCC.
+ * 
+ * OOC-GCC is free software: you can redistribute it and/or modify it 
+ * under the terms of the GNU Lesser General Public License as published 
+ * by the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ * 
+ * This library is distributed in the hope that it will be useful,but 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with this library. If not, see 
+ * <http://www.gnu.org/licenses/>.
+ */
+
+//OOC_GCC 
+//dev diary since 0.1.0117
+/*
+version : 0.21.0118
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.6.1)
+notes in Chinese :
++修改和ST宏相关的部分,
+  不再使用结构体减偏移地址的方式获取对应的地址,而直接在构造时进行保存
++简化和移除了一些宏
++增加METHOD,CALL,RUN等宏,尽管有些不是很必要,但是有时候在表述是还是相对明晰些
++着手编写广义表等结构
+*/
+/*
+version : 0.20.1123
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.6.1)
+notes in Chinese :
++修改剩余的例子,打包
++增加一个Adapter模式的例子,因为使用了函数闭包,所以仅支持GCC
+*/
+/*
+version : 0.20Beta.1120
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.6.1)
+notes in Chinese :
++完善一些宏的简化定义
++完成VC6.0的兼容性性测试
++取消早期LiteStyle的支持
++修改部分早期测试用例,使其适应新的版本
+*/
+/*
+version : 0.20Beta.1119
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.6.1)
+notes in Chinese :
+
++修正一些错误,其包括
+-构造顺序和析构顺序的问题得以修正,
+-构造时,先静态部分(虚表部分),再父类
+-析构时,先父类,再静态部分
+
++增加一种新的类声明方式
+-现在可以独立声明两个结构体,然后将其绑定在一起
+-一个做实例部分,一个做静态部分(虚表部分或类部分)
+
++增加一些宏,使得静态部分可以用不同的名称来定义
+-原先的宏必须是类名为A则静态部分名称必须为StA
+
++增加对私有继承部分的模拟
+-仍是开辟一块堆区域,但是在使用继承相关的宏时
+-只调用子类的私有构造或析构
+-同时这一部分设计的更加自由,
+-支持动态绑定构造或析构函数
+
++修改类设计宏,构造宏的名称顺序
+-原来的是
+-宏名称(父类,子类)
+-现在的是
+-红名称(子类,父类)
+
++修复一个VC编译器不兼容的错误
++修复一个引用顺序上的错误
+*/
+/*
+version : 0.15.1101
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=修正一些错误,其包括
+ .h引用顺序上的一个错误
+ STATIC部分析构顺序上的一个错误
+-类库方面的设计进一步简化
++逐步完善整型链表与数组的数据结构设计
+*/
+/*
+version : 0.15.0820
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=修正一些小的错误
++类库增加Range和SList
+ Range因为需求比较简单,估计以后改动也不大
+ SList目前只是完成了初始化部分,目前支持char,int,chars以及void*四种类型
+ SList可能还要花相当多的时间去完善
+*/
+/*
+version : 0.15.0819
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=修正关于CALL相关宏的小错误
++开始着手简单的库的编写
+*/
+/*
+version : 0.15.0816Se
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=完善并改进newEx及delEx函数的设计,并增加与之配合的简化宏方便调用
++预留线程锁宏定义,方便以后或第三方的扩展
+*/
+/*
+version : 0.15.0816
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
++增加newEx及delEx相关函数,方便内存扩展以及返回值的处理等
+*/
+/*
+version : 0.15.0813
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=一些小的修改,比如INI0(Type,p)现在变为INI0(p,Type)
+*/
+/*
+version : 0.15.0812
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+!跳过0.13,0.14两个分别在欧美和中国不太吉利的数字,木哈哈哈....
++增加多根继承的模拟宏,当然目前的模拟属于"半自动"的,并不如单根的模拟那么"美"
+=一些不影响兼容性的小修正
+*/
+/*
+version : 0.12.0628
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
++增加一个简单的宏定义,配合完全不支持匿名结构体的编译器使用
+=关于版本号更新[0.XY.DATE]以后X增加要大于等于21天,Y增加要大于等于7天
+-删除和Utils相关的内容,原先其中的一些宏可能会移到Base中
+*/
+/*
+version : 0.12.0616_2ed
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=完成了大部分例子以及编译用批处理的修改
+=修正了Exception上一些因为宏没有及时更新而造成的错误
+*/
+/*
+version : 0.12.0616
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
++增加四个基本常量的宏定义
+=将ASM00,ASMCS等宏改为ASM_00,ASM_CS
+=修正一个关于CALL方法的小错误(其中使用了的宏定义名称未及时跟进)
++增加USING__LITE_STYLE宏开关,修改构造相关的宏,提供对早期(0.8)简化的风格的类结构的支持
+%简化风格的好处是CLASS直接定义与CLASS_RAW相同,加入STATIC则有静态部分(类区域),不加入则没有,不受影响
+ 同时简化风格的类区域和实例区域各减少一个4字节/8字节(视系统位数而定)的成员
+%简化风格的缺点是不支持DELETE操作,只支持带有类型的DEL操作
+=对于核心宏的各部分加以分类及简单说明
+*/
+/*
+version : 0.12.0615_4th
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=将PRINT_CLASS宏的顺序改回原先版本的,因为现在的可能导致一些继承时错误的理解
++增加CLASS_ROOT_EX和STATIC_ROOT_EX用于衔接原始类和普通类之间的继承
+=做了一些关于普通类继承原始类的测试
+*/
+/*
+version : 0.12.0615_3rd
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=进一步将宏规范化,并使其更具有对称性
++增加STATIC_RAW等宏
+=将ASM0,ASM1改为ASMC,ASMCC宏
++增加ASMCC,ASMCS,ASMSC,ASMSS等宏
+!尽管我增加了一些原型的宏,但是我仍旧不鼓励这样使用,因为这样可能造成一些隐藏的错误
+ 尽量在设计上使用标准的带有STATIC的宏
+=修正一个和RAW_STATIC_BODY相关宏的一个错误
++增加改动后的AIO版本
+=改了几个例子,比如ABCD和AnimalTalk等
+*/
+/*
+version : 0.12.0615_2ed
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
++增加ASMXY宏,可以使子类的实例区域和类区域继承不同的父类,并做了一些测试
++增加重定义宏ASM,和ASM_EX分别对应ASM00和ASM11,一定程度上改善了兼容性
++规范宏定义在使用中";"的规范,{}之内的宏使用时要显示的写一个分号,{}外的则不需要
+ 这样规定一来代码更加规范,二来可以解决因为规则不同而产生的不同编译器的兼容性问题
+-补充说明一下,0.12版本中取消了0.11中引入的RELOAD宏,并且取消了静态部分中的表示size的参数
+%目前的例子及AIO版依旧没来的及改,一个演示的例子是test_rawExtended.c
+*/
+/*
+version : 0.12.0615
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=做了一些更加复杂的尝试,比如静态部分的模拟,但是用宏来实现会大大增加记忆负担,最后放弃
+!对核心宏进行重写
+-将_EZ宏换为更明确语义的宏,部分_EZ宏被直接替换为_RAW
+-删除原先的ASM_EZ,ASM_EX等宏
++增加新的ASMXX等宏,使得无静态区域的类和有静态区域的宏可以混合继承
+=重新定义核心宏的命名规则,使之更具规范性,且使得各个宏之间关系更加易懂
+=简化OOStd.h中的引用关系
++增加一个配合ASM10,ASM01等宏用于演示部分继承的用例
+%整体修改后,以AnimalTalk例子编译的情况来说,MinGW环境下默认情况小了500字节左右
+!本版本和之前的例子可能不兼容
+ 主要是要把CLASS_EZ改回CLASS_RAW
+ 还有就是把ASM改为ASM11,把ASM_EZ改为ASM0
+ 其它基本不变
+
+%大多数例子还没有改,所以编译用的批处理可能出错
+ AIO版本是0614版的,下个版本再改
+*/
+/*
+version : 0.11.0612Se
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=完成大部分实例中方法名static属性的修改
+=修改一些宏定义的位置
++增加一些用于简化类设计的宏,因为风格上的统一,不会有太大的记忆负担
+=完成AIO版本的修改
+*/
+/*
+version : 0.11.0612
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
++增加表示基础类成员头和尾的宏
++增加函数方法调用宏
++增加RELOAD相关宏
++增加一个函数方法调用的测试用例
+=做了一些测试,保证修改后核心部分仍与VC编译器兼容
+=CLASS_PRINTER的位置有所变化,并增加了相应的简化宏
+
+%下一步将会更新一些规范,比如所有配合函数以static打头,
+ 因为一般的应用,非static打头的函数通过ASM系列宏已经定义了.
+ 另外对于非全开放的宏一般调用应使用分号结尾,
+ 当然这些规范主要在例子中体现,虽然不是强制,但这样做代码更加neat.
+*/
+/*
+version : 0.11.0611
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=核心部分又一次逐行的代码审查与修改
+=将原来的reload重命名为load,这样表意更加明确
++为每个类增加reload函数指针,专门负责reload
+-取消构造函数返回正值时根据返回值额外分配堆内存的功能
+ 如果需要可以在某个类的尾部放置一指针手工扩展,这也使得编译出来的代码更小
+=增加一些描述偏移量的宏,使OOBase.h中的宏更加易懂
+
+%另外要说明的是目前AIO版尚未修改
+*/
+/*
+version : 0.11.0610
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=又进行了一遍逐行的代码审查,并作了不少修改.
+ 使核心定义部分与VC9编译器完全兼容(不包含OODbg模块,目前主要测试了ABCD和
+ KidManWorker这两个比较有代表性的例子,其它的例子可能还要做一些简单的修改)
+ ,并提供编译用的批处理文件.
+=修正一个粗心造成的冗余
+*/
+/*
+version : 0.10.0610+
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=针对VC9(Visual C++ 2011)的编译器做了一些修改,使得AIO版本的可以在VC9下编译通过
+ 完整版的还没有修改,不过即使可以用OODbg中的大部分功能也会受到限制.
+ 在0.11版应该会做到VC9的兼容(不包括OODbg),不过如果不到21天还是不会打包发,
+ SVN中才会更新.
++批处理的编译更加完善,*nix照着改下就可以了
++增加一个类结构体与实例结构体分开来设计的例子
++增加aio版本对VC编译器的一个批处理文件(环境变量可能需要修改)
++增加配合7zip命令行打包用的批处理文件
+*/
+/*
+version : 0.10.0609
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=将gettimeofday换成clock,虽然前者可以到微秒级,但在M$下有时会有溢出
+ 另外用clock编译出来的也小那么一点点
++增加两个AIO的测试用例,当然因为AIO的OOC.h核心部分完全一样,
+ 所以代码不用变动(除了一行include要变)
++修改批处理编译命令,加上了简单的检测以及win下静态库和动态的库的编译命令
+*/
+/*
+version : 0.10.0608_3rd
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+-去除Make.bat中和Utils相关的文字,因为目前的Utils完全独立,而目前的测试用例中有无需Utils相关函数
+=测试关闭Utils相关开关宏的情况,修改OOStd在引用头文件上的一个错误
++增加All In One的OOC.h(完整的单文件版的OOC-GCC的核心部分)及一个测试用例test_ABCD_AIO.c,
+ 当然使用时不要和OOStd混用,另外OOC.h不具备相关的调试日志输出等功能
+=将__OOC_CTOR_STATIC类型的宏改为__OOC_STATIC_CTOR类型,当然这些本身不影响现在的例子,
+ 因为这些宏不应访问
+*/
+/*
+version : 0.10.0608Se
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=将C级头文件独立出来
+=修正一些宏开关上的冗余
+=删除OODef,仅保留OOCfg
+=OODbg相关更加独立,当然其本身是为了配合OOC而使用,故其还是要配合OOCfg
+=针对宏开关做了进一步的测试
+=增加一个简单的win下的批处理文件Make.bat来编译测试用例,Lin下照着改一改就好
+?因为没有64位的环境,可能在64位下会报一些size_t相关的warning,但不会影响使用
+*/
+/*
+version : 0.10.0608
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=将Utils模块完全独立出来
+=将OODbg简化,使之更加独立,修正一个异常部分的小错误
+=增加MEMORY_FUNCTIONS相关宏,细化函数分配的宏开关
+=修改头文件的引用关系,使之更加自然且默认编译出来的更小
+=改核心文件为utf-8编码
+*/
+/*
+version : 0.9.0529
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=修改一些unsigned int为size_t,防止64位环境下可能产生的结构体内存对其问题
+ 不过因为我没64的系统,所以可能还会有一些warning需要修改.
+=关于编译最简单的方式是"gcc OODbg.c Utils.c test_MomAndKid.c",编译其它的
+ 例子,只需替换test_MomAndKid.c为其它测试用例(test打头的.c文件)
+*/
+/*
+version : 0.9.0522
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+=改用更简单的日志记录方式
+      +表示增加 -表示删减 #表示扩展型修改 =表示缩聚型修改 
+=修正关于类大小获取方面的功能,现在reload返回可以较好的进行动态内存扩展,
+ 并可通过CIZE宏获取实际堆上的大小(但是须保留最后一个双指针型)
+=修改静态类首部元素获取位置,是CIZE宏自定reload函数中可以使用
++增加一个showSize实例
++增加一个showRef实例
++增加一个showSizeEx实例 
+*/
+/******************************************************************************/
+/*
+version : 0.9.0521Se
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//增加方便调试的类函数打印宏
+	//很遗憾的发现一个设计上的问题,原先希望可以重载自定的构造和析构
+	//--所以静态部分保留了一些指针,后来的发现这样做是无用且不科学的
+	//--所以取消了静态部分关于reload和unload的所有函数指针
+	//--所以那个动态改变的例子一并删除
+	//修改一些小错误
+	//增加一个静态部分的测试用例
+*/
+/*
+version : 0.9.0521
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//这次改动依旧比较大,
+	//解决静态部分继承时部分成员不能正确初始化的问题
+	//将静态部分reference设为类一一对应,不再重复继承
+	//删除静态部分静态的reload和静态的unload指针
+	//将实例reload和unload初始化改为静态构造之中
+	//新增一个演示switch构造和析构的实例,注意一旦静态销毁则重置
+	//关于版本号
+	//--因为这是个个人的小项目(目前来说),所以以往如有重大的改动,
+	//--严重错误的修复或是使用上调用接口的改变,都会让版本号前进0.1
+	//--以后会让改变慢一点,就是如果调用接口不变,还要保证至少三周的间隔时间
+	//下一个版本应该是0.10而不是1.0
+*/
+/*
+version : 0.9.0519
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//删除构造函数中一个无用的静态指针,也不知自己当时咋想的,
+	//--这个错误比较低级,纯属自己把自己整复杂了
+	//修改了下NEW宏,是其更方便
+*/
+/*
+version : 0.9.0517
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//实现了一个非常好的特性,原来的调用析构时需要使用delA(&p,NULL)的形式,
+	//--其中A的出现表明我们需要知道类型,如果一些指针向上转型,则会出现部分内存未释放的错误.
+	//--现在的这个版本中无需知道p的类型是否是A,析构时只需DEL0(p)即可(也可DEL(p,NULL))
+	//内存模型上有一些改动,现在默认的CLASS现在第一个元素为已定好的,表明大小,静态部分除此之外还有一个保存最外层析构函数的指针
+	//--另外继承下来的类不会产生额外的这些参数
+	//上述修改在0.8版本的例子(完整版中的两三个)基本不用改动,除了使用原先DEL宏的地方.
+	//同时采用规范的LGPL version 3协议发布,具体参见附件中的GPL3以及LGPL3协议文件.
+*/
+/*
+version : 0.8.0515
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//将静态类名默认形式由Static##Type改为St##Type
+	//静态结构析构函数修正一处格式上的错误
+	//修正混合结构(包括静态部分使用单根继承宏)在内存分配上的一处可能导致程序崩溃的错误.
+	//改描述自然继承关系的Mom/Kid实例为描述属性继承关系的Kid/Man/Worker实例.
+	//修改__OOC_EMPTY宏为__OOC_CLEAN和__OOC_CLEAR宏
+        //增加ASSERT衍生宏CHECK,即不abort的ASSERT
+*/
+/*
+version : 0.7.0430
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//修改异常处理部分的代码,使之更为独立
+	//简化debug层,去除冗余的代码,修正错误
+	//将OOSwitch.h头文件改为OOConf.h和OODef.h
+	//修正头文件相互引用上的一些冗余逻辑
+*/
+/*
+version : 0.6
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//增加重设内存分配函数的方法
+	//删除一些已经无用的宏
+	//修改一些宏的简化定义,如PACKP宏更名为PP
+	//开发环境:将SlickEdit改为Eclipse with CDT 7.0
+	//保证默认情况下GCC无需额外参数
+*/
+/*
+version : 0.6MS.0421RC7
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//不限制非GCC原生的匿名结构体的支持选项开启与否
+	//--现在可以不使用-fms-extesions,但也可以开启
+*/
+/*
+version : 0.6MS.0416RC6
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//修改了一两行代码,关于内存分配的
+	//TRY..CATCH部分更加规范了些
+*/
+/*
+version : 0.6MS.0415RC5
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//好像忘了从哪个版本,多删了一句释放内存的代码
+	//--今天偶然发现了,改回来先
+*/
+/*
+version : 0.6MS.0413RC4
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//修改了下一场处理的部分,简化了异常原因的表述
+	//核心析构宏如果传入指针为空直接返回-1
+*/
+/*
+version : 0.6MS.0408RC3
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//把源码放在一个文件夹,编译时直接使用 gcc -fms-extensions *.c 即可
+	//把那个<mem.h>换成<string.h>,这样linux等平台下应该不会报错了
+*/
+/*
+version : 0.6MS.0327RC2
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//修改一些小错误
+	//修改ST宏,使之更加简便,且无warning
+*/
+/*
+version : 0.6MS.0326RC
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//修改了一些小地方
+	//增加无需继承的宏,先删除那个JType,以后独立弄JLib和JObject
+	//目前来说关于纯粹OO的部分感觉已经基本满意了
+	//--近期不再做大规模的修改,打包第一个RC版本先
+*/
+/*
+version : 0.6MS.0326
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//关于静态的宏稍微改了下,至少现在看上去更直白,整体风格不变
+*/
+/*
+version : 0.6MS.0325SE
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//发现一个前置定义类继承关系的好处,就是向上转型时用起来方便
+	//--针对这个问题,做了些改动,所有的父类均靠前放置,定义类增加CLASS_EX宏,但是整体风格得以保留
+*/
+/*
+version : 0.6MS.0325
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//GCC_4_6以后修正了一个所谓关于匿名结构体的bug,但是这个所谓的bug会让我觉得对OO的模拟性有所下降,
+	//--具体见gcc中testsuite新增的几个关于anonymous struct的实例,不过这并不影响我这个的实现,只是说你不能重复定义重名变量了
+	//这个版本将静态部分的继承放在前面(其实前置后置都可以只要不放中间就好),主要是这样可以少写一个宏,看上去更漂亮
+	//修正一些错误,每个静态类增加专门的reload,unload指针,取消extra变量,关于结构体动态扩容用非静态实例reload反回值决定
+	//另外主函数中换了个Mom,Kid实例,更加简单
+	//增加JType类,作为所有类的基础类
+	//debug层还没修改,有时间再改,准备把所有静态成员至于函数中
+	//另外决定把数据结构部分,和以后的更加完备的Object机制独立出来,暂定为JLib和JObject,另建项目,另外svn,git神马的在没有人参与的情况下暂缓了,习惯了鼠标压缩的操作.	
+/*
+version : 0.6MS.0323Beta
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//这次的改动非常之大,核心宏也有所变化
+	//核心宏现在更加开放,简洁
+	//传入参数PACKP宏改良为更加简洁的方式
+	//使用匿名结构体(gcc 4.5.2需要-fms-extension选项)实现真正的继承,方便操作
+	//--目前经测试已经可以实现方法的重载和重写(不涉及参数名)
+	//--这里要说明的是关于匿名结构体继承中的重名问题
+	//----我的测试环境是MinGW gcc 4.5.2 如果重名会优先选择靠前的,而不是报错,这也决定了下面的内存模型
+	//"类"的实例分为实例部分和静态实例部分,其内存分布如下模型
+CLASS Child -------------------------------------------------------------->CLASS StaticChild
+    |___Child Elems                                                            |___StaticChild Elems
+    |___CLASS Parent----------->Class StaticParent======[Same as]=============>|___StaticParent
+	    			    |___StaticParent Elems                             |_StaticParent Elems 
+	//而类的构造顺序为 父→子 析构顺序为 子→父
+	//目前的继承属于单根的,多根模拟可以自己实现
+	//另外所有的类必须都继承自根类(我在main.c里实现了一个不完整的)
+	//关于根类以后会写一个完整的用于存放基本信息,再写一个类似Qt中的metaObject类,有时间还要实现信号之类的模拟
+	//现在的定义方法如下(假定已完成父类Test2,子类Test3继承自Test2)(最终版本还会重定义宏而不需要__OOC这样复杂的前缀)
+__OOC_CLASS(Test3){
+    int a;
+    int b;
+    __OOC_CLASS_STATIC(Test2,Test3) //静态设计部分,组要放在最后
+    int sa;
+    int sb;
+    __OOC_END_CLASS_STATIC(Test2) 
+}; //尾部可以直接定义实例或静态实例(此处为静态实例)  
+	////现在的定义方法如下
+int reload3(Test3 * THIS,void *PARAM){ //用于实例构造
+    return 0;
+}
+int unload3(Test3 * THIS,void *PARAM){ //用于实例析构
+    return 0;
+}
+int reload3_st(StaticTest3 * THIS,void *PARAM){ //用于静态实例构造
+    return 0;
+}
+int unload3_st(StaticTest3 * THIS,void *PARAM){ //用于静态实例析构
+    return 0;
+}
+__OOC_ASSEMBLE(Test2,Test3,reload3,unload3,reload3_st,unload3_st)
+	//因为匿名结构体的作用,类中继承的方法可以直接调用,这一点十分方便
+	//而ASSEMBLE宏保证了父类的构造和析构会被自动调用而无需额外的代码
+	//比如一个父类成员a,子类指针s可以直接s->a
+	//如果子类也有成员a,则s->a为子类的成员a,如果子类没有重复定义a,则s->a为父类的s->a
+	//--这种特性在MinGW gcc 4.5.2(目前最新版)是允许的,某些版本的gcc可能不允许重名的定义
+*/
+/*
+version : 0.5.0320
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//把返回st部分又改回来了,因为那样调用起来实际上是更加麻烦了
+	//简化了相当一部分定义类静态部分仅保留reload,unload以及引用计数ref变量
+	//将m值放在一个类的结尾
+	//在保持核心宏不变的情况下,增加带有单根继承功能的EX宏(主要是为了方便),不过目前还没怎么测试
+	//--因为动了较为底层的宏,所以版本号继续加0.1,不过core宏的修改不涉及调用
+	//--假设一个名为TT的类继承自Memory类,则
+	//----CLASS_EX(TT,Memory)
+   	//----    CLASS_ST(TT)
+	//----END_CLASS
+	//----ASM_EX(TT,Memory,NULL,NULL,NULL,NULL)
+
+	//近期复习考试,有时间再继续完善
+	//--不过感觉现在的封装已经不错了,以后要把基础的数据结构实现
+*/
+/*
+version : 0.4.0318Pre
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//修改静态初试话部分的宏,
+	//--将初试化部分外移至独立的reload和unload函数中
+	//--修改较为冗余的逻辑
+	//将所有的方法统一返回静态结构类型,增加额外的返回码处理返回信息
+	//取消或改造返回非整形的方法
+	//增加ASSEMBLE宏,方便的将reload和unload函数独立出来
+*/
+/*
+version : 0.4.0317PRE
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//修改函数便捷定义相关typedef,使之更为明确
+	//修改函数返回规范,使一部分函数可以连续的操控,
+        //--因为这些规范性的函数的返回值都是一个函数指针,多少有些fp的意思
+	//修正Memory类析构时的一个错误
+	//内存分配增加最终统计项,方便错误检测
+	//在0.3版本里有一些还没完成的类,这次打包一并发上来,还未完成不要看就是了
+	//在静态部分增加额外的函数指针,方便特殊情况下的挂接
+	//一部分函数中强化ASSERT的作用
+	//虽然有一些改动,但是Test Memory类的例子几乎没有变化
+	//另外Memory类的遍历函数还有待修改
+*/
+/*
+version : 0.3.0228
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//修正多出错误
+	//增加Memory类,和0.2的接口并不完全一致
+	//--对于过于复杂的函数做了简化,同时使调用接口更加清晰易懂
+	//完成Memory类测试实例
+*/
+/*
+version : 0.3.0227
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//增加带有日志的REALLOC函数
+	//将0.2的Utils迁入,并进行了简化和修正
+	//对于异常栈进行了一些完善和修正
+	//目录更加规范化
+*/
+/*
+version : 0.3.0226
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//修改main的析构函数
+	//定义标准的宏调用,完成OOStandard.h
+*/
+/*
+version : 0.3.0225Pre
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//完成了调试层的设计
+	//--这一部分主要涉及三个方面,内存分配的监控,函数调用的监控,异常模拟捕获
+	//--内存分配的监控和函数调用的监控都采用文本日志的方式,函数调用的监控用到了GCC扩展
+	//--异常捕获参考了C接口实现一书的方法,并对其做了一些改进
+	//--调试曾涉及到全局变量的使用,但都声明为static的,外部调用时需用专门的函数
+	//--调试曾可通过宏定义使用或取消,保证最终代码的提及与效率
+	//增加了一个名为OOStandard.h的文件用来二次定义更为方便的宏[不过这些宏还没定义,待进一步测试后再写]
+        //修改内存分配监控,函数调用监控日志文件的格式
+	//做了一些简单的测试
+*/
+/*
+version : 0.3.0221Pre
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//版本号升一位
+	//--做了一些重要的改动
+	//----1.引入static变量,早些的时候,我也尝试过引入static变量,但是当时的设计并不是很好
+	//------早期的设计具体可参见JCOOP项目,不过事先说明,那个代码有一部分写的太屎了
+	//------目前的static变量有两个部分涉及,
+	//--------一是全局的控制变量,这个是严格控制数量的
+	//--------另一是每个类指向其静态控制类的静态**型指针变量
+	//--------无论是函数内的静态量还是外部的静态量,都会额外的占用内存
+	//----------[理论上是一样的,无论哪一种一个静态int,MinGW下debug编译会占用额外的18字节]
+	//----------也就是说每新增一个类[不是类的实例]会至少增加一部分额外的内存
+	//------目前每个类的多个实例共享一部分静态结构,该结构带有简单的引用计数机制,无需额外的管理
+	//----2.增加main函数的构造与析构
+	//----3.增加带有一定记录功能的内存分配与释放函数,方便涉及内存的调试
+	//----4.增加支援-finstrument-functions功能的相关函数,方便调试,
+	//------同时可以配合某些trace工具与graphviz生成调用关系图
+	//----5.核心宏并未做过多的改动,只是增加了"一层",保证了兼容性
+	//--目前这个版本还未完成,至少目前可以确定在trace输出格式上是会有调整的
+*/
+/*
+version : 0.2.0217
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//修正了List类析构时的一个严重错误
+	//--该Bug可能导致内存泄露
+	//做了一些关于trace以及内存泄露检测的尝试
+	//--如果有时间,会封装一下pvtace
+	//另外在测试gprof时,发现MinGW中的gprof
+	//--在配合这些宏时对于finXXX之类的函数不能正确解析
+*/
+/*
+version : 0.2.0215se
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//小幅修正一些错误
+	//另外补充说明的是从0215起,Memory类去掉了ext,
+	//--改为扩展时从外部传递数据
+*/
+/*
+version : 0.2.0215
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//修正了相当多的错误
+	//--特别是关于RANGE宏和FOREACH相关宏的修正
+	//增加List类并做了一些简单的测试
+	//--准确说这个List类可以较为方便的来实现广义表
+	//--在test.c中有一些相关的测试,以及foreachl的用法
+*/
+/*
+version : 0.2.0206
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.2)
+notes in Chinese :
+	//将0.1版本中的Array类修改后添加进来,并更名为Vector类
+	//修改Vector的遍历宏,使之与Iterator宏更加相似且易用
+	//修正Vector类中的一些错误,并使代码更加规范
+	//Vector的watch方法增加指针地址观察模式
+	//CLASS宏增加指针型预定义,采用常见的p###形式
+	//因为Vector是要拷贝的,所以一般用于纯栈变量
+	//--但是可以通过传入指针地址直接操控,test.c中的例子演示了
+	//--这种方法.
+*/
+/*
+version : 0.2.0204se
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//修改0.1版本中的Memory类,修正了几个方法的命名
+	//将Utilities改名为Utils,增加基于KMP算法的查找方式
+	//为Memory类增加KMP查找方法
+	//修正了其它一些小BUG.
+*/
+/*
+version : 0.2.0204
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//进一步规范化,将e改为跟明确的end_
+	//虽然引入了下划线,但是毕竟更加明确了
+	//对宏的命名跟家规范
+	//为保证C++的调用以及优良的可读性,全面采用大写类c++关键字
+	//同时再定义一遍小写的以方便纯C的使用
+	//增加部分linux的kernel中的宏,以方便使用
+*/
+/*
+version : 0.2.0202
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//进一步规范化,为了避免和c++的冲突
+	//修改了一些宏的命名
+	//把Assert合并进核心宏
+	//修正Iterator类的一些错误
+	//添加部分方法的注释
+	//提供完整的workspace文件[基于SlickEdit]
+	//其中包括
+	//一个DLL编译模板
+	//一个exe编译模板
+	//一个c++调用模板
+*/
+/*
+version : 0.2.0131
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//版本号终于前进了!!!
+	//这个版本主要规范了一些东西,
+	//更重要的是保证了和g++的兼容性
+	//编译后的dll可以由g++无warning[默认状态下]调用
+	//这个版本中重新整了下Iterator类,使之更加规范
+*/
+/*
+version : 0.1.0129
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//对于每一个类,除了那个特别的s
+	//另增了四个指针,分别指向其new,ini,del,fin方法
+	//这样做主要是为了方便实现像Qt那般的托管形式的析构
+	//同时在代码书写上可能也会有所简化
+*/
+/*
+version : 0.1.0128
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//Utilities 增加并修正了一些方法
+	//增加一个简单的Random类,并未做太多的测试
+	//增加一个String类,不过目前只写了一部分代码,测试了一些
+	//String类算是copy on write吧,反正我简单的理解为是了
+*/
+/*
+version : 0.1.0124
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//Array类增加insertNULL方法
+	//开始写String类,目前只写了构造和析构,很简单
+	//做了一些GCC属性的尝试,不过没有什么特别的进展
+	//虽然有些东西值得关注,但对于用macro模拟oo来说用途不大
+	//唯独那个typeof很是不错,具体实例可见Iterator类
+*/
+/*
+version : 0.1.0123
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//修正Array中find方法的一个小错误
+	//Array类增加count和index方法
+	//编写Array类的简单示例
+	//增加纯方法类Random[暂未测试]
+*/
+/*
+version : 0.1.0122se
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//去掉了DLL相关宏,发现那个主要是CPP用的,纯C用途不大
+	//修正了Iterator类的一个小错误
+	//构建DLL
+	//编写Iterator类的简单示例
+*/
+/*
+version : 0.1.0122
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//修正了一些错误
+	//增加自定的assert方法
+	//将部分类的Adjust改为Valid方法判断
+	//对Array类增加find方法
+	
+	//至此,基础层已经基本实现了
+	//下面的图表中<>中是目前暂未实现的
+/*
+OO--------
+	|--------Iterator
+	|		|----<List,Queue,Tree,BinaryTree,Map,HashTable,AvlTree...>
+	|--------Memory[auto expand or shrink]
+			|---------   Array
+					|----<Stack,Table,Set,String,Matrix...>	
+*/
+*/ 
+/*
+version : 0.1.0121
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//修正了不少错误,更改了一些含义不明确的命名
+	//完善了Array类,增加arreach等宏,方便遍历
+*/ 
+/*
+version : 0.1.0120
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//修正了不少错误
+	//增加了方便打印的函数,其中有一个还支持左右对齐以及剧中格式的调整
+	//增加了位置判定以及调整的代码,方便复用
+	//强化了Memory类的watch方法,现在可以改变输出的位置了
+	//增加了Memory类的find方法,方便查找
+*/ 
+/*
+version : 0.1.0118se
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//增加了Array类,实现了内存适时的申请或释放,并做了一些初步的测试
+	//Array最核心的方法已经实现,明日若有时间再完成其他相关的方法
+	//接下来要实现基于Array的String类,带有Iterator接口的DoubleList
+	//以及带有Iterator接口的二叉树和自然树[广义表]
+	//估计这些需要一到两周时间
+	//还有哈希表和图和集合也是要抽空实现的
+*/ 
+/*
+version : 0.1.0118
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//修正了一些小错误
+	//增加了一个pack的宏,方便初始化
+	//增加了share宏用来创建union
+	//主要完善了Memory类,添加了内存观察用的方法,赋值以及获取值的方法
+	//增加XxxPack相关类,方便扩充构造函数
+*/ 
+/*
+version : 0.1.0117
+author  : Jesse Meng
+license : LGPL3
+test env: MinGW(GCC 4.5.0)
+notes in Chinese :
+	//修正了一些小错误
+	//增加了一个pack的宏,方便初始化
+	//增加了share宏用来创建union
+	//增加了一个特殊变量s,用来与union配合使用
+	//完成了两个简单的"类",Time以及Memory,并做了一些测试
+*/ 

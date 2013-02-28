@@ -1,0 +1,6 @@
+# gettext_example
+# Jon Masters <jcm@jonmasters.org>, 2006.
+
+#: gettext_example.c:18
+msgid "Hello, World!"
+msgstr "cup of coffee?"

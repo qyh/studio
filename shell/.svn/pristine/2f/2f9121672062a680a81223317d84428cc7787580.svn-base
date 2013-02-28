@@ -1,0 +1,81 @@
+
+
+  Listing 3.6
+
+
+
+
+#include &lt;linux/notifier.h&gt;
+#include &lt;asm/kdebug.h&gt;
+#include &lt;linux/netdevice.h&gt;
+#include &lt;linux/inetdevice.h&gt;
+
+/* Die Notifier Definition */
+static struct notifier_block my_die_notifier = {
+    .notifier_call = my_die_event_handler,
+};
+
+/* Die notification event handler */
+int
+my_die_event_handler(struct notifier_block *self,
+                     unsigned long val, void *data)
+{
+    struct die_args *args = (struct die_args *)data;
+    if (val == 1) { /* '1' corresponds to an &quot;oops&quot; */
+        printk(&quot;my_die_event: OOPs! at EIP=%lx\n&quot;, args-&gt;regs-&gt;eip);
+    } /* else ignore */
+    return 0;
+}
+
+/* Net Device notifier definition */
+static struct notifier_block my_dev_notifier = {
+    .notifier_call = my_dev_event_handler,
+};
+
+/* Net Device notification event handler */
+int my_dev_event_handler(struct notifier_block *self,
+                         unsigned long val, void *data)
+{
+    printk(&quot;my_dev_event: Val=%ld, Interface=%s\n&quot;, val,
+           ((struct net_device *) data)-&gt;name);
+    return 0;
+}
+
+/* User-defined notifier chain implementation */
+static BLOCKING_NOTIFIER_HEAD(my_noti_chain);
+static struct notifier_block my_notifier = {
+    .notifier_call = my_event_handler,
+};
+
+/* User-defined notification event handler */
+int my_event_handler(struct notifier_block *self,
+                     unsigned long val, void *data)
+{
+    printk(&quot;my_event: Val=%ld\n&quot;, val);
+    return 0;
+}
+
+/* Driver Initialization */
+static int __init
+my_init(void)
+{
+    /* ... */
+    /* Register Die Notifier */
+    register_die_notifier(&amp;my_die_notifier);
+
+    /* Register Net Device Notifier */
+    register_netdevice_notifier(&amp;my_dev_notifier);
+
+    /* Register a user-defined Notifier */
+    blocking_notifier_chain_register(&amp;my_noti_chain, &amp;my_notifier);
+
+    /* ... */
+}
+
+
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

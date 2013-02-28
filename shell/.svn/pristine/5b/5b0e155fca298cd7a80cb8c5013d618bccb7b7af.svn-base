@@ -1,0 +1,21 @@
+
+
+  Listing 6.6
+
+
+
+
+    fd = open(&quot;/dev/ttySX&quot;, O_RDONLY | O_NOCTTY);
+    /* At this point, N_TCH is attached to /dev/ttySX, the serial port used
+       by the touch controller. Switch to N_TTY */
+    ldisc = N_TTY;
+    ioctl(fd, TIOCSETD, &amp;ldisc);
+    /* Set termios to raw mode and dump the data coming in */
+    /* ... */
+
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

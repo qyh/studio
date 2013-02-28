@@ -1,0 +1,7 @@
+#! /bin/sh 
+
+
+
+exec '/opt/google/chrome/google-chrome' &
+
+exit 0

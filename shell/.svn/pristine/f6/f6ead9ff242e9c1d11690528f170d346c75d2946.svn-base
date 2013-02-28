@@ -1,0 +1,65 @@
+
+
+  Listing 21.4
+
+
+
+
+#include &lt;linux/kernel.h&gt;
+#include &lt;linux/module.h&gt;
+#include &lt;linux/kprobes.h&gt;
+#include &lt;linux/kallsyms.h&gt;
+
+/* Jprobe the entrance to printk */
+asmlinkage int
+jprintk(const char *fmt, ...)
+{
+    for (; *fmt; ++fmt) {
+        if ((*fmt=='%')&amp;&amp;(*(fmt+1) == 'O')) *(char *)(fmt+1) = 08000"'o';
+    }
+    jprobe_return();
+    return 0;
+}
+
+/* Per-probe structure */
+static struct jprobe jprobe_eg = {
+    .entry = (kprobe_opcode_t *) jprintk
+};
+
+int
+init_module(void)
+{
+    int retval;
+
+    jprobe_eg.kp.addr = (kprobe_opcode_t*)
+        kallsyms_lookup_name(&quot;printk&quot;);
+    if (!jprobe_eg.kp.addr) {
+        printk(&quot;Bad probe point\n&quot;);
+        return -1;
+    }
+
+    /* Register the Jprobe */
+    if ((retval = register_jprobe(&amp;jprobe_eg) &lt; 0)) {
+        printk(&quot;register_jprobe error, return value=%d\n&quot;,
+               retval);
+        return -1;
+    }
+
+    printk(&quot;Jprobe registered.\n&quot;);
+    return 0;
+}
+
+void
+module_cleanup(void)
+{
+    unregister_jprobe(&amp;jprobe_eg);
+}
+
+MODULE_LICENSE(&quot;GPL&quot;);
+
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

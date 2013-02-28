@@ -1,0 +1,87 @@
+下面的文章主要描述的是MySQL触发器的正确创建步骤，MySQL触发器的删除，你如果对MySQL触发器的正确创建步骤，MySQL触发器的删除有兴趣的话你就可以点击以下的文章进行观看了。
+
+1、创建MySQL触发器:
+
+语法:
+
+   1. CREATE TRIGGER trigger_name trigger_time trigger_event ON tbl_name   
+   2. FOR EACH ROW   
+   3. BEGIN   
+   4. trigger_stmt   
+   5. END；   
+   6. CREATE TRIGGER trigger_name trigger_time trigger_event ON tbl_name  
+   7. FOR EACH ROW   
+   8. BEGIN  
+   9. trigger_stmt  
+  10. END；  
+
+例子
+
+   1. CREATE TRIGGER SetUserHome after insert ON users   
+   2. FOR EACH ROW   
+   3. BEGIN   
+   4. update `users` set homeLocationX = 128,  
+   5. homeLocationY=128, homeLocationZ=30   
+   6. where uuid = NEW.uuid  
+   7. END  
+
+以上的例子是错误的， 让本表进行触发时进行更新会让程序进入死循环。
+
+系统会报这样的错误：it is already used by statement which invoked this stored function/trigger.
+
+应该改成以下语句：
+
+   1. CREATE TRIGGER SetUserHome before insert ON users   
+   2. FOR EACH ROW   
+   3. BEGIN   
+   4. set New.homeLocationX = 128;  
+   5. set New.homeLocationY = 128;  
+   6. set New.homeLocationZ=30;   
+   7. END  
+
+大写的为关键字
+
+trigger_name:触发器的名字，我常用的命名规则t_name_tableName_(b|a)(i|u|d),t:MySQL触发器标识，name:英文名，tableName:表名，b(BEFORE):标识是触发事件之前，a(AFTER):标识触发事件之后,i(insert): 标识insert事件，u(update):标识update事件，d(delete):标识delete事件;
+
+trigger_time:触发时间(BEFORE或AFTER)
+
+trigger_event:事件名(insert或update或delete)
+
+tbl_name:表名(必须是永久性表)
+
+trigger_stmt：执行语句(可以是复合语名)，使用别名OLD和NEW，能够引用与触发程序相关的表中的列。
+
+2、删除解发器
+
+语法：
+
+   1. DROP TRIGGER [schema_name.]trigger_name；  
+
+注意：以上操作均需SUPER权限
+
+示例：
+
+   1. DROP TRIGGER t_wiley_hotelComment_bu;   
+   2. delimiter //   
+   3. CREATE TRIGGER t_wiley_hotelComment_bu BEFORE UPDATE ON hotel_comment   
+   4. FOR EACH ROW   
+   5. BEGIN   
+   6. IF OLD.ispass=0 && NEW.ispass=1 THEN   
+   7. UPDATE hotel_info SET sumcommentsumcomment=sumcomment+1,
+
+      sumconsumesumconsume=sumconsume+NEW.consume,sumservicesumservice=sumservice+NEW.service, 
+
+      sumroomsumroom=sumroom+NEW.room,sumentironsumentiron=sumentiron+NEW.entironment,
+
+      totaltotal=total+(NEW.service+NEW.room+NEW.entironment) WHERE hotel_id=NEW.hotel_id;   
+   8. ELSEIF OLD.ispass=1 && NEW.ispass=0 THEN   
+   9. UPDATE hotel_info SET sumcommentsumcomment=sumcomment-1,
+
+      sumconsumesumconsume=sumconsume-NEW.consume,sumservicesumservice=sumservice-NEW.service, 
+
+      sumroomsumroom=sumroom-NEW.room,sumentironsumentiron=sumentiron-NEW.entironment,
+
+      totaltotal=total-(NEW.service+NEW.room+NEW.entironment) WHERE hotel_id=NEW.hotel_id;   
+  10. END IF;   
+  11. END;//   
+  12. delimiter ; 

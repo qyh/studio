@@ -1,0 +1,29 @@
+
+
+  Listing 21.6
+
+
+
+
+int vfs_readdir(struct file *file, filldir_t filler, void *buf)
+{
+    struct inode *inode = file-&gt;f_ dentry-&gt;d_inode;
+    int res = -ENOTDIR;
++   /* Introduce a millisecond bottleneck
++      (HZ is set to 1000 on this system) */
++   unsigned long timeout = jiffies+1;
+
++   while (time_before(jiffies, timeout));
++   /* End of bottleneck */
+
+    /* ... */
+    
+}
+
+
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

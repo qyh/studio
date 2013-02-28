@@ -1,0 +1,6 @@
+#! /bin/sh 
+
+exec 'gcalctool' &
+  
+exit 0
+

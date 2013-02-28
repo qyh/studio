@@ -1,0 +1,33 @@
+/*
+ *
+ * Professional Linux Programming - connecting to a database
+ *
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include "libpq-fe.h"
+
+int main(int argc, char **argv)
+{
+   const char *conninfo;
+   const char *serverversion;
+   PGconn *conn;
+   const char *paramtext = "server_version";
+
+   conninfo = "hostaddr = 127.0.0.1 dbname = test user = earl password = 'earl'";
+
+   conn = PQconnectdb(conninfo);
+   if (PQstatus(conn) != CONNECTION_OK)
+   {
+      printf("Unable to establish connection: %s", 
+                 PQerrorMessage(conn));
+      return 1;
+   } else
+   {
+      printf("Connection established!\n");
+      serverversion = PQparameterStatus(conn, paramtext);
+      printf("Server Version: %s\n", serverversion);
+   }
+   PQfinish(conn);
+   return 0;
+}

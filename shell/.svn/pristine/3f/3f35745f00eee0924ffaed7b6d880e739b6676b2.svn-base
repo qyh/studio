@@ -1,0 +1,494 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta content="360doc" name="classification" />
+    <meta content="知识百科" name=keywords>
+    <meta content="教你说话 2——会说曲话，委婉含蓄尊重人" name=description>
+    <meta content="www.360doc.com" name="author" />
+    
+    <title>
+        教你说话 2——会说曲话，委婉含蓄尊重人
+    </title>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/flexpaper_flash.js"></script>
+    <link href="http://css.360doc.com/StickySystemIEBlue.css?t=2012030701" rel="stylesheet" type="text/css" />
+    <link href="http://css.360doc.com/headfoot3.css?t=20111013" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        window.onerror = ignoreError;
+        function ignoreError() {
+            return true;
+        }  
+    </script>
+</head>
+<body  onmouseup="setDragEnd()" onmousemove="DragDiv();" onclick="delAllDiv(event)">
+<body>
+    
+<script>
+Date.prototype.Format = function(formatStr)    
+{    
+ var Week = ['日','一','二','三','四','五','六'];   
+ return formatStr.replace(/yyyy|YYYY/,this.getFullYear()).replace(/yy|YY/,(this.getYear() % 100)>9?(this.getYear() % 100).toString():'0' + (this.getYear() % 100)).replace(/MM/,(this.getMonth()+1)>9?(this.getMonth()+1).toString():'0' + (this.getMonth()+1)).replace(/M/g,(this.getMonth()+1)).replace(/w|W/g,Week[this.getDay()]).replace(/dd|DD/,this.getDate()>9?this.getDate().toString():'0' + this.getDate()).replace(/d|D/g,this.getDate());    
+};    
+</script>
+
+     <div class="containera">
+        <div class="headersmall">
+            <div class="daysmall">
+                <script type="text/javascript">
+                    document.write(new Date().Format("yyyy年MM月dd日"));
+      
+                </script>
+                <font style="padding-left: 32px;">
+                    <script type="text/javascript">
+                        document.write(new Date().Format("星期W"));
+                    </script>
+                </font>
+            </div>
+            <div class="helpsmall">
+                <span class="julinka">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)"
+                    onclick="setHomepage('http://www.360doc.com')">设为主页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+                        href="javascript:void(0)" onclick="AddFavorite('http://www.360doc.com','360doc个人图书馆')">加入收藏</a></span><span
+                            class="help1 julink"><a href="/help.html" target="_blank">帮助</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a
+                                target="_blank" href="/advice.html">留言交流</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span
+                                    id="spanLogin">
+                                   <span id="loginstatus"></span>
+                                </span></span>
+            </div>
+        </div>
+        <div class="logosmall">
+            <div style="float: left;">
+                <img src="http://pubimage.360doc.com/newsite/logo2.gif" width="113" height="40" /></div>
+           <div style="float: left; padding-left: 7px; padding-top: 5px;">
+                <img src="http://pubimage.360doc.com/newsite/logo1.gif" width="128" height="13" /></div>
+            <div style="float: left; padding-left: 71px;padding-top: 3px;">
+                <div class="searcsmall">
+                    <div class="searcinputsmall">
+                        <div class=" d1">
+                            <input name="input" type="text" class="noneinputsmall"  onkeyup="showIntelliSense()" id="txtSearchword" value="  搜文章 找馆友" onblur="if(!this.value) {this.value='  搜文章 找馆友';this.style.color='#b2b2b2';}"; onfocus="if(this.value=='  搜文章 找馆友') this.value='';this.style.color='#272727'"/>
+                        </div>
+                        <div id="divsearch" style="position:absolute; margin-top:4px;*margin-top:2px !important; margin-left:2px; z-index:100;"></div>
+                    </div>
+                    <div style="padding-top: 3px; float: left;">
+                        <a href="javascript:gosearch();">
+                           <img src="http://pubimage.360doc.com/newsite/bgfa.gif" width="68" height="25" /></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mainnavsmall">
+        <div class="mainnav1">
+            <table cellpadding="0" cellspacing="0" height="24" border="0">
+                <tr>
+                    <td width="110px">
+                    </td>
+                    <td class="navwzsmall" width="88px">
+                        <a href="/index.html">首&nbsp;页</a>
+                    </td>
+                    <td width="120px" class="navwzsmall">
+                        <a href="http://www.360doc.com/readroom.html">阅览室</a>
+                         
+                    </td>
+                    <td width="94px" class="navwzsmall">
+                        <a href="/weekstar.html">馆友</a>
+                    </td>
+                    <td width="152px" class="navwzsmall">
+                        <a href="/myindex.aspx">我的图书馆</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="navxt">
+    </div>
+<div id="container">
+    
+
+    <div class="index_main" style="word-break: break-all;">
+        <div class="wenzhang_tit">
+            <div style="width: 740px; text-align: center; font-size: 22px; padding: 15px 0px;
+                font-weight: bold; color: #b20000;">
+                教你说话 2——会说曲话，委婉含蓄尊重人
+                </div>
+        </div>
+        <div class="wztop articlewidth">
+        <div >
+            <table border="0" cellpadding="0" cellspacing="0" class="wztop" style="font-size: 14px;
+                color: #555555;">
+                <tr>
+                    <td class="mz" style="font-size: 12px; padding-left: 18px;">
+                        <A href="http://www.360doc.com/userhome/836715" target="_blank">大龙2010</A>
+                    </td>
+                    <td width="8px">
+                    </td>
+                    <td>
+                        收藏于
+                    </td>
+                    <td width="8px">
+                    </td>
+                    <td style="font-size: 12px;">
+                        2012-03-02
+                    </td>
+                    <td width="8px">
+                    </td>
+                    <td>
+                        阅读数：<span id="360doc_Readnum" style="font-size: 12px;"></span>
+                    </td>
+                    <td width="8px">
+                    </td>
+                    <td>
+                        <span id="360doc_saverNum" style="font-size: 12px;" class="ym"></span>
+                    </td>
+                    <td width="8px">
+                    </td>
+                    <td>
+                        公众公开
+                    </td>
+                    <td width="8px">
+                    </td>
+                    <td style="font-size: 12px;" class="ym">
+                        
+                    </td>  
+                </tr>
+            </table></div>
+            
+           
+        </div>
+        <table border="0" cellspacing="0" cellpadding="0" class="index_main">
+            <tbody>
+                <tr>
+                    <td align="left" valign="top" width="740px">
+                        <table border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td>
+                                    <div class="wztop2" style="background-color: #eef3f7;">
+                                        <table width="100%">
+                                            <tr>
+                                                <td align="left" valign="top">
+                                                    <div id="headFirst">
+                                                        <span class="wenzhang_cz_xx01 link_red_dark"><img src="http://pubimage.360doc.com/add08.gif"	/>&nbsp;<a href="http://www.360doc.com/resaveArt.aspx?articleid=191103289"  target="_blank" >转藏到我的图书馆</a></span>
+                                                    </div>
+                                                </td>
+                                                <td align="right" valign="top">
+                                                    <div id="headSecond" style="float: right">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="border-left: #ebf4ea 1px solid; border-right: #ebf4ea 1px solid; background-color: #f4f9f3;">
+                                <td align="left" width="740px">
+                                    <div>
+                                        <div style="height: 5px;">
+                                        </div>
+                                        <div width="100%">
+                                            <div align="center">
+                                                <div  style=' z-index:1'  >
+<div id='ADAboveArtContent'></div>
+
+
+</div>
+                                            </div>
+                                        </div>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="wenzhangcss">
+                                            <tbody>
+                                                <tr>
+                                                    <td align="left" valign="top" width="740px">
+                                                        <span id="articlecontent" onmouseup="NewHighlight(event)" style="width: 740px">
+                                                            <P style="TEXT-ALIGN: left; TEXT-INDENT: 27.1pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><B style="mso-bidi-font-weight: normal"><SPAN style="FONT-FAMILY: 宋体; COLOR: blue; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">教你说话</SPAN><SPAN style="COLOR: blue" lang=EN-US><FONT face="Times New Roman"> 2</FONT></SPAN></B><B style="mso-bidi-font-weight: normal"><SPAN style="FONT-FAMILY: 宋体; COLOR: blue; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">——会说曲话，委婉含蓄尊重人</SPAN><SPAN style="COLOR: blue" lang=EN-US><?xml:namespace prefix = o ns = "urn:schemas-microsoft-com:office:office" /><o:p></o:p></SPAN></B></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27.1pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><B style="mso-bidi-font-weight: normal"><SPAN style="COLOR: blue" lang=EN-US><o:p><FONT face="Times New Roman">&nbsp;</FONT></o:p></SPAN></B></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">在语言沟通的过程中，委婉是一种颇有奇效的粘合剂。委婉是一种以坦诚开放的沟通来对待对方的方式，同时，也尊重他人的感受，不作无谓的伤害。所以，会出曲话者也是一个说话高手。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN lang=EN-US><o:p><FONT face="Times New Roman">&nbsp;</FONT></o:p></SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: -18pt; MARGIN: 0cm 0cm 0pt 45.1pt; mso-list: l0 level1 lfo1; tab-stops: list 45.1pt" class=MsoNormal align=left><B style="mso-bidi-font-weight: normal"><SPAN style="mso-fareast-font-family: 'Times New Roman'" lang=EN-US><SPAN style="mso-list: Ignore"><FONT face="Times New Roman">1．<SPAN style="FONT: 7pt 'Times New Roman'"><FONT size=3> </FONT></SPAN></FONT></SPAN></SPAN></B><B style="mso-bidi-font-weight: normal"><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">智者委婉含蓄，蠢人口无遮拦</SPAN><SPAN lang=EN-US><o:p></o:p></SPAN></B></P>
+<P style="TEXT-ALIGN: left; MARGIN: 0cm 0cm 0pt" class=MsoNormal align=left><B style="mso-bidi-font-weight: normal"><SPAN lang=EN-US><o:p><FONT face="Times New Roman">&nbsp;</FONT></o:p></SPAN></B></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">委婉含蓄的表达是一种语言的艺术。委婉含蓄的表达比口无遮拦、直截了当地说更能体现人的语言修养。直言不讳、开门见山虽然简单明了，但给人的刺激性太大，容易伤害对方的自尊心，例如一个服务人员在向顾客介绍衣服的时候，经常会说：“你的脸盘比较大，适合穿</SPAN><SPAN lang=EN-US><FONT face="Times New Roman">**</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">的领子，你的臀部长得不规范，适合穿</SPAN><SPAN lang=EN-US><FONT face="Times New Roman">**</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">的下装。”应该说：你是不是觉得你穿上这种领型的衬衫会更漂亮？”应该说“你是不是觉得您穿上这种领型的衬衫会更漂亮？”“这种强调调颈部和夸张肩部的设计对平衡上下身的围度比例将会起到更好的的调节作，使整体匀称又不失成熟美”建议的话。虽然前后意思相同，但后者委婉而又礼貌，比较得体，使人听起来轻松自在，心情舒畅，也更容易让人接受。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">委婉含蓄的语言，既是劝说他人的法宝，又能适应人们的心理上的自尊感，容易产生赞同。换句话来说，委婉含蓄的语言就是成熟、稳重的表现。中国人讲究曲径通幽的含蓄美，虽然它和条条大路通罗马是一个意思，但一比较即有明显的差别，而智者往往就是说话委婉含蓄。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">有一次聊天聚会上某君向一位女性询问其年龄，另外一位反驳说一般年龄是女性秘密，若想知道，可以先旁敲侧击提问一些试探性问题再去判断。某君给另一人的定论是圆滑。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">要怎么说话才能体现出一种艺术性呢？要么怎么说“闻声识人”呢？</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">有人可能会反对了，说是直接说你这个人是真心与否。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">对于“真心”有真实、真诚之所在。对别人说话时我们需要有真诚，但不一定要真实。比如你看到一个长相欠佳的人，你一见面就真实地对他（她）说：“你长得真难看！”你说人家听了会喜欢你吗？不攻击你吗？你可能性会委屈地说你是实事求是。没错，你确实是实话实说了。可你伤人了呀。人常说恶语如刀。所以，我们说话时尽量说得含蓄、委婉些。这样子才能让周围的人接近你，亲近你，对你满意。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">其实要说一个人满意他人那是不可能的事，因为每个人都有自尊，都觉得自己可以。比如，碰到比他高的人，他会不屑地说：“长高有什么了不起！”碰到比他矮的人，他会嘲笑说：“这么矮，难看死了！”碰到与他一样高的人，他会说：“还不是和我一个样。”只是很多人不表露出来而已。从某种意义来讲，我们不是三岁小孩，口无遮拦。孩子说了真话，人说童言无忌，天真可爱。他们的真话可能博得旁人一笑。可成人也那样的话，人家肯定对他鄙夷其愚蠢，骄傲自大。这也就是蠢者说话口无遮拦、直截了当所造成的后果。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">因此，无论什么时候，说话都要注意方式，多用委婉的语言表达。生活中，有很多问题，都可以用婉言表达，其功效是免除怨怒，促进尊重，让人与人之间充满友好和谐的气氛。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">丘吉尔说：“要让一个人有某种优点，你就要说得好像他己经具备了这种优点。”如果有人遇到困难畏首畏尾，或者办起事情来犹豫不决，那么你不妨适时而委婉地对他说：“这样前怕狼后怕虎的不是你以前的表现呀”，“你是个很有决断力的人”。先给他戴上他应该具备的优点的帽子，予以鼓励。由于给他一个良好形象的“定位”，所以他会为此而努力奋斗，从而改变目前的不好做法。而不应直说：“你这个人真笨，什么事情都办不好。”，这样一锤子把他给打死了，对方也就更加丧失了勇气和信心。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">如果有不速之客蓄意打探你的个人隐私，你又不便直接回答时，不妨说出一些不着边际的话语作答，对方在感到莫名其妙后会知趣而退，同时，隐隐感受到你的不可冒犯，这种用虚假理由来替换真正的话语，就是婉言的一种表达方式。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">马克思和燕妮本是好友，但在西方的文化观念中，好朋友并不等于是相爱的关系。尽管他俩之间的感情已经不需要任何掩饰和试探了，但马克思向燕妮求婚，在表达方式上却别具一格。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">这天，马克思和燕妮又一次约会，一同在树林里散步。马克思故意装作满腹心事，满面愁云的样子，使燕妮感到很奇怪。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">燕妮问他：“你怎么了？有什么心事吗？能不能跟我说说。”</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">马克思说：“我确实有心事。我交了一个女朋友，我很爱她，很想和她结婚，可是不知道她同意不同意……”</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">“你有女朋友了。”燕妮大吃一惊。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">“是的，认识很久了。”</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">“这是真的吗？”</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">“真的，当然是真的。我这里有她一张照片，你想看看她的模样吗？”马克思说着，拿出一只精致的小木盒子。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">燕妮点了点头，心里却痛苦不安。无奈中，她接过小匣子，双手颤抖着打开了。但小匣子里只装着一面小镜子，并没什么照片。燕妮一照镜子，一下子呆住了。她恍然大悟，惊喜万分。显然，马克思求婚的对象正是她自己呀</SPAN><SPAN lang=EN-US><FONT face="Times New Roman">!</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">她的整个身心都沉浸在幸福的热浪中，一下子扑到了马克思的怀里。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN lang=EN-US><o:p><FONT face="Times New Roman">&nbsp;</FONT></o:p></SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: -18pt; MARGIN: 0cm 0cm 0pt 45.1pt; mso-list: l0 level1 lfo1; tab-stops: list 45.1pt" class=MsoNormal align=left><B style="mso-bidi-font-weight: normal"><SPAN style="mso-fareast-font-family: 'Times New Roman'" lang=EN-US><SPAN style="mso-list: Ignore"><FONT face="Times New Roman">2．<SPAN style="FONT: 7pt 'Times New Roman'"><FONT size=3> </FONT></SPAN></FONT></SPAN></SPAN></B><B style="mso-bidi-font-weight: normal"><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">直话易伤人，何不绕个弯？</SPAN><SPAN lang=EN-US><o:p></o:p></SPAN></B></P>
+<P style="TEXT-ALIGN: left; MARGIN: 0cm 0cm 0pt" class=MsoNormal align=left><B style="mso-bidi-font-weight: normal"><SPAN lang=EN-US><o:p><FONT face="Times New Roman">&nbsp;</FONT></o:p></SPAN></B></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">在待人处世中，直言直语是一把伤人伤己的双面利刃。喜欢直言直语的人通常都具有正义倾向的性格，言语的爆发力和杀伤力都很强，所以有时候这种人会被别人当枪使。在与别人说话的时候，少直言指陈他人处事不当，或纠正他人性格上的弱点。无数个事实证明，这不是爱之深责之切，而是在和他过不去。每个人都有一个内心堡垒，自我缩藏在里面。你的直言直语恰好把他的堡垒攻破，把人家从里面揪出来。因此，能不讲就不要讲，要讲就拐个弯，点到为止。另外在生活中，经常会听到“对事不对人”。所谓“对事不对人”，这只是说说而已。事是人计划的、人做的，批评事也等于批评人了。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">在日常生活中，直接辱骂别人，听话人当然很容易能听出来，如果说话人是利用会话隐涵来侮辱人，听话人就更应注意了。听话人不仅要善于听出对方的恶意，而且必要时可以“以其人之道还治其人之身”，给对方一个含蓄的回去。据说，有一位商人见到诗人海涅（海涅是犹太人），对他说：“‘我最近去了塔希提岛，你知道在岛上最能引起我注意的是什么？”海涅说：“你说吧，是什么？”商人说：“在那个岛上呀，既没有犹太人，也没有驴子！”海提回答说：“那好办，要是我们一起去塔希提岛，就可以弥补这个缺陷。”这里商人把“犹太人”与“驴子”相提并论，显然是暗骂“犹太人与驴子一样，无法到达那个岛”，而海涅则听出了对方的侮辱和取笑，回答时话里有活，暗示这个商人是个驴子，使商人自讨没趣。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">直言直语有两种情况，要么是一针见血，要么是胡言乱语。一针见血地指出别人的毛病，尽管出发点是好的，但其杀伤力很强，很容易让别人下不来台。如果可以用婉转一点的方式提醒别人，其效果远远好于直言直语。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">胡言乱语则会让人恼羞成怒，甚至怀恨在心，导致你人缘极差。这样的人，别人要么对你敬而远之，要么对你嗤之以鼻。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">说话不加修饰，只会直言直语，也是一种无知的表现。有些善意的东西，如果能够婉转表达，别人会产生感激的心情。如果自己一味地直言不讳，别人会认为是与其过不去。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">要与人交谈的过程中，总会有一些让人不便、不忍或者是语境不允许直说的话题内容，这个时候就要将“辞锋”隐遁，或者是把“棱角”磨圆一些，让语境软化一些，好让听者容易的接受。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">从前，英国有个倒卖香烟的商人到法国做生意。有一天，而他在巴黎的一个集市的台子上滔滔不绝地大谈抽烟的好处。突然间，从听众中走出来一位老人，连声招呼也不打，就走到台上非要讲一讲不可。那位商人毫无精神准备，不禁吃了一惊。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">于是老人在台上站定后，便大声说道：“女士们，先生们，对于抽烟的好处，除了这位先生讲的以外，还有三大好处哩！我不妨讲给大家听听。”</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">英国商人一听见老人说的这话，转惊为喜，连忙向老人道谢：“谢谢您了，老先生。我看您的相貌不凡，说话动听，肯定是位学识渊博的老人，请您把抽烟的三大好处当众讲讲吧！”</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">老人微微一笑，立刻讲起来：“第一，狗见到抽烟的人就害怕，就逃跑。”台下的人很是莫名其妙，商人则暗暗高兴。“第二，小偷不敢到抽烟人家里去偷东西。”台下的人连连称怪，商人则喜形于色。“第三，抽烟者永远年轻。”台下的一片轰动，商人则满面春风，得意洋洋。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">然后老人把手一握，说：“女士们，先生们，请安静，我还没说清楚为啥会有这样三大好处呢！”商人格外高兴地说：“老先生，请您快讲呀！”“第一，在抽烟的人中驼背的多，狗一看到他们以为拾石头打它哩，它能不害怕吗？”台下的人发出了笑声，商人则吓了一跳。“第二，抽烟的人夜里爱咳嗽，小偷以为他没有睡着，所以不敢去偷东西。”台下的人一阵大笑，商人则大汗直冒。“第三，抽烟的人很少有长寿的，所以永远年轻。”台下的人一片哗然。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">此时，大家一看不知什么时候倒卖香烟的商人已经溜走了。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">随着这样的步步深入，几个“迂回”，那个商人能不溜走吗？</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">曾有这样一个故事，触龙劝说赵太后同意让小儿子到齐国去做人质，就是采用了这种“迂回”的手法。他在众大臣劝说无果的情况下，前去劝说，先是关心太后的身体健康，而后又向太后请求为自己的小儿子安排工作，在一步一步打消了太后的思想顾虑后，又用“激将法”说她是爱自己的女儿胜于爱小儿子，再接下去道出了“为之计深远”的大计，最终说服太后让小儿子去了齐国做人质。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">可以想象，假如触龙直接就去劝说，是不可能取得好的效果的。其实，也就是说话时，在步入正题前先做一个“铺垫”，说话“迂回”一些，然后再一步一步导入中心，这样就会收到良好的效果，如同浏览古典园林，“曲径通幽，渐入佳境”。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">直话易伤人，所以，请记住：正话要反说，硬话要软说，让自己的舌头打个弯。奉劝你还是将那些直言、不中听的真话暂且搁住，以免对方生厌。现实生活中，很少有人因直言而使自己获得好处，这是成功处世的经验之谈。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN lang=EN-US><o:p><FONT face="Times New Roman">&nbsp;</FONT></o:p></SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: -18pt; MARGIN: 0cm 0cm 0pt 45.1pt; mso-list: l0 level1 lfo1; tab-stops: list 45.1pt" class=MsoNormal align=left><B style="mso-bidi-font-weight: normal"><SPAN style="mso-fareast-font-family: 'Times New Roman'" lang=EN-US><SPAN style="mso-list: Ignore"><FONT face="Times New Roman">3．<SPAN style="FONT: 7pt 'Times New Roman'"><FONT size=3> </FONT></SPAN></FONT></SPAN></SPAN></B><B style="mso-bidi-font-weight: normal"><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">说话过于“老实”是笨蛋</SPAN><SPAN lang=EN-US><o:p></o:p></SPAN></B></P>
+<P style="TEXT-ALIGN: left; MARGIN: 0cm 0cm 0pt" class=MsoNormal align=left><B style="mso-bidi-font-weight: normal"><SPAN lang=EN-US><o:p><FONT face="Times New Roman">&nbsp;</FONT></o:p></SPAN></B></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">唐文宗年间，著名的诗人、太学博士李涉一次途经九江遭到了强盗拦劫。李涉手中没有任何武器，眼看就要束手受辱。这个时候李涉面对强悍的绿林大盗，口吟一首七绝：“春雨潇潇江上村，绿林豪客夜知闻，他时不用相回避，世上如今半是君。”那些强盗听后大喜，于是以礼相待李涉，求的只是想要把诗留下来，然而平安放他过去。俗话说：“秀才见了兵，有理说不清。”李涉何况面对的是与官家为仇的绿林大盗，一句说的不好，就会招致杀身之祸。这个时候李涉充分利用了自己的优势，准确的把握住了对方的心理：第一，作为一个绿林好汉，重的是义气，因此李涉首先非常的尊重他们，并且还称他们为“豪客”，并且还在诗中表示愿意和他们作为朋友，不管什么时候见了都可以亲密的交往，不用“回避”，这就让那些绿林强盗不好再与他为敌。第二，作为一个强盗，忌的是一个“贼”字，而李涉却用的是“客”、“君”字眼来称呼他们，并且把他们粗暴的拦劫行为说成是“夜知闻”后的善意相访，这些行为举动让强盗不能再与他为敌。第三，作为著名的诗人，他以诗作答，显示了自己的身份，以自己的名声影响了强盗们的心理，并且还要诗中说出了他们在世上占有的地位，提高了他们的身价，让他们不能不以礼相待。这时这些一直受歧视的人觉得获得他的这首诗，比得到再多的钱财都要珍贵。于是他们不但没有伤害他，并且对他还倍加尊重。李涉正是准确把握了对方的种种心理，仅仅的四句话就让他自己转危为安。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">在这里我们可以想一下，如果他不用变通的语言可以说是必死无疑的，而他则打破了“老实”的说话技巧，赢得了自己一命……</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">正所谓“祸从口出。”在人际关系日益复杂的今天，一味“老实”的说话已经不再是可以通告的证书，只有会说话，懂得说话技巧才能有立足之地。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><?xml:namespace prefix = st1 ns = "urn:schemas-microsoft-com:office:smarttags" /><st1:chsdate w:st="on" Year="1963" Month="8" Day="28" IsLunarDate="False" IsROCDate="False"><SPAN lang=EN-US><FONT face="Times New Roman">1963</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">年</SPAN><SPAN lang=EN-US><FONT face="Times New Roman">8</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">月</SPAN><SPAN lang=EN-US><FONT face="Times New Roman">28</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">日</SPAN></st1:chsdate><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">时，美国黑人民权运动领袖马丁</SPAN><SPAN lang=EN-US><FONT face="Times New Roman">?</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">路德</SPAN><SPAN lang=EN-US><FONT face="Times New Roman">?</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">金领导了一次</SPAN><SPAN lang=EN-US><FONT face="Times New Roman">25</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">万人的集会和游行示威，呼吁反对种族歧视，要求民族平等等。当游行队伍到达林肯纪念堂前时，他发表了著名的《在林肯纪念堂前的演讲》。在这次演讲中，他首先热情洋溢地赞扬了</SPAN><SPAN lang=EN-US><FONT face="Times New Roman">100</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">多年前林肯签署的《解放宣言》，然后，话锋一转，指出</SPAN><SPAN lang=EN-US><FONT face="Times New Roman">100</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">多年后的今日，黑人仍处在水深火热之中，号召黑人奋起斗争，并且以诚挚抒情的语调，描述了黑人梦寐以求平等、自由的理想：“黑人儿童将能够与白人儿童如兄弟姐妹一般携起手来”，“上帝的灵光大放光彩，芸芸众生共睹光华！”这篇演讲可以说是内容充实，感情炽热，气势磅礴，产生了极强的感染力，这篇反抗种族歧视，争取民族平等的战斗檄文，大大推进了美国黑人民权运动的进步。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">正是因为演讲与政治活动联系如此密切，具有极大的组织、鼓动、激励、批判和推动的作用，所以，人们不仅利用演讲来为特定的政治目的服务，还同时广泛关心各国政界、军界和知名人士的演讲，并且从中了解和研究其演讲所透露的信息，预测今后的发展趋势，制定相应的对策。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">语言的魅力是很大的，因此我们要学会巧妙地运用说话技巧。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">曾有这样一个故事：有一只蝙蝠冒失地一头闯进了黄鼠狼的家内，黄鼠狼看到自动送上门的死鬼，恨不得一口就把它吞到肚子里。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">“怎么了！”黄鼠狼喊道，“我和你们势不两立，你还敢跑到我的面前来自动送死，你不是老鼠吗？你要敢否认，那我也不叫做黄鼠狼了。”</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">“请原谅，”倒霉的蝙蝠申诉说，“瞧我们的血统，我就是老鼠吗？坏家伙才会对你这样说。谢谢上帝，给了我一双会飞的翅膀，展翅飞翔的神万岁啊！万岁！”</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">它讲的似乎非常的有道理，黄鼠狼只有把它放走。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">事情也太不凑巧，过了两天之后，这倒霉蛋又撞到另一只黄鼠狼家中。蝙蝠再一次遇到了生命的威胁。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">长嘴的<st1:PersonName w:st="on" ProductID="黄鼠狼">黄鼠狼</st1:PersonName>夫人看到了这只</SPAN><SPAN lang=EN-US><FONT face="Times New Roman">****</FONT></SPAN><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">，想要把它做成饭来添饱自己的肚子。蝙蝠此时则大声地辩解：“你没有搞错吧！鸟是有羽毛的动物，你看看我，浑身上下没有一根毛，我是一只真真正正的老鼠。我要高喊，老鼠万岁！老鼠万岁！但愿神让猫不得好死！”</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">蝙蝠运用巧妙的语言躲过了两次生命的威胁。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">有一些人经常会变化嘴脸，他们总可以在危险的情况下化险为夷。这些人都是看情况行事，今天举起左手拥护这个主义，明天就又举起右手拥护那个主义。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN lang=EN-US><o:p><FONT face="Times New Roman">&nbsp;</FONT></o:p></SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: -18pt; MARGIN: 0cm 0cm 0pt 45.1pt; mso-list: l0 level1 lfo1; tab-stops: list 45.1pt" class=MsoNormal align=left><B style="mso-bidi-font-weight: normal"><SPAN style="mso-fareast-font-family: 'Times New Roman'" lang=EN-US><SPAN style="mso-list: Ignore"><FONT face="Times New Roman">4．<SPAN style="FONT: 7pt 'Times New Roman'"><FONT size=3> </FONT></SPAN></FONT></SPAN></SPAN></B><B style="mso-bidi-font-weight: normal"><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">有时谎言也是一种美</SPAN><SPAN lang=EN-US><o:p></o:p></SPAN></B></P>
+<P style="TEXT-ALIGN: left; MARGIN: 0cm 0cm 0pt" class=MsoNormal align=left><B style="mso-bidi-font-weight: normal"><SPAN lang=EN-US><o:p><FONT face="Times New Roman">&nbsp;</FONT></o:p></SPAN></B></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">谎言，从表面上来讲就是“不真实的话”。从古至今，谎言都在一直被人们所反感，以致于受到人们的唾弃与蔑视。因此，在生活中，只要我们一提到谎言，人们自然而然就把它等同于小人、骗子，总之就是行为不好的人的类型中。相信我们在小的时候，都学过“撒谎的孩子”在幼小的心灵上刻下了深深的烙印。人人都想做一个诚实的人；人人都想远离谎言。毋用质疑这是应该的。但是，某种意义上来讲，在诚实这个家族中也有解决不了的问题，而谎言在这个时候就可以非常完美地解决。在当今大力倡导诚实的社会中，有时谎言是不可或缺的一份子，而且在发挥它不可替代的重要作用。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">有一位学生在班级学习成绩始终倒数第一，经常淘气，总是暖不热凳子。家长被<st1:PersonName w:st="on" ProductID="班主任">班主任</st1:PersonName>老师叫到了学校，班主任说：“你的孩子在板凳上连一分钟也坐不住哇。”孩子问妈妈：“老师和你说什么啦？”妈妈说：“老师说你现在已经能坐住板凳啦！”还有一次，这位班主任把这位妈妈叫到了学校说：“你的孩子这一次又考了倒数第一。”孩子问妈妈：“老师和你说什么啦？”妈妈说：“老师说你如果在加把劲，肯定能超过你的同桌。”孩子在母亲善意的谎言安慰鼓励下，有了明显的进步。这样的谎言不美丽吗？它体现了多么伟大而无私的母爱呀！它包含了一位母亲对孩子沉甸甸的希望啊！</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">中央电视台曾播放过一个真实的故事，叫“说谎一家人”。一位男士得了肾衰竭，需要换肾，按计划本来是要换母亲的肾给他，可是一化验不合格，恰恰只有年迈多病的大姐的肾合格，这位男士如果知道肯定不同意移植。为了挽救一个年青的生命，全家人开始了有计划的说谎，共同欺骗这位男士。其实，由于手术时间推迟一天，加上三天没见大姐的面等情况，聪明的男士早已经知道了事情的真相，为了不让大家伤心，他也是用谎言应付大家，假装不知。直到最后康复出院才真相大白。这样的谎言不美丽吗？它体现了多么美的人间的真情啊！</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">癌症是一个令人闻之吓破胆的名词，据一位外国专家研究表明：癌症并不是不治之症，绝大多数的癌症患者都是自己把自己吓死的。君不见，在亲人身患癌症确诊时，有几人能向病人说实话，恐怕都在重复着谎言吧！此时谎言的作用是任何一句诚实的话语也无法替代的。这样的谎言不美丽吗？其实，几乎所有的人有时为了消除误会，减少不必要的麻烦，都曾经有过善意的谎言。只要你的出发点是正确的，良心是鲜红真诚的。说几句善意的谎言也是无可厚非的！</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">曾听过这样一个关于美丽谎言的故事：儿时，小女孩的家里很穷很穷，甚至连温饱问题也解决不了。因此，他们在吃饭的时候，饭常常不够吃，母亲就把自己碗里的饭分给孩子吃。而母亲则自己却什么也不吃，还会深情地对孩子们说：“孩子们，快吃吧，我不饿！”——母亲撒的第一个谎。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">家里穷，孩子又正是长身体的时候，母亲为了给孩子们补钙，就常用周日休息的时间去县郊农村河沟里捞些鱼来给孩子们补钙。母亲总会把鱼做的很好吃，鱼汤也很鲜。孩子们吃鱼的时候，母亲就在一旁看着孩子们吃的快乐模样，而她自己却不舍得吃一口。孩子们都非常的心疼，就把自己碗里的鱼夹到母亲碗里，请母亲吃鱼。而母亲说什么也不肯吃，母亲又用筷子把鱼夹回孩子的碗里。母亲说，孩子，快吃吧，我不爱吃鱼！幼小的孩子什么也不懂，就信以为真，认为母亲真的不喜欢吃鱼。这是母亲撒的第二个谎。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">孩子都大了，也都要上中学了，为了缴够孩子们的学费，当缝纫工的母亲心里非常地着急，于是，就去居委会领些火柴盒拿回家来，晚上糊了挣点分分钱补点家用。有个冬天，孩子们半夜醒来，看到母亲还弯着身子在油灯下糊火柴盒。男孩说，母亲，睡了吧，明早您还要上班呢。母亲笑笑，说，孩子，快睡吧，我不困！——母亲撒的第三个谎。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">时间过的很快，一个孩子要高考了，母亲为了给参加高考的孩子助阵，请了假，天天站在考点门口。然而，在这个时候，时逢盛夏，烈日当头，固执的母亲在烈日下一站就是几个小时。考试结束的铃声响了，母亲迎上去递过一杯用罐头瓶泡好的浓茶叮嘱孩子喝了，茶亦浓，情更浓。望着母亲干裂的嘴唇和满头的汗珠，男孩将手中的罐头瓶反递过去请母亲喝。母亲说，孩子，快喝吧，我不渴！母亲说话时是那么的坚决，让孩子不易再说什么。——母亲撒的第四个谎。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">家里穷，孩子们的父亲病了不舍得花钱治病，在一段煎熬后，父亲就病逝了，这又给这个穷贫的家以沉重的打击，母亲又当爹又当娘，靠着自己在缝纫社里那点微薄收入含辛茹苦拉扯着几个孩子，供他们念书，日子过得苦不堪言。胡同路口电线杆下修表的王叔叔知道后，大事小事就找岔过来打个帮手，搬搬煤，挑挑水，送些钱粮来帮补孩子们的家里。人非草木，孰能无情。左邻右舍对此看在眼里，记在心里，都劝母亲再嫁，何必苦了自己。然而母亲多年来却守身如玉，始终不嫁，别人再劝，母亲也断然不听，母亲说，我不爱！——母亲撒的第五个谎。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">女孩和她的哥姐大学毕业参加工作后，下了岗的母亲就在附近农贸市场摆了个小摊维持生活，用来维持生计。身在外地工作的孩子们知道后就常常寄钱回来补贴母亲，母亲坚决不要，并将钱退了回去。母亲说，我有钱！——母亲撒的第六个谎。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">其中女孩在她所在的学校任教两年后又考取了美国一所名牌大学的博士生，毕业后留在美国一家科研机构工作，待遇相当丰厚，条件好了，身在异国的孩子想把母亲接来享享清福却被老人回绝了。母亲说，我不习惯！——母亲撒的第七个谎。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">一生操劳过度的母亲在晚年又患了胃癌，住进了医院，远在大西洋彼岸的女孩乘飞机赶回来时，术后的母亲已是奄奄一息了。母亲老了，望着被病魔折磨得死去活来的母亲，孩子们都非常痛苦，潸然泪下。母亲却说，孩子，别哭，我不疼。——母亲撒的第八个谎。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">说完，在“谎言”里度过了一生的母亲终于闭上了眼睛。</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">其实，在我们习以为常的生活中，有的真实的谎言往往可以把人们抛入痛苦的深渊，而有的时候，善意的谎言却能催生出这个世界上最美丽的花朵。有时谎言也是一种美！</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">雨果说过“善是精神世界的太阳。”人在特殊的地方，特殊的时候，从善意出发说出的谎言，反映出的是人的精神世界理智的光芒，而不是罪恶。谎言其实就是假话，让人深恶痛绝，其危害不言而喻，但是并非所有的谎言都可憎可恶，生活中善意的谎言俯拾即是，而且善意的谎言可亲可爱！</SPAN></P>
+<P style="TEXT-ALIGN: left; TEXT-INDENT: 27pt; MARGIN: 0cm 0cm 0pt; mso-char-indent-count: 2.57" class=MsoNormal align=left><SPAN lang=EN-US><o:p><FONT face="Times New Roman">&nbsp;</FONT></o:p></SPAN></P>
+<P style="MARGIN: 0cm 0cm 0pt" class=MsoNormal><SPAN lang=EN-US><o:p><FONT face="Times New Roman">&nbsp;</FONT></o:p></SPAN></P>
+                                                            <div id="viewerPlaceHolder" style="width: 717px; height: 700px; display: none;">
+                                                            </div>
+                                                        </span>
+                                                        <table>
+                                                            <tr>
+                                                                <td>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div style="padding: 0px 26px;" id="360docIsStranger">
+                                        </div>
+                                        <div id='360Ad07Below' style="text-align: center; " style=" background-color:#f4f9f3;" >
+</div>
+
+                                        <div class="wztop2">
+                                            <div style="padding-left: 14px;">
+                                                <div style="float: left;">
+                                                    <span id="saverDiv"></span>
+                                                </div>
+                                                <div style="float: right; padding-right: 26px;">
+                                                    <span>此文来自&nbsp;&nbsp;<span class="mz" style="font-weight: bold;"><A href="http://www.360doc.com/userhome/836715" target="_blank">大龙2010</A></span>&nbsp;&nbsp;的文件夹&nbsp;&nbsp;</span><span
+                                                        class="bulebold bulelink">[<A href="http://www.360doc.com/userhome.aspx?userid=836715&cid=8" target="_blank">知识百科</A>]</span></div>
+                                            </div>
+                                        </div>
+                                        <div style="height: 11px; border-bottom: #a8a8a8 1px dashed; margin: 0px 26px;">
+                                        </div>
+                                        <div class="wenzhang_bt_list">
+                                            <div style="padding-left: 26px; min-height: 50px; background-color: #f4f9f3;">
+                                                <div style="float: left;" id="UserPreNextArt">
+                                                    <div>上一篇：<script>document.write("<a href='http://www.360doc.com" + "/content/12/0302/14/836715_191102429.shtml' target='_blank'>教你说话 1——会说实话，真情实意打动人</a>");</script></div><div>下一篇：<script>document.write("<a href='http://www.360doc.com" + "/content/12/0302/14/836715_191103936.shtml' target='_blank'>教你说话 3——会说好话，言真意诚激励人</a>");</script></div>
+                                                </div>
+                                                <div style="float: right; padding-right: 26px;">
+                                                    <div id="360FriendLink">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                <div class="ad02" id="ad02New">
+                        </div>
+                        <div id="divadleft" style="position: absolute; width: 120px; word-break: break-all;
+                            top: 250px; left: 0px; padding-left: 13px;">
+
+                            <script type="text/javascript"><!--
+         function leftshow()
+         {
+            var screenwidth=screen.availWidth;
+            var ad_left= '';
+            try
+            {
+                if(screenwidth>1200) 
+                { 
+                    ad_left+='<'+'script type=\"text/javascript\">';
+                    ad_left+='google_ad_client = "pub-6625678643128649";';
+                    ad_left+='google_ad_slot =\"7792148991\";';
+                    ad_left+='google_ad_width =120;';
+                    ad_left+='google_ad_height = 600;';  
+                    ad_left+='</'+'script>';
+                    ad_left+='<'+'script type=\"text/javascript\"';
+                    ad_left+='src=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\">';
+                    ad_left+='</'+'script>';
+                }
+                document.write(ad_left);
+            }
+            catch(e)
+            {
+            }
+        }
+ 
+        leftshow();
+        -->
+                            </script>
+
+                            <div style="float: right; padding-right: 2px; padding-top: 2px; background-color: #fff;"
+                                class="link_underline">
+                                <a href="#" onclick="document.getElementById('divadleft').style.display='none'">关闭</a></div>
+                        </div>
+
+                        <script>
+    var screenwidth=screen.availWidth;
+    try
+    {
+        if(screenwidth<=1200) 
+        { 
+            document.getElementById("divadleft").style.display="none";
+            document.getElementById("divadright").style.display="none";
+        }   
+    }
+    catch(e)
+    {
+    }
+                        </script>
+                                    </div>
+                                    <div style="height: 22px; background-color: #f4f9f3;">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="height: 15px; *height: 0px !important;">
+                                    </div>
+                                    <div id='360docMoreArt' style="width: 740px;">
+                                        ﻿ <div style="width: 740px;"> <div class="wenzhang_bt">相关文章</div><div class='wenzhang_bt_listnew'><ul><li><a   href='http://www.360doc.com/content/11/1209/01/8288468_170809678.shtml' target='_blank'  onclick="ClickStatics('wz4')" >妈妈,我爱你,真的爱你--母亲的八个谎言</a><span class="time3 link_green">2011-12-09 </span><span class='mz mzcss' ><a href="http://www.360doc.com/UserHome/8288468" target='_blank'  onclick="ClickStatics('wz5')" >朴烟</a></span> </li><li><a   href='http://www.360doc.com/content/11/0815/10/3038764_140482004.shtml' target='_blank'  onclick="ClickStatics('wz4')" >对待谎言</a><span class="time3 link_green">2011-08-15 </span><span class='mz mzcss' ><a href="http://www.360doc.com/UserHome/3038764" target='_blank'  onclick="ClickStatics('wz5')" >ILB</a></span> </li><li><a   href='http://www.360doc.com/content/12/0224/11/8781422_189219249.shtml' target='_blank'  onclick="ClickStatics('wz4')" >母亲一生说的八个谎言，每一个都那么感人，让人落泪，向所有母亲敬礼...</a><span class="time3 link_green">2012-02-24 </span><span class='mz mzcss' ><a href="http://www.360doc.com/UserHome/8781422" target='_blank'  onclick="ClickStatics('wz5')" >雨雪无睛</a></span> </li><li><a   href='http://www.360doc.com/content/11/0104/13/5224924_83855300.shtml' target='_blank'  onclick="ClickStatics('wz4')" >让家成为真正的安息与祝福之所</a><span class="time3 link_green">2011-01-04 </span><span class='mz mzcss' ><a href="http://www.360doc.com/UserHome/5224924" target='_blank'  onclick="ClickStatics('wz5')" >洁白超乎雪</a></span> </li><li><a   href='http://www.360doc.com/content/10/0608/17/1328897_31984947.shtml' target='_blank'  onclick="ClickStatics('wz4')" >铭记一生的八个谎言</a><span class="time3 link_green">2010-06-08 </span><span class='mz mzcss' ><a href="http://www.360doc.com/UserHome/1328897" target='_blank'  onclick="ClickStatics('wz5')" >花随月转阴晴</a></span> </li><li><a   href='http://www.360doc.com/content/11/0313/09/3852971_100653126.shtml' target='_blank'  onclick="ClickStatics('wz4')" >催人泪下的谎言</a><span class="time3 link_green">2011-03-13 </span><span class='mz mzcss' ><a href="http://www.360doc.com/UserHome/3852971" target='_blank'  onclick="ClickStatics('wz5')" >萧雅aaa</a></span> </li><li><a   href='http://www.360doc.com/content/11/0322/21/3726494_103664739.shtml' target='_blank'  onclick="ClickStatics('wz4')" >你一辈子不知道母亲的八个谎言！ - Qzone日志</a><span class="time3 link_green">2011-03-22 </span><span class='mz mzcss' ><a href="http://www.360doc.com/UserHome/3726494" target='_blank'  onclick="ClickStatics('wz5')" >读书破万卷2</a></span> </li><li><a   href='http://www.360doc.com/content/11/0826/19/1430145_143506607.shtml' target='_blank'  onclick="ClickStatics('wz4')" >母亲一生撒的八个谎言</a><span class="time3 link_green">2011-08-26 </span><span class='mz mzcss' ><a href="http://www.360doc.com/UserHome/1430145" target='_blank'  onclick="ClickStatics('wz5')" >稻香居人</a></span> </li></ul></div><div  class="wenzhang_ckgd"><a href="http://www.360doc.com/relevant/191103289_more.shtml"  target="_blank"  onclick="ClickStatics('wz6')" >查看更多文章>></a></div></div>
+                                    </div>
+                                    <div id="Reflction">
+                                        <div id="360docRefTN" class="wenzhangpinglundiv">
+                                        </div>
+                                        <div id="360docRefCT">
+                                        </div>
+                                        <div id="360docRefPB" align="center">
+                                        </div>
+                                    </div>
+                                    <a name="sf"></a>
+                                    <div class="faibaopl" id="fabiaoplDiv">
+                                    </div>
+                                    <div id="ReflectionPart" style="padding-left: 30px; clear: both;">
+                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td align="left" valign="top">
+                                                        <textarea name="textarea" class="phototxtb" id="SendRefTB" onfocus="testContent(1);"
+                                                            onblur="testContent(2)" rows="12"></textarea>
+                                                    </td>
+                                                    <td id="360docTdAdID" align="right" valign="top">
+                                                        <div id="360docAdReflection">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="5px">
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div id="360docRelfection" style="width: 665px;">
+                                                            <div class="right" id="PLAS">
+                                                                <img id="ImgSendPL" src="http://pubimage.360doc.com/revacepl.gif" style="cursor: pointer;"
+                                                                    onclick="SubmitReflection()">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td valign="top" align="center">
+                        <div style="margin-left: 20px;">
+                            <div><script type='text/javascript'>google_ad_client = 'pub-6625678643128649';google_ad_slot = '0378477824';google_ad_width = 180;google_ad_height = 90;</script><script type='text/javascript' src='http://pagead2.googlesyndication.com/pagead/show_ads.js'></script></div><div class="WidthRight"  style='width:178px;'><div class="wenzhang_bt">热点推荐</div><div class="wenzhang_bt_listCG wzbtlist"><ul><li><a href="http://www.360doc.com/content/09/0218/13/88761_2578790.shtml" target="_blank"  onclick="ClickStatics('wz1')" >[视频]据说是刘谦最强... </a></li><li><a href="http://www.360doc.com/content/09/0301/13/14381_2677505.shtml" target="_blank"  onclick="ClickStatics('wz1')" >通俗易懂的简易摄影教程... </a></li><li><a href="http://www.360doc.com/content/08/1214/11/77484_2120575.shtml" target="_blank"  onclick="ClickStatics('wz1')" >论坛黑话，全国通用(精... </a></li><li><a href="http://www.360doc.com/content/09/0329/15/94176_2958622.shtml" target="_blank"  onclick="ClickStatics('wz1')" >十二条另类逻辑 </a></li><li><a href="http://www.360doc.com/content/06/0323/16/142_84720.shtml" target="_blank"  onclick="ClickStatics('wz1')" >惊涛裂岸，卷起千堆雪 </a></li><li><a href="http://www.360doc.com/content/09/0427/22/131707_3294672.shtml" target="_blank"  onclick="ClickStatics('wz1')" >俄曝中国着手准备大战 </a></li><li><a href="http://www.360doc.com/content/08/1123/11/3630_1984056.shtml" target="_blank"  onclick="ClickStatics('wz1')" >想看懂英语新闻必须弄懂... </a></li><li><a href="http://www.360doc.com/content/09/0228/03/83855_2665209.shtml" target="_blank"  onclick="ClickStatics('wz1')" >【四书五经】【二十四史】 </a></li><li><a href="http://www.360doc.com/content/08/1116/13/7110_1936127.shtml" target="_blank"  onclick="ClickStatics('wz1')" >人际关系的55个绝招 </a></li><li><a href="http://www.360doc.com/content/09/0323/21/116393_2896755.shtml" target="_blank"  onclick="ClickStatics('wz1')" >背完这999句，你的口... </a></li><li><a href="http://www.360doc.com/content/08/1205/10/62852_2056534.shtml" target="_blank"  onclick="ClickStatics('wz1')" >细数技术指标 </a></li><li><a href="http://www.360doc.com/content/05/1210/01/2137_42005.shtml" target="_blank"  onclick="ClickStatics('wz1')" >欣赏传世佳作（图）::... </a></li><li><a href="http://www.360doc.com/content/09/0313/11/37063_2795482.shtml" target="_blank"  onclick="ClickStatics('wz1')" >南中国海的得失与中国国... </a></li><li><a href="http://www.360doc.com/content/07/0206/10/17010_357394.shtml" target="_blank"  onclick="ClickStatics('wz1')" >幢幢怪影总难忘 </a></li><li><a href="http://www.360doc.com/content/09/0105/20/93718_2269309.shtml" target="_blank"  onclick="ClickStatics('wz1')" >古代真实的银子[20p] </a></li><li><a href="http://www.360doc.com/content/06/0717/21/651_158293.shtml" target="_blank"  onclick="ClickStatics('wz1')" >推 销 技 巧 </a></li><li><a href="http://www.360doc.com/content/07/0110/12/10199_324899.shtml" target="_blank"  onclick="ClickStatics('wz1')" >男士职场着装知多少 </a></li><li><a href="http://www.360doc.com/content/08/0316/22/42071_1123407.shtml" target="_blank"  onclick="ClickStatics('wz1')" >堪称中国西部最美的乡村... </a></li><li><a href="http://www.360doc.com/content/06/0808/15/9737_176513.shtml" target="_blank"  onclick="ClickStatics('wz1')" >如何在小企业练就大本事 </a></li><li><a href="http://www.360doc.com/content/07/0822/16/37268_688538.shtml" target="_blank"  onclick="ClickStatics('wz1')" >侯若石教授点名批评吴敬... </a></li></ul><br/></div></div><div id="AdArtRight" align="center"></div><div id="360docAdBetween"></div><div ID="Getbook_list" class="WidthRight" ></div>
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script language='javascript' type='text/javascript'>var ArticleID=191103289;var userid=836715;var SearchByArt="href='http://www.google.com.hk/search?hl=zh-CN&amp;q=%e6%af%8d%e4%ba%b2%2b%e8%b0%8e%e8%a8%80%2b%e5%ad%a9%e5%ad%90&amp;lr=lang_zh-CN' target='_blank'";var xmlHttp=null;var xmlDom =null;var xslDom =null;</script>
+    <script language="javascript" type="text/javascript">
+        var appName = navigator.appName.toLowerCase();
+        if (appName.indexOf("microsoft internet explorer") > -1) {
+            document.write("<scr" + "ipt type='text/javascript' src='http://www.360doc.com/js/StickySystemIE090401.js?t=2012030501'></sc" + "ript>");
+        }
+        else {
+            document.write("<scr" + "ipt type='text/javascript' src='http://www.360doc.com/js/StickySystemOther090401.js?t=2012030501'></sc" + "ript>");
+        }
+
+    </script>
+     <script>GerLookingUserInfo(1,836715,1,1,'-1',-1,10);</script>
+    <span id="LayerLogin"></span>
+    
+</div>
+<div class="footer" style="clear: both;">
+        <div class="footerwz" style="clear: both;">
+            <b class="help1 julink" style="line-height: 24px;"><a target="_blank" href="/service.html">
+                服务条款</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)"
+                    onclick="setHomepage('http://www.360doc.com')">设360doc为首页</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a
+                        target="_blank" href="/advice.html">留言交流</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a
+                            target="_blank" href="/contactus.html">联系我们</a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a
+                                target="_blank" href="/friendlink.html">友情链接</a></b>
+        </div>
+    </div>
+     <div class="footerbottom" style="clear: both;">
+        <div class="footerbottomwz">
+            <div class="left" style="padding-left: 50px;">
+                <div style="line-height: 24px;">
+                    北京六智信息技术有限公司 Copyright © 2005-2011 360doc.com , All Rights Reserved
+                </div>
+                <div style="line-height: 24px;" class="julink">
+                    <a target="_blank" href="http://www.miibeian.gov.cn/">京ICP证090625号</a> &nbsp;京ICP备05038915号&nbsp;京网文【2010】0370-002号&nbsp;
+                    京公网安备110105001118号</div>
+            </div>
+            <div class=" left" style="width: 60px; padding-top: 10px;">
+                &nbsp;&nbsp;<a target="_blank" href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202009120700006"><img
+                    src="http://pubimage.360doc.com/newsite/gongan.gif" width="25" height="30" /></a>&nbsp;&nbsp;<a target="_blank"
+                        href="http://ulic.baidu.com/"><img src="http://pubimage.360doc.com/newsite/baidulm.gif" width="23" height="30" /></a></div>
+        </div>
+    </div>
+
+
+</body>
+</html>

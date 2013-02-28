@@ -1,0 +1,20 @@
+#!/bin/bash
+
+url="http://elinuxdd.com/~elinuxdd/elinuxdd.docs/listings/listing"
+
+for((i=3; i <= 22; i++))
+do
+    for ((j = 1; j <= 10; j++))
+    do
+		echo "Connect to $url$i$j.html"
+		if [ $i -lt 10 ]; then    
+            wget "$url""0""$i.$j"".html"
+	    else 
+            wget "$url$i.$j"".html"
+		fi
+		#sleep 1
+	done
+done
+
+exit 0
+

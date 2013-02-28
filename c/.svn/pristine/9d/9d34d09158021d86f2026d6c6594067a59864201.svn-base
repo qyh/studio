@@ -1,0 +1,7 @@
+*.c
+*.dll
+*.a
+*.lic
+*.txt
+*.bat
+*.h

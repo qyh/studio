@@ -1,0 +1,35 @@
+Eclipse的缩写代码提示功能，如syso能补全为System.out.println();main能补全为完整的main方法，非常的方便。
+同时，我们也能自己编辑模板，
+方法是在myeclipse中的菜单中
+
+1.在Windows->Preferences->Java->Editor->Templates可以设置
+
+  默认是Sysout或syso  只要输入Systout或syso 再按Alt+/  就可以输出System.out.println();很方便其它有很多
+  如:if try when whie 等句型
+  然后在
+2. window-References-keys-把content Assist的快捷键设成alt+/
+
+  设置快捷键步骤:
+
+3. window->preferences->General->keys
+
+  找到 Word Completion 把绑定的快捷键替换掉就可以啦.
+  
+  这一点很重要，否则上面设置的快捷方法无效。Eclipse的缩写代码提示功能，如syso能补全为System.out.println();main能补全为完整的main方法，非常的方便。
+同时，我们也能自己编辑模板，
+方法是在myeclipse中的菜单中
+
+1.在Windows->Preferences->Java->Editor->Templates可以设置
+
+  默认是Sysout或syso  只要输入Systout或syso 再按Alt+/  就可以输出System.out.println();很方便其它有很多
+  如:if try when whie 等句型
+  然后在
+2. window-References-keys-把content Assist的快捷键设成alt+/
+
+  设置快捷键步骤:
+
+3. window->preferences->General->keys
+
+  找到 Word Completion 把绑定的快捷键替换掉就可以啦.
+  
+  这一点很重要，否则上面设置的快捷方法无效。

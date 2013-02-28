@@ -1,0 +1,160 @@
+/**
+ * Copyright (C)  2011-2011  Jesse Meng (pingf0@gmail.com).
+ *
+ * This file is part of OOC-GCC.
+ *
+ * OOC-GCC is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * test_ABCD_AIO.c
+ *
+ *  Created on: 2011-5-18
+ *      Author: Jesse Meng [pingf0@gmail.com]
+ */
+#include "OOC.h"
+
+CLASS(A){
+	STATIC(A);
+};
+static int A_reload(A *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int A_unload(A *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int A_reloadSt(StA *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int A_unloadSt(StA *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+ASM(A,A_reload,A_unload,A_reloadSt,A_unloadSt)
+
+
+CLASS_EX(B,A){
+	STATIC_EX(B,A);
+};
+static int B_reload(B *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int B_unload(B *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int B_reloadSt(StB *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int B_unloadSt(StB *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+ASM_EX(B,A,B_reload,B_unload,B_reloadSt,B_unloadSt)
+
+
+CLASS_EX(C,B){
+	STATIC_EX(C,B);
+};
+static int C_reload(C *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int C_unload(C *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int C_reloadSt(StC *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int C_unloadSt(StC *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+ASM_EX(C,B,C_reload,C_unload,C_reloadSt,C_unloadSt)
+
+
+CLASS_EX(D,C){
+	STATIC_EX(D,C);
+};
+static int D_reload(D *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int D_unload(D *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int D_reloadSt(StD *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int D_unloadSt(StD *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+ASM_EX(D,C,D_reload,D_unload,D_reloadSt,D_unloadSt)
+int main(){
+	A *a;B *b;C *c;D *d;
+	printf("\n*****************SIZE TEST\n");
+	printf( "[A]size :%d static size:%d\n"
+			"[B]size :%d static size:%d\n"
+			"[C]size :%d static size:%d\n"
+			"[D]size :%d static size:%d\n",
+			sizeof(A),sizeof(StA),
+			sizeof(B),sizeof(StB),
+			sizeof(C),sizeof(StC),
+			sizeof(D),sizeof(StD));
+	printf("\n*****************NEW A\n");
+	a=NEW0(A);
+	printf("\n*****************NEW B\n");
+	b=NEW0(B);
+	printf("\n*****************NEW C\n");
+	c=NEW0(C);
+	printf("\n*****************DEL C\n");
+    DEL0(c,C);
+    printf("\n*****************DEL B\n");
+    DEL0(b,B);
+    printf("\n*****************DEL A\n");
+    DEL0(a,A);
+
+
+    printf("\n*****************NEW D\n");
+    d=NEW0(D);
+    printf("\n*****************DEL D\n");
+    DEL0(d,D);
+
+
+    printf("\n*****************NEW C DIFFERENT SEQUENCE\n");
+	c=NEW0(C);
+	printf("\n*****************NEW B DIFFERENT SEQUENCE\n");
+	b=NEW0(B);
+	printf("\n*****************NEW A DIFFERENT SEQUENCE\n");
+	a=NEW0(A);
+	printf("\n*****************DEL A DIFFERENT SEQUENCE\n");
+	DEL0(a,A);
+	printf("\n*****************DEL B DIFFERENT SEQUENCE\n");
+	DEL0(b,B);
+	printf("\n*****************DEL C DIFFERENT SEQUENCE\n");
+	DEL0(c,C);
+	return 0;
+}
+

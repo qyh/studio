@@ -1,0 +1,27 @@
+
+
+  Listing 6.5
+
+
+
+
+    /* n_touch_receive_buf() continued.. */
+    /* Wake up any threads waiting for data */
+    if (waitqueue_active(&amp;tty-&gt;read_wait) &amp;&amp;
+            (tty-&gt;read_cnt &gt;= tty-&gt;minimum_to_wake))
+        wake_up_interruptible(&amp;tty-&gt;read_wait);
+    }
+
+    /* If we are running out of buffer space, request the
+       serial driver to throttle incoming data */
+    if (n_touch_receive_room(tty) &lt; TOUCH_THROTTLE_THRESHOLD) {
+        tty-&gt;driver.throttle(tty);
+    }
+    /* ... */
+
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

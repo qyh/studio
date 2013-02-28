@@ -1,0 +1,84 @@
+/**
+ * Copyright (C)  2011-2011  Jesse Meng (pingf0@gmail.com).
+ *
+ * This file is part of OOC-GCC.
+ *
+ * OOC-GCC is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * test_Animals.c
+ *
+ *  Created on: 2011-5-16
+ *      Author: Jesse Meng [pingf0@gmail.com]
+ */
+
+#include "OOStd.h"
+
+CLASS(Animal){
+	char *name;
+	STATIC(Animal);
+	vFn talk;
+};
+static int Animal_load(Animal *THIS,void *name){
+	THIS->name=name;
+	return 0;
+}
+ASM(Animal,Animal_load,NULL,NULL,NULL)
+
+CLASS_EX(Cat,Animal){
+	STATIC_EX(Cat,Animal);
+};
+static void Meow(Animal *THIS){
+	printf("Meow!My name is %s!\n",THIS->name);
+}
+
+static int Cat_loadSt(StAnimal *THIS,void *PARAM){
+	THIS->talk=(void *)Meow;
+	return 0;
+}
+ASM_EX(Cat,Animal,NULL,NULL,Cat_loadSt,NULL)
+
+
+CLASS_EX(Dog,Animal){
+	STATIC_EX(Dog,Animal);
+};
+static void Woof(Animal *THIS){
+	printf("Woof!My name is %s!\n",THIS->name);
+}
+static int Dog_loadSt(StAnimal *THIS,void *PARAM){
+	THIS->talk=(void *)Woof;
+	return 0;
+}
+ASM_EX(Dog,Animal,NULL,NULL,Dog_loadSt,NULL)
+
+int main(){
+	Animal *animals[4000];
+	StAnimal *f;
+	int i=0;
+	for(i=0;i<4000;i++)
+	{
+		if(i%2==0) animals[i]=NEW(Dog,"Jack");
+		else animals[i]=NEW(Cat,"Lily");
+	};
+	f=ST(animals[0]);
+	for(i=0;i<4000;++i){
+		f->talk(animals[i]);
+	}
+	for(i=0;i<4000;++i){
+		DELETE0(animals[i]);
+	}
+	return 0;
+}

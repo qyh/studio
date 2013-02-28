@@ -1,0 +1,11 @@
+#! /bin/sh 
+
+filename="$1"
+
+if [ "$filename" = "" ]; then
+    filename=$PWD/"newfile""$$"
+fi
+
+exec 'gedit' "$filename" &
+
+exit 0

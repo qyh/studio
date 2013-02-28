@@ -1,0 +1,87 @@
+﻿/**
+ * Copyright (C)  2011-2011  Jesse Meng.
+ * 
+ * This file is part of OOC-GCC.
+ * 
+ * OOC-GCC is free software: you can redistribute it and/or modify it 
+ * under the terms of the GNU Lesser General Public License as published 
+ * by the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version. 
+ * 
+ * This library is distributed in the hope that it will be useful,but 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with this library. If not, see 
+ * <http://www.gnu.org/licenses/>.
+ */
+
+License : LGPL(see details from Google Codes)
+use Rebuild.bat to build the simple example.
+
+                                                        --Jesse Meng
+
+[CN]
+--关于OOC-GCC中宏的使用----------------
+
+
+•类的设计(模块化的编程应在.h文件中使用)
+
+假定有一个名为"A"的"类"
+
+CLASS(A){
+    ......  这里为实例成员
+    STATIC(A);
+    ......  这里是类成员(实际结构体为struct _StA,并被重定义为StA)
+};
+
+假定有一个名为"B"的继承了上面"B"的"类"
+
+CLASS_EX(B,A){
+    .......
+    STATIC_EX(B,A); 
+    .......
+};
+
+注意继承时,前面是父类,后面是要定义的子类.
+
+
+•类的构造与析构(模块化的编程应在.c文件中使用)
+
+static int A_reload(A *THIS,void *p){
+	THIS->.... 这里使用第一个参数来初始化实例成员
+	return 0;
+}
+static int A_reloadSt(StA *THIS,void *p){
+	THIS->.... 这里使用第一个参数来初始化类成员
+	return 0;
+}
+static int A_unload(A *THIS,void *p){
+	THIS->.... 这里使用第一个参数来析构实例成员
+	return 0;
+}
+ASM(A,A_reload,A_unload,A_reloadSt,NULL)
+注意上面最后一个参数为类成员的析构
+使用NULL是为了说明无需某个函数时,可以不设置
+
+•类的使用
+
+普通类"A"的使用
+A *a=NEW0(A);  //声明第一个A的实例时调用StA和A的构造,
+               //以后再声明A的实例只调用A的构造
+StA *fA=ST(a);
+fA->someFunc(a,someParam);
+DEL0(a);       //销毁A的实例时调用A的析构
+               //当销毁显存的最后一个A的实例时,
+               //调用A和StA的构造
+
+带有继承的类"B"的使用
+B *b=NEW0(B);   //注意父类的构造会自动调用
+StB *fB=ST(b);
+fB->someFunc(b,someParam);
+StA *fA=ST(b);
+fA->someFunc(b,someParam); 使用父类的方法
+DELETE0(b);  //无需知道b的具体类型时A或B,都会调用正确的析构
+          //如果是A的指针,则调用A的析构,如果是B的指针则调用B和A的析构

@@ -1,0 +1,20 @@
+#!/bin/sh 
+
+gcc -O3 -Wall -c -fmessage-length=0 -oOODbg.o OODbg.c
+ar -r libOOC.a OODbg.o
+gcc -shared OODbg.o -olibOOC.dll
+gcc OODbg.c test_ABCD.c -o test_ABCD.exe
+gcc OODbg.c test_Animals.c -o test_Animals.exe
+gcc OODbg.c test_Exceptions.c -o test_Exceptions.exe
+gcc OODbg.c test_KidManWorker.c -o test_KidManWorker.exe
+gcc OODbg.c test_showStPart.c -o test_showStPart.exe
+gcc OODbg.c test_extendsFromRaw.c -o test_extendsFromRaw.exe
+
+gcc OODbg.c test_multiSuper.c -o test_multiSuper.exe
+gcc OODbg.c test_ABCD_EX.c -o test_ABCD_EX.exe
+gcc OODbg.c test_ABCD_EX2.c -o test_ABCD_EX2.exe
+
+gcc OODbg.c test_template.c -o test_template.exe
+gcc OODbg.c test_template2.c -o test_template2.exe
+
+exit 0

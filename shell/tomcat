@@ -1,0 +1,24 @@
+#!/bin/sh
+#para="startup.sh";
+#if [ "$1" != "" ] 
+#then
+#	para=$1
+#fi
+#echo "/media/FAT32/JavaProject/apache-tomcat-6.0.18/bin/$para"
+#/media/FAT32/JavaProject/apache-tomcat-6.0.18/bin/$para
+#exit 0
+para="startup.sh"
+if [ "$1" = "start" ]
+then 
+	para="startup.sh"
+elif [ "$1" = "stop" ]
+then
+	para="shutdown.sh"
+fi
+echo $para 
+#$CATALINA_HOME/bin/version.sh
+$CATALINA_HOME/bin/$para
+echo $para
+exit 0
+
+

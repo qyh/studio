@@ -1,0 +1,7 @@
+# A simple Autoconf script for the Hello World example
+
+AC_INIT(hello_world, 1.0)
+
+AC_HEADER_STDC
+
+AC_OUTPUT()

@@ -1,0 +1,56 @@
+/*
+ * test_template2.c
+ *
+ *  Created on: 2011-11-16
+ *      Author: Jesse Meng [pingf0@gmail.com]
+ */
+
+#include "OOStd.h"
+CLASS_TP(A){
+	int a;
+};
+int a_reload(_A *self,void *p){
+	printf("%s\n",__FUNCTION__);
+	self->a=100;
+	return 0;
+}
+int a_unload(void *__OOC_THIS,void *__OOC_PARAMETER){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+ASM_TP(A,a_reload,a_unload)
+
+
+CLASS_TP(B){
+	int b;
+	iFn showA;
+};
+
+int showA(_A *self){
+	printf("a is %d\n",self->a);
+	return 0;
+}
+
+int b_reload(_B *self,void *p){
+	printf("%s\n",__FUNCTION__);
+	self->b=200;
+	self->showA=(void *)showA;
+	return 0;
+}
+int b_unload(void *__OOC_THIS,void *__OOC_PARAMETER){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+ASM_TP(B,b_reload,b_unload)
+
+CLASS_BD(A,B)
+ASM_BD(A,B)
+
+int main(){
+	A *a=NEW0(A);
+	B *b=ST(a);
+	b->B.showA(&a->A);
+	printf("b is %d\n",b->B.b);
+	DELETE0(a);
+	return 0;
+}

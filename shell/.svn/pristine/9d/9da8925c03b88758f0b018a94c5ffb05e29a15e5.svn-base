@@ -1,0 +1,86 @@
+<html>
+<head>
+  <title>Listing 19.4</title>
+</head>
+<body bgcolor="#ffffff" text="#000000">
+<pre>
+
+<font color="0000ff"><strong>#include <font color="#008000">&lt;fcntl.h&gt;</font></strong></font>
+<font color="0000ff"><strong>#include <font color="#008000">&lt;sys/stat.h&gt;</font></strong></font>
+<font color="0000ff"><strong>#include <font color="#008000">&lt;sys/mman.h&gt;</font><font color="#444444"> /* For definition of mmap() */</font></strong></font>
+<font color="0000ff"><strong>#include <font color="#008000">&lt;linux/fb.h&gt;</font><font color="#444444"> /* For frame buffer structures and ioctls */</font></strong></font>
+
+<strong>int</strong>
+<font color="#2040a0">main</font><font color="4444FF">(</font><strong>int</strong> <font color="#2040a0">argc</font>, <strong>char</strong> <font color="4444FF">*</font><font color="#2040a0">argv</font><font color="4444FF">[</font><font color="4444FF">]</font><font color="4444FF">)</font>
+<font color="4444FF"><strong>{</strong></font>
+    <strong>int</strong> <font color="#2040a0">imagefd</font>, <font color="#2040a0">fbfd</font><font color="4444FF">;</font>              <font color="#444444">/* File descriptors */</font>
+    <strong>char</strong> <font color="4444FF">*</font><font color="#2040a0">imagebuf</font>, <font color="4444FF">*</font><font color="#2040a0">fbbuf</font><font color="4444FF">;</font>         <font color="#444444">/* mmap buffers */</font>
+    <strong>struct</strong> <font color="#2040a0">fb_var_screeninfo</font> <font color="#2040a0">vinfo</font><font color="4444FF">;</font> <font color="#444444">/* Variable Screen info */</font>
+    <strong>struct</strong> <font color="#2040a0">stat</font> <font color="#2040a0">statbuf</font><font color="4444FF">;</font>            <font color="#444444">/* Image info */</font>
+    <strong>int</strong> <font color="#2040a0">fbsize</font><font color="4444FF">;</font>                     <font color="#444444">/* Frame buffer size */</font>
+
+    <font color="#444444">/* Open image file */</font>
+    <strong>if</strong> <font color="4444FF">(</font><font color="4444FF">(</font><font color="#2040a0">imagefd</font> <font color="4444FF">=</font> <font color="#2040a0">open</font><font color="4444FF">(</font><font color="#2040a0">argv</font><font color="4444FF">[</font><font color="#FF0000">1</font><font color="4444FF">]</font>, <font color="#2040a0">O_RDONLY</font><font color="4444FF">)</font><font color="4444FF">)</font> <font color="4444FF">&lt;</font> <font color="#FF0000">0</font><font color="4444FF">)</font> <font color="4444FF"><strong>{</strong></font>
+        <font color="#2040a0">perror</font><font color="4444FF">(</font><font color="#008000">&quot;Bad image open<font color="#77dd77">\n</font>&quot;</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <font color="#2040a0">exit</font><font color="4444FF">(</font><font color="#FF0000">1</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+
+    <font color="#444444">/* Get the size of the image file */</font>
+    <strong>if</strong> <font color="4444FF">(</font><font color="#2040a0">fstat</font><font color="4444FF">(</font><font color="#2040a0">imagefd</font>, <font color="4444FF">&amp;</font><font color="#2040a0">statbuf</font><font color="4444FF">)</font> <font color="4444FF">&lt;</font> <font color="#FF0000">0</font><font color="4444FF">)</font> <font color="4444FF"><strong>{</strong></font>
+        <font color="#2040a0">perror</font><font color="4444FF">(</font><font color="#008000">&quot;Bad fstat<font color="#77dd77">\n</font>&quot;</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <font color="#2040a0">exit</font><font color="4444FF">(</font><font color="#FF0000">1</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+
+    <font color="#444444">/* mmap the image file */</font>
+    <strong>if</strong> <font color="4444FF">(</font><font color="4444FF">(</font><font color="#2040a0">imagebuf</font> <font color="4444FF">=</font> <font color="#2040a0">mmap</font><font color="4444FF">(</font><font color="#FF0000">0</font>, <font color="#2040a0">statbuf</font>.<font color="#2040a0">st_size</font>, <font color="#2040a0">PROT_READ</font>, <font color="#2040a0">MAP_SHARED</font>,
+                         <font color="#2040a0">imagefd</font>, <font color="#FF0000">0</font><font color="4444FF">)</font><font color="4444FF">)</font> <font color="4444FF">=</font><font color="4444FF">=</font> <font color="4444FF">(</font><strong>char</strong> <font color="4444FF">*</font><font color="4444FF">)</font> <font color="4444FF">-</font><font color="#FF0000">1</font><font color="4444FF">)</font><font color="4444FF"><strong>{</strong></font>
+        <font color="#2040a0">perror</font><font color="4444FF">(</font><font color="#008000">&quot;Bad image mmap<font color="#77dd77">\n</font>&quot;</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <font color="#2040a0">exit</font><font color="4444FF">(</font><font color="#FF0000">1</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+
+    <font color="#444444">/* Open video memory */</font>
+    <strong>if</strong> <font color="4444FF">(</font><font color="4444FF">(</font><font color="#2040a0">fbfd</font> <font color="4444FF">=</font> <font color="#2040a0">open</font><font color="4444FF">(</font><font color="#008000">&quot;/dev/fb0&quot;</font>, <font color="#2040a0">O_RDWR</font><font color="4444FF">)</font><font color="4444FF">)</font> <font color="4444FF">&lt;</font> <font color="#FF0000">0</font><font color="4444FF">)</font> <font color="4444FF"><strong>{</strong></font>
+        <font color="#2040a0">perror</font><font color="4444FF">(</font><font color="#008000">&quot;Bad frame buffer open<font color="#77dd77">\n</font>&quot;</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <font color="#2040a0">exit</font><font color="4444FF">(</font><font color="#FF0000">1</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+
+    <font color="#444444">/* Get screen attributes such as resolution and depth */</font>
+    <strong>if</strong> <font color="4444FF">(</font><font color="#2040a0">ioctl</font><font color="4444FF">(</font><font color="#2040a0">fbfd</font>, <font color="#2040a0">FBIOGET_VSCREENINFO</font>, <font color="4444FF">&amp;</font><font color="#2040a0">vinfo</font><font color="4444FF">)</font><font color="4444FF">)</font> <font color="4444FF"><strong>{</strong></font>
+        <font color="#2040a0">perror</font><font color="4444FF">(</font><font color="#008000">&quot;Bad vscreeninfo ioctl<font color="#77dd77">\n</font>&quot;</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <font color="#2040a0">exit</font><font color="4444FF">(</font><font color="#FF0000">1</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+
+    <font color="#444444">/* Size of video memory =
+       (X-resolution * Y-resolution * Bytes per pixel) */</font>
+    <font color="#2040a0">fbsize</font> <font color="4444FF">=</font> <font color="4444FF">(</font><font color="#2040a0">vinfo</font>.<font color="#2040a0">xres</font> <font color="4444FF">*</font> <font color="#2040a0">vinfo</font>.<font color="#2040a0">yres</font> <font color="4444FF">*</font> <font color="#2040a0">vinfo</font>.<font color="#2040a0">bits_per_pixel</font><font color="4444FF">)</font>/<font color="#FF0000">8</font><font color="4444FF">;</font>
+
+    <font color="#444444">/* mmap the video memory */</font>
+    <strong>if</strong> <font color="4444FF">(</font><font color="4444FF">(</font><font color="#2040a0">fbbuf</font> <font color="4444FF">=</font> <font color="#2040a0">mmap</font><font color="4444FF">(</font><font color="#FF0000">0</font>, <font color="#2040a0">fbsize</font>, <font color="#2040a0">PROT_WRITE</font>, <font color="#2040a0">MAP_SHARED</font>, <font color="#2040a0">fbfd</font>, <font color="#FF0000">0</font><font color="4444FF">)</font><font color="4444FF">)</font>
+        <font color="4444FF">=</font><font color="4444FF">=</font> <font color="4444FF">(</font><strong>char</strong> <font color="4444FF">*</font><font color="4444FF">)</font> <font color="4444FF">-</font><font color="#FF0000">1</font><font color="4444FF">)</font><font color="4444FF"><strong>{</strong></font>
+        <font color="#2040a0">perror</font><font color="4444FF">(</font><font color="#008000">&quot;Bad frame buffer mmap<font color="#77dd77">\n</font>&quot;</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <font color="#2040a0">exit</font><font color="4444FF">(</font><font color="#FF0000">1</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+    
+    <font color="#444444">/* Transfer imagebuf to fbbuf after applying transformations
+       dependent on the format, resolution, depth, data offset,
+       and other properties of the image file. Not implemented in
+       this Listing */</font>
+    <font color="#2040a0">copy_image_to_fb</font><font color="4444FF">(</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="#2040a0">msync</font><font color="4444FF">(</font><font color="#2040a0">fbbuf</font>, <font color="#2040a0">fbsize</font>, <font color="#2040a0">MS_SYNC</font><font color="4444FF">)</font><font color="4444FF">;</font> <font color="#444444">/* Flush changes to device */</font>
+
+    <font color="#444444">/* ... */</font>
+
+    <font color="#444444">/* Unmap frame buffer memory */</font>
+    <font color="#2040a0">munmap</font><font color="4444FF">(</font><font color="#2040a0">fbbuf</font>, <font color="#2040a0">fbsize</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="#2040a0">close</font><font color="4444FF">(</font><font color="#2040a0">fbfd</font><font color="4444FF">)</font><font color="4444FF">;</font>
+
+    <font color="#444444">/* Unmap image file */</font>
+    <font color="#2040a0">munmap</font><font color="4444FF">(</font><font color="#2040a0">imagebuf</font>, <font color="#2040a0">statbuf</font>.<font color="#2040a0">st_size</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="#2040a0">close</font><font color="4444FF">(</font><font color="#2040a0">imagefd</font><font color="4444FF">)</font><font color="4444FF">;</font>
+<font color="4444FF"><strong>}</strong></font>
+
+</pre>
+<hr>
+syntax highlighted by <a href="http://www.palfrader.org/code2html">Code2HTML</a>, v. 0.9.1
+</body>
+</html>

@@ -1,0 +1,87 @@
+
+
+  Listing 19.4
+
+
+
+
+#include &lt;fcntl.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/mman.h&gt; /* For definition of mmap() */
+#include &lt;linux/fb.h&gt; /* For frame buffer structures and ioctls */
+
+int
+main(int argc, char *argv[])
+{
+    int imagefd, fbfd;              /* File descriptors */
+    char *imagebuf, *fbbuf;         /* mmap buffers */
+    struct fb_var_screeninfo vinfo; /* Variable Screen info */
+    struct stat statbuf;            /* Image info */
+    int fbsize;                     /* Frame buffer size */
+
+    /* Open image file */
+    if ((imagefd = open(argv[1], O_RDONLY)) &lt; 0) {
+        perror(&quot;Bad image open\n&quot;);
+        exit(1);
+    }
+
+    /* Get the size of the image file */
+    if (fstat(imagefd, &amp;statbuf) &lt; 0) {
+        perror(&quot;Bad fstat\n&quot;);
+        exit(1);
+    }
+
+    /* mmap the image file */
+    if ((imagebuf = mmap(0, statbuf.st_size, PROT_READ, MAP_SHARED,
+                         imagefd, 0)) == (char *) -1){
+        perror(&quot;Bad image mmap\n&quot;);
+        exit(1);
+    }
+
+    /* Open video memory */
+    if ((fbfd = open(&quot;/dev/fb0&quot;, O_RDWR)) &lt; 0) {
+        perror(&quot;Bad frame buffer open\n&quot;);
+        exit(1);
+    }
+
+    /* Get screen attributes such as resolution and depth */
+    if (ioctl(fbfd, FBIOGET_VSCREENINFO, &amp;vinfo)) {
+        perror(&quot;Bad vscreeninfo ioctl\n&quot;);
+        exit(1);
+    }
+
+    /* Size of video memory =
+       (X-resolution * Y-resolution * Bytes per pixel) */
+    fbsize = (vinfo.xres * vinfo.yres * vinfo.bits_per_pixel)/8;
+
+    /* mmap the video memory */
+    if ((fbbuf = mmap(0, fbsize, PROT_WRITE, MAP_SHARED, fbfd, 0))
+        == (char *) -1){
+        perror(&quot;Bad frame buffer mmap\n&quot;);
+        exit(1);
+    }
+    
+    /* Transfer imagebuf to fbbuf after applying transformations
+       dependent on the format, resolution, depth, data offset,
+       and other properties of the image file. Not implemented in
+       this Listing */
+    copy_image_to_fb();
+    msync(fbbuf, fbsize, MS_SYNC); /* Flush changes to device */
+
+    /* ... */
+
+    /* Unmap frame buffer memory */
+    munmap(fbbuf, fbsize);
+    close(fbfd);
+
+    /* Unmap image file */
+    munmap(imagebuf, statbuf.st_size);
+    close(imagefd);
+}
+
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

@@ -1,0 +1,54 @@
+Name: hello
+Summary: A simple hello world program
+Version: 1.0
+Release: 1
+License: GPL
+Group: Applications/Productivity
+URL: http://p2p.wrox.com/
+Source0: %{name}-%{version}.tar.gz
+Patch0: hello-1.0-hack.patch
+Buildroot: %{_tmppath}/%{name}-buildroot
+
+%description
+  This is a simple hello world program which prints
+  the words "Hello, World!" except we've modified it
+  to print the words "Goodbye, World!" via a patch.
+%prep
+%setup -q
+%patch0 -p1
+
+%build
+make
+
+%install
+rm -rf %{buildroot}
+
+%makeinstall
+
+%clean
+rm -rf %{buildroot}
+
+%post
+echo "The files are now installed, here we do anything else we need to."
+
+%preun
+if [ "$1" = 0 ];
+then
+   echo "The package is being removed, here we cleanup, stop services before"
+   echo "we pull the files from underneath, etc."
+fi
+
+%postun
+if [ "$1" -ge "1"];
+then
+   echo "The package is still on the system, so restart dependent services"
+fi
+
+%files
+%defattr(-,root,root)
+%{_bindir}/*
+
+%changelog
+
+* Mon Feb 21 2006 Jon Masters <jcm@jonmasters.org>
+- initial release of hello with added goodbye

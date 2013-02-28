@@ -1,0 +1,91 @@
+<html>
+<head>
+  <title>Listing 17.5</title>
+</head>
+<body bgcolor="#ffffff" text="#000000">
+<pre>
+
+<font color="0000ff"><strong>#include <font color="#008000">&lt;linux/mtd/mtd.h&gt;</font></strong></font>
+<font color="0000ff"><strong>#include <font color="#008000">&lt;stdio.h&gt;</font></strong></font>
+<font color="0000ff"><strong>#include <font color="#008000">&lt;fcntl.h&gt;</font></strong></font>
+<font color="0000ff"><strong>#include <font color="#008000">&lt;asm/ioctl.h&gt;</font></strong></font>
+<font color="0000ff"><strong>#include <font color="#008000">&lt;signal.h&gt;</font></strong></font>
+<font color="0000ff"><strong>#include <font color="#008000">&lt;sys/stat.h&gt;</font></strong></font>
+
+<font color="0000ff"><strong>#define BLOCK_SIZE  4096</strong></font>
+<font color="0000ff"><strong>#define NUM_SECTORS 16</strong></font>
+<font color="0000ff"><strong>#define SECTOR_SIZE 64*1024</strong></font>
+
+<strong>int</strong>
+<font color="#2040a0">main</font><font color="4444FF">(</font><strong>int</strong> <font color="#2040a0">argc</font>, <strong>char</strong> <font color="4444FF">*</font><font color="#2040a0">argv</font><font color="4444FF">[</font><font color="4444FF">]</font><font color="4444FF">)</font>
+<font color="4444FF"><strong>{</strong></font>
+    <strong>int</strong> <font color="#2040a0">fwh_fd</font>, <font color="#2040a0">image_fd</font><font color="4444FF">;</font>
+    <strong>int</strong> <font color="#2040a0">usect</font><font color="4444FF">=</font><font color="#FF0000">0</font>, <font color="#2040a0">lsect</font><font color="4444FF">=</font><font color="#FF0000">0</font>, <font color="#2040a0">ret</font><font color="4444FF">;</font>
+    <strong>struct</strong> <font color="#2040a0">erase_info_user</font> <font color="#2040a0">fwh_erase_info</font><font color="4444FF">;</font>
+    <strong>char</strong> <font color="#2040a0">buffer</font><font color="4444FF">[</font><font color="#2040a0">BLOCK_SIZE</font><font color="4444FF">]</font><font color="4444FF">;</font>
+    <strong>struct</strong> <font color="#2040a0">stat</font> <font color="#2040a0">statb</font><font color="4444FF">;</font>
+
+    <font color="#444444">/* Ignore SIGINTR(^C) and SIGSTOP (^Z), lest
+       you end up with a corrupted flash and an
+       unbootable system */</font>
+    <font color="#2040a0">sigignore</font><font color="4444FF">(</font><font color="#2040a0">SIGINT</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="#2040a0">sigignore</font><font color="4444FF">(</font><font color="#2040a0">SIGTSTP</font><font color="4444FF">)</font><font color="4444FF">;</font>
+
+    <font color="#444444">/* Open MTD char device */</font>
+    <font color="#2040a0">fwh_fd</font> <font color="4444FF">=</font> <font color="#2040a0">open</font><font color="4444FF">(</font><font color="#008000">&quot;/dev/mtd/0&quot;</font>, <font color="#2040a0">O_RDWR</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <strong>if</strong> <font color="4444FF">(</font><font color="#2040a0">fwh_fd</font> <font color="4444FF">&lt;</font> <font color="#FF0000">0</font><font color="4444FF">)</font> <font color="#2040a0">exit</font><font color="4444FF">(</font><font color="#FF0000">1</font><font color="4444FF">)</font><font color="4444FF">;</font>
+
+    <font color="#444444">/* Open BIOS image */</font>
+    <font color="#2040a0">image_fd</font> <font color="4444FF">=</font> <font color="#2040a0">open</font><font color="4444FF">(</font><font color="#008000">&quot;bios.img&quot;</font>, <font color="#2040a0">O_RDONLY</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <strong>if</strong> <font color="4444FF">(</font><font color="#2040a0">image_fd</font> <font color="4444FF">&lt;</font> <font color="#FF0000">0</font><font color="4444FF">)</font> <font color="#2040a0">exit</font><font color="4444FF">(</font><font color="#FF0000">2</font><font color="4444FF">)</font><font color="4444FF">;</font>
+
+    <font color="#444444">/* Sanity check */</font>
+    <font color="#2040a0">fstat</font><font color="4444FF">(</font><font color="#2040a0">image_fd</font>, <font color="4444FF">&amp;</font><font color="#2040a0">statb</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <strong>if</strong> <font color="4444FF">(</font><font color="#2040a0">statb</font>.<font color="#2040a0">st_size</font> <font color="4444FF">!</font><font color="4444FF">=</font> <font color="#2040a0">SECTOR_SIZE</font><font color="4444FF">*</font><font color="#2040a0">NUM_SECTORS</font><font color="4444FF">)</font> <font color="4444FF"><strong>{</strong></font>
+        <font color="#2040a0">printf</font><font color="4444FF">(</font><font color="#008000">&quot;BIOS image looks bad, exiting.<font color="#77dd77">\n</font>&quot;</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <font color="#2040a0">exit</font><font color="4444FF">(</font><font color="#FF0000">3</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+
+    <font color="#444444">/* Unlock and erase all sectors */</font>
+    <strong>while</strong> <font color="4444FF">(</font><font color="#2040a0">usect</font> <font color="4444FF">&lt;</font> <font color="#2040a0">NUM_SECTORS</font><font color="4444FF">)</font> <font color="4444FF"><strong>{</strong></font>
+        <font color="#2040a0">printf</font><font color="4444FF">(</font><font color="#008000">&quot;Unlocking &amp; Erasing Sector[%d]<font color="#77dd77">\r</font>&quot;</font>, <font color="#2040a0">usect</font><font color="4444FF">+</font><font color="#FF0000">1</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <font color="#2040a0">fwh_erase_info</font>.<font color="#2040a0">start</font> <font color="4444FF">=</font> <font color="#2040a0">usect</font><font color="4444FF">*</font><font color="#2040a0">SECTOR_SIZE</font><font color="4444FF">;</font>
+        <font color="#2040a0">fwh_erase_info</font>.<font color="#2040a0">length</font> <font color="4444FF">=</font> <font color="#2040a0">SECTOR_SIZE</font><font color="4444FF">;</font>
+        <font color="#2040a0">ret</font> <font color="4444FF">=</font> <font color="#2040a0">ioctl</font><font color="4444FF">(</font><font color="#2040a0">fwh_fd</font>, <font color="#2040a0">MEMUNLOCK</font>, <font color="4444FF">&amp;</font><font color="#2040a0">fwh_erase_info</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <strong>if</strong> <font color="4444FF">(</font><font color="#2040a0">ret</font> <font color="4444FF">!</font><font color="4444FF">=</font> <font color="#FF0000">0</font><font color="4444FF">)</font> <strong>goto</strong> <font color="#2040a0">bios_done</font><font color="4444FF">;</font>
+        <font color="#2040a0">ret</font> <font color="4444FF">=</font> <font color="#2040a0">ioctl</font><font color="4444FF">(</font><font color="#2040a0">fwh_fd</font>, <font color="#2040a0">MEMERASE</font>, <font color="4444FF">&amp;</font><font color="#2040a0">fwh_erase_info</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <strong>if</strong> <font color="4444FF">(</font><font color="#2040a0">ret</font> <font color="4444FF">!</font><font color="4444FF">=</font> <font color="#FF0000">0</font><font color="4444FF">)</font> <strong>goto</strong> <font color="#2040a0">bios_done</font><font color="4444FF">;</font>
+        <font color="#2040a0">usect</font><font color="4444FF">+</font><font color="4444FF">+</font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+
+    <font color="#444444">/* Read blocks from the BIOS image and dump it to the
+       Firmware Hub */</font>
+    <strong>while</strong> <font color="4444FF">(</font><font color="4444FF">(</font><font color="#2040a0">ret</font> <font color="4444FF">=</font> <font color="#2040a0">read</font><font color="4444FF">(</font><font color="#2040a0">image_fd</font>, <font color="#2040a0">buffer</font>, <font color="#2040a0">BLOCK_SIZE</font><font color="4444FF">)</font><font color="4444FF">)</font> <font color="4444FF">!</font><font color="4444FF">=</font> <font color="#FF0000">0</font><font color="4444FF">)</font> <font color="4444FF"><strong>{</strong></font>
+        <strong>if</strong> <font color="4444FF">(</font><font color="#2040a0">ret</font> <font color="4444FF">&lt;</font> <font color="#FF0000">0</font><font color="4444FF">)</font> <strong>goto</strong> <font color="#2040a0">bios_done</font><font color="4444FF">;</font>
+        <font color="#2040a0">ret</font> <font color="4444FF">=</font> <font color="#2040a0">write</font><font color="4444FF">(</font><font color="#2040a0">fwh_fd</font>, <font color="#2040a0">buffer</font>, <font color="#2040a0">ret</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <strong>if</strong> <font color="4444FF">(</font><font color="#2040a0">ret</font> <font color="4444FF">&lt;</font><font color="4444FF">=</font> <font color="#FF0000">0</font><font color="4444FF">)</font> <strong>goto</strong> <font color="#2040a0">bios_done</font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+
+    <font color="#444444">/* Verify by reading blocks from the BIOS flash and comparing
+       with the image file */</font>
+    <font color="#444444">/* ... */</font>
+ <font color="#2040a0">bios_done</font><font color="4444FF">:</font>
+    <font color="#444444">/* Lock back the unlocked sectors */</font>
+    <strong>while</strong> <font color="4444FF">(</font><font color="#2040a0">lsect</font> <font color="4444FF">&lt;</font> <font color="#2040a0">usect</font><font color="4444FF">)</font> <font color="4444FF"><strong>{</strong></font>
+        <font color="#2040a0">printf</font><font color="4444FF">(</font><font color="#008000">&quot;Relocking Sector[%d]<font color="#77dd77">\r</font>&quot;</font>, <font color="#2040a0">lsect</font><font color="4444FF">+</font><font color="#FF0000">1</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <font color="#2040a0">fwh_erase_info</font>.<font color="#2040a0">start</font> <font color="4444FF">=</font> <font color="#2040a0">lsect</font><font color="4444FF">*</font><font color="#2040a0">SECTOR_SIZE</font><font color="4444FF">;</font>
+        <font color="#2040a0">fwh_erase_info</font>.<font color="#2040a0">length</font> <font color="4444FF">=</font> <font color="#2040a0">SECTOR_SIZE</font><font color="4444FF">;</font>
+        <font color="#2040a0">ret</font> <font color="4444FF">=</font> <font color="#2040a0">ioctl</font><font color="4444FF">(</font><font color="#2040a0">fwh_fd</font>, <font color="#2040a0">MEMLOCK</font>, <font color="4444FF">&amp;</font><font color="#2040a0">fwh_erase_info</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <strong>if</strong> <font color="4444FF">(</font><font color="#2040a0">ret</font> <font color="4444FF">!</font><font color="4444FF">=</font> <font color="#FF0000">0</font><font color="4444FF">)</font> <font color="#2040a0">printf</font><font color="4444FF">(</font><font color="#008000">&quot;Relock failed on sector %d!<font color="#77dd77">\n</font>&quot;</font>, <font color="#2040a0">lsect</font><font color="4444FF">)</font><font color="4444FF">;</font>
+        <font color="#2040a0">lsect</font><font color="4444FF">+</font><font color="4444FF">+</font><font color="4444FF">;</font>
+    <font color="4444FF"><strong>}</strong></font>
+
+    <font color="#2040a0">close</font><font color="4444FF">(</font><font color="#2040a0">image_fd</font><font color="4444FF">)</font><font color="4444FF">;</font>
+    <font color="#2040a0">close</font><font color="4444FF">(</font><font color="#2040a0">fwh_fd</font><font color="4444FF">)</font><font color="4444FF">;</font>
+<font color="4444FF"><strong>}</strong></font> 
+
+</pre>
+<hr>
+syntax highlighted by <a href="http://www.palfrader.org/code2html">Code2HTML</a>, v. 0.9.1
+</body>
+</html>

@@ -1,0 +1,803 @@
+﻿/**
+ * Copyright (C)  2011-2011  Jesse Meng (pingf0@gmail.com).
+ *
+ * This file is part of OOC-GCC.
+ *
+ * OOC-GCC is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * OOC-GCC is distributed in the hope that it will be useful,but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with OOC-GCC. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
+
+#pragma once
+#include "OOCfg.h"
+
+#if defined(__OOC_USING__DEBUG)&&\
+	defined(__OOC_USING__MEMORY_FUNCTIONS)
+	#include "OODbg.h"
+#else
+	#define __OOC_RESET_MEMORY_FUNCTIONS(real_alloc,real_realloc,real_free) ((void)0)
+	#define __OOC_FUNCTION__ALLOC(num) calloc(1,num)
+	#define __OOC_FUNCTION__FREE  free
+	#define __OOC_FUNCTION__REALLOC realloc
+#endif
+
+
+/////////////////////////////////////////////////////////////////
+//__OOC_VALUE
+#ifndef __OOC_VALUE__RETURN_ERROR_LIMIT
+	#define __OOC_VALUE__RETURN_ERROR_LIMIT (0-10000)
+#endif
+
+#ifndef __OOC_VALUE__TRUE
+	#define __OOC_VALUE__TRUE (1)
+#endif
+
+#ifndef __OOC_VALUE__FALSE
+	#define __OOC_VALUE__FALSE (0)
+#endif
+
+#ifndef __OOC_VALUE__OK
+	#define __OOC_VALUE__OK (0)
+#endif
+
+#ifndef __OOC_VALUE__FAIL
+	#define __OOC_VALUE__FAIL (0-1)
+#endif
+/////////////////////////////////////////////////////////////////
+//__OOC_BLOCK
+#ifdef __cplusplus
+	#define __OOC_BLOCK__EXTERN_C_BEGIN extern "C" {
+	#define __OOC_BLOCK__EXTERN_C_END   }
+#else
+	#define __OOC_BLOCK__EXTERN_C_BEGIN
+	#define __OOC_BLOCK__EXTERN_C_END
+#endif
+/////////////////////////////////////////////////////////////////
+//BASE FUNCTION
+#ifdef __OOC_USING__CLASS_FUNCTION_PRINTER
+	#define __OOC_FUNCTION__PRINT_CLASS  printf("%s    \t%p\t%p\n",__FUNCTION__,__OOC_THIS,__OOC_PARAMETER)
+#else
+	#define __OOC_FUNCTION__PRINT_CLASS  ((void)0)
+#endif
+
+
+
+#define __OOC_FUNCTION__OFFSET_OF offsetof
+
+#define __OOC_FUNCTION__CONTAINER_OF(ptr, type, member) ({			\
+	const typeof( ((type *)0)->member ) *__mptr = (ptr); \
+	(type *)( (char *)__mptr - offsetof(type,member) );})
+
+#ifndef __OOC_FUNCTION__MEMORY_COPY
+	#define __OOC_FUNCTION__MEMORY_COPY memcpy
+#endif
+#ifndef __OOC_FUNCTION__MEMORY_CLEAN
+	#define __OOC_FUNCTION__MEMORY_CLEAN(pt,num) memset(pt,'\0',num)
+#endif
+
+#define __OOC_FUNCTION__STRING(x) __OOC_FUNCTION__VALUE_TO_CHARS(x)
+#define __OOC_FUNCTION__VALUE_TO_CHARS(x) #x
+
+#define __OOC_FUNCTION__PACK_PARAMETER(Type,...) ((void *)&(Type){__VA_ARGS__})
+
+
+#define __OOC_FUNCTION__INI(pointer,Type,parameter) ini##Type((Type*)(pointer),(parameter))
+#define __OOC_FUNCTION__FIN(pointer,Type,parameter) fin##Type((Type*)(pointer),(parameter))
+#define __OOC_FUNCTION__NEW(Type,parameter)  ((void *)new##Type((parameter)))
+#define __OOC_FUNCTION__DEL(pointer,Type,parameter) del##Type((struct _##Type**)&(pointer),(parameter))
+
+#define __OOC_FUNCTION__VARIABLE_ARGUMENTS_COUNT(...) __OOC_FUNCTION__VARIABLE_ARGUMENTS_COUNT_WITHOUT_FILL(__VA_ARGS__,__OOC_VARIABLE_ARGUMENTS_FILL) /* 求参数个数 */
+#define __OOC_FUNCTION__VARIABLE_ARGUMENTS_COUNT_WITHOUT_FILL(...) __OOC_FUNCTION__VARIABLE_ARGUMENTS_SHIFT(__VA_ARGS__)
+#define __OOC_FUNCTION__VARIABLE_ARGUMENTS_SHIFT( \
+                     __1,__2,__3,__4,__5,__6,__7,__8,__9,_10,\
+                     _11,_12,_13,_14,_15,_16,_17,_18,_19,_20,\
+                     _21,_22,_23,_24,_25,_26,_27,_28,_29,_30,\
+                     _31,_32,_33,_34,_35,_36,_37,_38,_39,_40,\
+                     _41,_42,_43,_44,_45,_46,_47,_48,_49,_50,\
+                     _51,_52,_53,_54,_55,_56,_57,_58,_59,_60,\
+                     _61,_62,_63,N,...) N
+#define __OOC_FUNCTION__VARIABLE_ARGUMENTS_FILL \
+                     63,62,61,60,\
+                     59,58,57,56,55,54,53,52,51,50,\
+                     49,48,47,46,45,44,43,42,41,40,\
+                     39,38,37,36,35,34,33,32,31,30,\
+                     29,28,27,26,25,24,23,22,21,20,\
+                     19,18,17,16,15,14,13,12,11,10,\
+                     9,8,7,6,5,4,3,2,1,0
+/////////////////////////////////////////////////////////////////
+//function declare
+
+typedef size_t (*tFn)(void *,...);
+typedef size_t (*tPtFn)(void *,...);
+
+typedef void (*vFn)(void *,...);
+typedef void * (*vPtFn)(void *,...);
+
+typedef char (*cFn)(void *,...);
+typedef char* (*cPtFn)(void *,...);
+typedef unsigned char (*ucFn)(void *,...);
+typedef unsigned char* (*ucPtFn)(void *,...);
+
+typedef short (*sFn)(void *,...);
+typedef short* (*sPtFn)(void *,...);
+typedef unsigned short (*usFn)(void *,...);
+typedef unsigned short* (*usPtFn)(void *,...);
+
+typedef int (*iFn)(void *,...);
+typedef int* (*ipFn)(void *,...);
+typedef unsigned int (*uiFn)(void *,...);
+typedef unsigned int* (*uipFn)(void *,...);
+
+typedef long (*lFn)(void *,...);
+typedef long* (*lPtFn)(void *,...);
+typedef unsigned long (*ulFn)(void *,...);
+typedef unsigned long* (*ulPtFn)(void *,...);
+
+typedef long long (*llFn)(void *,...);
+typedef long long * (*llPtFn)(void *,...);
+typedef unsigned long long (*ullFn)(void *,...);
+typedef unsigned long long * (*ullPtFn)(void *,...);
+
+typedef float (*fFn)(void *,...);
+typedef float* (*fPtFn)(void *,...);
+
+typedef double (*dFn)(void *,...);
+typedef double* (*dPtFn)(void *,...);
+
+/////////////////////////////////////////////////////////////////
+#include "OOCore.h"
+////////////////////////////////////////////////////////////////////
+//ROOT HEAD
+typedef struct _OOC_classRootHead {
+	void * __ooc_realStatic;
+	size_t __ooc_classLevel;
+	void * __ooc_classPrivate;
+}OOC_classRootHead;
+
+#define __OOC_CLASS__ROOT_HEAD \
+		OOC_classRootHead __ooc_classRootHead
+
+#define __OOC_CLASS__ROOT_HEAD_SIZE (sizeof(OOC_classRootHead))
+//////////////////////////////////
+typedef struct _OOC_staticRootHead {
+	tFn __ooc_classDelete;
+	size_t __ooc_classCount;
+}OOC_staticRootHead;
+
+#define __OOC_STATIC__ROOT_HEAD \
+		OOC_staticRootHead __ooc_staticRootHead
+
+#define __OOC_STATIC__ROOT_HEAD_SIZE (sizeof(OOC_staticRootHead))
+/////////////////////////////////
+//offset
+/////////////////////////////////
+#define __OOC_CLASS__REAL_STATIC_OFFSET (offsetof(OOC_classRootHead,__ooc_realStatic))
+#define __OOC_CLASS__REAL_STATIC(pointer) (*(void **)((unsigned char*)pointer+__OOC_CLASS__REAL_STATIC_OFFSET))
+
+#define __OOC_CLASS__LEVEL_OFFSET (offsetof(OOC_classRootHead,__ooc_classLevel))
+#define __OOC_CLASS__LEVEL(pointer) (*(size_t*)((unsigned char *)(pointer)+__OOC_CLASS__LEVEL_OFFSET))
+
+#define __OOC_FUNCTION__CLASS_LEVEL_PLUSPLUS(self) \
+	__OOC_CLASS__LEVEL(self)++
+
+#define __OOC_FUNCTION__CLASS_LEVEL_MINUSMINUS(self) \
+	__OOC_CLASS__LEVEL(self)--
+
+#define __OOC_CLASS__CLASS_PRIVATE_OFFSET (offsetof(OOC_classRootHead,__ooc_classPrivate))
+#define __OOC_CLASS__CLASS_PRIVATE(pointer) (*(void**)((unsigned char *)(pointer)+__OOC_CLASS__CLASS_PRIVATE_OFFSET))
+
+#define __OOC_STATIC__CLASS_DELETE_OFFSET (offsetof(OOC_staticRootHead,__ooc_classDelete))
+#define __OOC_STATIC__CLASS_DELETE(pointer) (*(tFn*)((unsigned char *)pointer+__OOC_STATIC__CLASS_DELETE_OFFSET))
+#define __OOC_FUNCTION__DELETE(pointer,parameter) __OOC_STATIC__CLASS_DELETE(__OOC_CLASS__REAL_STATIC(pointer))(&(pointer),(parameter))
+
+#define __OOC_STATIC__CLASS_COUNT_OFFSET (offsetof(OOC_staticRootHead,__ooc_classCount))
+#define __OOC_STATIC__CLASS_COUNT(pointer) (*(size_t*)((unsigned char *)(pointer)+__OOC_STATIC__CLASS_COUNT_OFFSET))
+
+
+//////////////////////////////////////////////////////////
+//ROOT HEAD TO BODY
+//#define __OOC_CLASS__STATIC_LINK_WITH_POINTER_SIZE(pointer) (*(void**)(*(void**)((unsigned char*)pointer+sizeof(*pointer)-sizeof(void**))))
+//#define __OOC_CLASS__STATIC_LINK_WITH_TYPE_AND_POINTER_SIZE(pointer,Type) ((struct _St##Type*)__OOC_CLASS__STATIC_LINK_WITH_POINTER_SIZE(pointer))
+//
+//#ifndef __OOC_USING__LITE_STYLE
+//	#define __OOC_CLASS__TYPE_STATIC(pointer,Type) ((struct _St##Type*)__OOC_CLASS__REAL_STATIC(pointer))
+//	#define __OOC_CLASS__REAL_STATIC(pointer) (*(void**)(*(void**)((unsigned char*)pointer+__OOC_CLASS__CLASS_SIZE(pointer)-sizeof(void**))))
+//#endif
+#define __OOC_CLASS__TYPE_STATIC(pointer,Type) ((Type*)(pointer->Type##_static))
+
+
+#ifndef __OOC_USING__LITE_STYLE
+	#define __OOC_FUNCTION__CONNECT_FUNCTION(zs,name1,name2) zs->name1=(void *)name2
+	#define __OOC_FUNCTION__CONNECT_METHOD(zs,Type,name1,name2) __OOC_CLASS__TYPE_STATIC(zs,St##Type)->name1=(void *)name2
+	#define __OOC_FUNCTION__FUNCTION_CALL(name,Type,zs,...) Type##_##name(zs,__VA_ARGS__)
+	#define __OOC_FUNCTION__FUNCTION_CALL_WITHOUT_PARAMETERS(Type,name,zs) Type##_##name(zs)
+	#define __OOC_FUNCTION__METHOD_DEFINE(name,Type,zs,...) Type##_##name(Type *zs,__VA_ARGS__)
+	#define __OOC_FUNCTION__METHOD_DEFINE_WITHOUT_PARAMETERS(name,Type,zs) Type##_##name(Type *zs)
+	#define __OOC_FUNCTION__METHOD_RUN(pointer,Type,function,...) ((St##Type*)__OOC_CLASS__REAL_STATIC(pointer))->function(pointer,__VA_ARGS__)
+	#define __OOC_FUNCTION__METHOD_RUN_WITHOUT_PARAMETERS(pointer,Type,function) ((St##Type*)__OOC_CLASS__REAL_STATIC(pointer))->function(pointer)
+#else
+	#define __OOC_FUNCTION__METHOD_RUN(pointer,Type,function,...) ((St##Type*)__OOC_CLASS__STATIC_LINK_WITH_POINTER_SIZE(pointer))->function(pointer,__VA_ARGS__)
+	#define __OOC_FUNCTION__METHOD_RUN_WITHOUT_PARAMETERS(pointer,Type,function) ((St##Type*)__OOC_CLASS__STATIC_LINK_WITH_POINTER_SIZE(pointer))->function(pointer)
+#endif
+
+
+
+//////////////////////////////////////////////////////////
+//BODY
+#define __OOC_CLASS__BODY(pointer) ((void *)((unsigned char *)pointer+__OOC_CLASS__ROOT_HEAD_SIZE))
+#define __OOC_STATIC__BODY(pointer) ((void *)((unsigned char *)pointer+__OOC_STATIC__ROOT_HEAD_SIZE))
+///////////////////////////////////////////////////////////////////
+//CLASS DESIGN
+///////////////////////////////////////////////////////////////////
+//RAW PLUS DESIGN
+#ifdef __OOC_USING__ANONYMOUS_EXTENSIONS
+	#define __OOC_CLASS__RAW_EXTENDS(Type) \
+		struct _##Type
+
+	#define __OOC_STATIC__RAW_DESIGN(Type) \
+		__OOC_CLASS__RAW_DESIGN(St##Type)
+
+	#define __OOC_STATIC__RAW_EXTENDS(Type) \
+		struct _St##Type
+#else
+	#define __OOC_CLASS__RAW_EXTENDS(Type) \
+		struct _##Type Type
+
+	#define __OOC_STATIC__RAW_DESIGN(Type) \
+		__OOC_CLASS__RAW_DESIGN(St##Type)
+
+	#define __OOC_STATIC__RAW_EXTENDS(Type) \
+		struct _St##Type St##Type
+#endif
+/////////////////////////////////////////////////////////////////////
+//TAIL LINK
+#define __OOC_CLASS__STATIC_LINK(Type) \
+	void ** St##Type##_static
+/////////////////////////////////////////////////////////////////////
+//ROOTED DESIGN
+#define __OOC_CLASS__ROOTED_DESIGN(Type) \
+	__OOC_CLASS__RAW_DESIGN(Type) { \
+		__OOC_CLASS__ROOT_HEAD ; \
+		struct
+
+#define __OOC_STATIC__ROOTED_DESIGN(Type) \
+			__OOC_CLASS__STATIC_LINK(Type); \
+		} __OOC_CLASS__ANONYMOUS_NAME;\
+	}; \
+	__OOC_CLASS__RAW_DESIGN(St##Type) {\
+		__OOC_STATIC__ROOT_HEAD
+
+
+#define __OOC_CLASS__NO_STATIC \
+		} __OOC_CLASS__ANONYMOUS_NAME
+/////////////////////////////////////////////////////////////
+//EXTENDED DESIGN
+#ifndef __OOC_CLASS__ANONYMOUS_NAME
+	#define __OOC_CLASS__ANONYMOUS_NAME
+#endif
+
+#ifdef __OOC_USING__ANONYMOUS_EXTENSIONS
+	#define __OOC_CLASS__EXTENDED_DESIGN(Type,SuType) \
+		__OOC_CLASS__RAW_DESIGN(Type){ \
+			struct _##SuType ; \
+			struct
+
+	#define __OOC_STATIC__EXTENDED_DESIGN(Type,SuType) \
+			__OOC_CLASS__STATIC_LINK(Type); \
+			} __OOC_CLASS__ANONYMOUS_NAME;\
+		}; \
+		__OOC_STATIC__RAW_DESIGN(Type) {\
+			struct _St##SuType
+
+	#define __OOC_CLASS__ROOTED_AND_EXTENDED_DESIGN(Type,SuType) \
+		__OOC_CLASS__RAW_DESIGN(Type) { \
+				__OOC_CLASS__ROOT_HEAD ; \
+				struct _##SuType ; \
+				struct
+
+	#define __OOC_STATIC__ROOTED_AND_EXTENDED_DESIGN(Type,SuType) \
+			__OOC_CLASS__STATIC_LINK(Type); \
+			} __OOC_CLASS__ANONYMOUS_NAME;\
+		}; \
+		__OOC_STATIC__RAW_DESIGN(Type) {\
+			__OOC_STATIC__ROOT_HEAD; \
+			struct _St##SuType
+#else
+
+    #define __OOC_CLASS__EXTENDED_DESIGN(Type,SuType) \
+		__OOC_CLASS__RAW_DESIGN(Type){ \
+			struct _##SuType SuType; \
+			struct
+
+    #define __OOC_STATIC__EXTENDED_DESIGN(Type,SuType) \
+			__OOC_CLASS__STATIC_LINK(Type); \
+			} __OOC_CLASS__ANONYMOUS_NAME;\
+		}; \
+		__OOC_STATIC__RAW_DESIGN(Type) {\
+			struct _St##SuType St##SuType
+
+	#define __OOC_CLASS__ROOTED_AND_EXTENDED_DESIGN(Type,SuType) \
+		__OOC_CLASS__RAW_DESIGN(Type) { \
+				__OOC_CLASS__ROOT_HEAD ; \
+				struct _##SuType SuType; \
+				struct
+
+	#define __OOC_STATIC__ROOTED_AND_EXTENDED_DESIGN(Type,SuType) \
+			__OOC_CLASS__STATIC_LINK(Type); \
+			} __OOC_CLASS__ANONYMOUS_NAME;\
+		}; \
+		__OOC_STATIC__RAW_DESIGN(Type) {\
+			__OOC_STATIC__ROOT_HEAD; \
+			struct _St##SuType SuType
+#endif
+//////////////////////////////////////////////////////////////////////////////
+//RAW CTOR&DTOR CLASS BODY DESIGN
+#define __OOC_CONSTRUCTOR__RAW_CLASS_BODY(Type,__OOC_FUNCTION__RELOAD) \
+	iFn fn_reload=NULL; \
+	__OOC_FUNCTION__PRINT_CLASS ; \
+    fn_reload=(void *)(__OOC_FUNCTION__RELOAD); \
+    if(NULL!=fn_reload){ \
+    	return fn_reload(__OOC_THIS,__OOC_PARAMETER); \
+	} \
+    return (0)
+
+#define __OOC_CONSTRUCTOR__EXTENDED_RAW_CLASS_BODY(Type,SuType,__OOC_FUNCTION__RELOAD) \
+    iFn fn_reload=NULL; \
+    int ret_iniSu=0; \
+    __OOC_FUNCTION__PRINT_CLASS ; \
+    __OOC_FUNCTION__CLASS_LEVEL_PLUSPLUS(__OOC_THIS); \
+    ret_iniSu=ini##SuType((SuType *)(__OOC_THIS),__OOC_PARAMETER); \
+    if(0>ret_iniSu) { \
+        return (ret_iniSu); \
+    }  \
+    __OOC_FUNCTION__CLASS_LEVEL_MINUSMINUS(__OOC_THIS); \
+    fn_reload=(void *)__OOC_FUNCTION__RELOAD; \
+    if(NULL!=fn_reload) { \
+		return fn_reload(__OOC_THIS,__OOC_PARAMETER); \
+    } \
+    return (0)
+
+#define __OOC_DESTRUCTOR__RAW_CLASS_BODY(Type,__OOC_FUNCTION__UNLOAD) \
+	iFn fn_unload=NULL; \
+	__OOC_FUNCTION__PRINT_CLASS ; \
+	fn_unload=(void *)__OOC_FUNCTION__UNLOAD; \
+    if(NULL!=fn_unload) { \
+    	int ret_unload=fn_unload(__OOC_THIS,__OOC_PARAMETER); \
+        if(0>ret_unload){ \
+            return (ret_unload); \
+        } \
+    } \
+    __OOC_FUNCTION__MEMORY_CLEAN((void *)(__OOC_THIS),sizeof(Type)); \
+    return (0)
+
+#define __OOC_DESTRUCTOR__EXTENDED_RAW_CLASS_BODY(Type,SuType,__OOC_FUNCTION__UNLOAD) \
+	int ret_finSu=0; \
+	iFn fn_unload=NULL; \
+	__OOC_FUNCTION__PRINT_CLASS ; \
+	fn_unload=(void *)__OOC_FUNCTION__UNLOAD; \
+    if(NULL!=fn_unload) { \
+    	int ret_unload=fn_unload(__OOC_THIS,__OOC_PARAMETER); \
+        if(0>ret_unload){ \
+            return (ret_unload); \
+        } \
+    } \
+    __OOC_FUNCTION__CLASS_LEVEL_MINUSMINUS(__OOC_THIS); \
+    ret_finSu=fin##SuType((SuType *)(__OOC_THIS),__OOC_PARAMETER); \
+    if(0>ret_finSu) { \
+        return (ret_finSu); \
+    } \
+    __OOC_FUNCTION__CLASS_LEVEL_PLUSPLUS(__OOC_THIS); \
+    __OOC_FUNCTION__MEMORY_CLEAN((void *)(__OOC_THIS),sizeof(Type)); \
+    return (0)
+
+//////////////////////////////////////////////////////////////////////////////
+//RAW CTOR&DTOR STATIC BODY DESIGN
+#define __OOC_CONSTRUCTOR__RAW_STATIC_BODY(Type,__OOC_FUNCTION__RELOAD_STATIC) \
+	iFn fn_reloadSt=NULL;\
+	__OOC_FUNCTION__PRINT_CLASS ; \
+	fn_reloadSt=(void *)__OOC_FUNCTION__RELOAD_STATIC; \
+	if(NULL!=fn_reloadSt) { \
+		return fn_reloadSt(__OOC_THIS,__OOC_PARAMETER); \
+	} \
+	return (0)
+
+#define __OOC_CONSTRUCTOR__EXTENDED_RAW_STATIC_BODY(Type,SuType,__OOC_FUNCTION__RELOAD_STATIC) \
+	iFn fn_reloadSt=NULL; \
+	int ret_iniSu=0; \
+	__OOC_FUNCTION__PRINT_CLASS ; \
+	ret_iniSu=iniSt##SuType((St##SuType *)(__OOC_THIS),__OOC_PARAMETER); \
+	if(0>ret_iniSu) { \
+		return (ret_iniSu); \
+	}  \
+	fn_reloadSt=(void *)__OOC_FUNCTION__RELOAD_STATIC; \
+	if(NULL!=fn_reloadSt) { \
+		return fn_reloadSt(__OOC_THIS,__OOC_PARAMETER); \
+	} \
+	return (0)
+
+#define __OOC_DESTRUCTOR__RAW_STATIC_BODY(Type,__OOC_FUNCTION__UNLOAD_STATIC) \
+	iFn fn_unloadSt=NULL; \
+	__OOC_FUNCTION__PRINT_CLASS ; \
+	fn_unloadSt=(void *)__OOC_FUNCTION__UNLOAD_STATIC; \
+	if(NULL!=fn_unloadSt) { \
+		int ret_unloadSt=fn_unloadSt(__OOC_THIS,__OOC_PARAMETER);\
+		if(0>ret_unloadSt){ \
+			return (ret_unloadSt); \
+		} \
+	} \
+	__OOC_FUNCTION__MEMORY_CLEAN((void *)(__OOC_THIS),sizeof(St##Type)); \
+	return (0)
+
+#define __OOC_DESTRUCTOR__EXTENDED_RAW_STATIC_BODY(Type,SuType,__OOC_FUNCTION__UNLOAD_STATIC) \
+	iFn fn_unloadSt=NULL; \
+	int ret_finSt=0; \
+	__OOC_FUNCTION__PRINT_CLASS ; \
+	fn_unloadSt=(void *)__OOC_FUNCTION__UNLOAD_STATIC; \
+	if(NULL!=fn_unloadSt) { \
+		int ret_unloadSt=fn_unloadSt(__OOC_THIS,__OOC_PARAMETER);\
+		if(0>ret_unloadSt){ \
+			return (ret_unloadSt); \
+		} \
+	} \
+	ret_finSt=finSt##SuType((St##SuType *)(__OOC_THIS),__OOC_PARAMETER); \
+	if(0>ret_finSt){ \
+		return (ret_finSt); \
+	}  \
+	__OOC_FUNCTION__MEMORY_CLEAN((void *)(__OOC_THIS),sizeof(St##Type)); \
+	return (0)
+/////////////////////////////////////////////////////////////////////////////////
+//UTILS FOR ROOTED CTOR&DTOR BODY DESIGN
+#ifndef __OOC_USING__LITE_STYLE
+
+//	#define __OOC_CLASS__ASSIGN_CLASS_SIZE(Type)
+//			__OOC_CLASS__CLASS_SIZE(__OOC_THIS)=sizeof(Type)
+
+	#define __OOC_FUNCTION__ASSIGN_CLASS_DELETE(Type) \
+		__OOC_STATIC__CLASS_DELETE(__OOC_THIS)=(void *)del##Type
+
+#else
+	//#define __OOC_CLASS__ASSIGN_CLASS_SIZE(Type)
+
+	//#define __OOC_FUNCTION__ASSIGN_CLASS_DELETE(Type)
+
+#endif
+#define __OOC_FUNCTION__ASSIGN_REAL_STATIC(Type) \
+		__OOC_CLASS__REAL_STATIC(__OOC_THIS)=(void *)Type##_static
+
+//////////////////////////////////////////////////////////////////////////////
+//ROOTED CTOR&DTOR CLASS BODY DESIGN
+#define __OOC_CONSTRUCTOR__ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,__OOC_FUNCTION__RELOAD) \
+	static struct _St##Type * St##Type##_static=NULL; \
+	iFn fn_reload=NULL; \
+	__OOC_FUNCTION__PRINT_CLASS; \
+	if(NULL==St##Type##_static) { \
+		St##Type##_static=newSt##Type(__OOC_PARAMETER); \
+		if(NULL==St##Type##_static) { \
+			return (-1); \
+		} \
+	} \
+	__OOC_THIS->St##Type##_static=(void **)&(St##Type##_static); \
+	++__OOC_STATIC__CLASS_COUNT(St##Type##_static); \
+	__OOC_FUNCTION__ASSIGN_REAL_STATIC(St##Type); \
+	fn_reload=(void *)__OOC_FUNCTION__RELOAD; \
+	if(NULL!=fn_reload) { \
+		return fn_reload(__OOC_THIS,__OOC_PARAMETER); \
+	} \
+	return (0)
+
+#define __OOC_CONSTRUCTOR__EXTENDED_ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,SuType,__OOC_FUNCTION__RELOAD) \
+    static struct _St##Type * St##Type##_static=NULL; \
+    iFn fn_reload=NULL; \
+    int ret_iniSu=0; \
+    __OOC_FUNCTION__PRINT_CLASS ; \
+    if(NULL==St##Type##_static) { \
+        St##Type##_static=newSt##Type(__OOC_PARAMETER); \
+        if(NULL==St##Type##_static) { \
+            return (-1); \
+        } \
+    } \
+    __OOC_THIS->St##Type##_static=(void **)&(St##Type##_static); \
+    ++__OOC_STATIC__CLASS_COUNT(St##Type##_static); \
+    __OOC_FUNCTION__CLASS_LEVEL_PLUSPLUS(__OOC_THIS); \
+    ret_iniSu=ini##SuType((SuType *)(__OOC_THIS),__OOC_PARAMETER); \
+    if(0>ret_iniSu) { \
+        return (ret_iniSu); \
+    }  \
+    __OOC_FUNCTION__CLASS_LEVEL_MINUSMINUS(__OOC_THIS); \
+    __OOC_FUNCTION__ASSIGN_REAL_STATIC(St##Type); \
+    fn_reload=(void *)__OOC_FUNCTION__RELOAD; \
+    if(NULL!=fn_reload) { \
+		return fn_reload(__OOC_THIS,__OOC_PARAMETER); \
+    } \
+    return (0)
+
+#define __OOC_DESTRUCTOR__ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,__OOC_FUNCTION__UNLOAD) \
+    St##Type * St##Type##_static=(*(__OOC_THIS->St##Type##_static)); \
+	iFn fn_unload=NULL; \
+	__OOC_FUNCTION__PRINT_CLASS ; \
+	fn_unload=(void *)__OOC_FUNCTION__UNLOAD; \
+    if(NULL!=fn_unload) { \
+    	int ret_unload=fn_unload(__OOC_THIS,__OOC_PARAMETER); \
+        if(0>ret_unload){ \
+            return (ret_unload); \
+        } \
+    } \
+	if(NULL==St##Type##_static) { \
+		return (-1); \
+	}\
+    if( 0<__OOC_STATIC__CLASS_COUNT(St##Type##_static) ) { \
+    	--__OOC_STATIC__CLASS_COUNT(St##Type##_static); \
+        if( 0==__OOC_STATIC__CLASS_COUNT(St##Type##_static) ) { \
+        	int ret_delSt=0; \
+        	*(__OOC_THIS->St##Type##_static)=NULL; \
+            ret_delSt=delSt##Type(&St##Type##_static,__OOC_PARAMETER); \
+            if(0>ret_delSt) { \
+                return (ret_delSt); \
+            } \
+        } \
+    }\
+    __OOC_FUNCTION__MEMORY_CLEAN(__OOC_CLASS__BODY(__OOC_THIS),sizeof(Type)-__OOC_CLASS__ROOT_HEAD_SIZE); \
+    return (0)
+
+#define __OOC_DESTRUCTOR__EXTENDED_ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,SuType,__OOC_FUNCTION__UNLOAD) \
+    St##Type * St##Type##_static=(*(__OOC_THIS->St##Type##_static)); \
+	int ret_finSu=0; \
+	iFn fn_unload=NULL; \
+	__OOC_FUNCTION__PRINT_CLASS ; \
+	fn_unload=(void *)__OOC_FUNCTION__UNLOAD; \
+    if(NULL!=fn_unload) { \
+    	int ret_unload=fn_unload(__OOC_THIS,__OOC_PARAMETER); \
+        if(0>ret_unload){ \
+            return (ret_unload); \
+        } \
+    } \
+    __OOC_FUNCTION__CLASS_LEVEL_MINUSMINUS(__OOC_THIS); \
+    ret_finSu=fin##SuType((SuType *)(__OOC_THIS),__OOC_PARAMETER); \
+    if(0>ret_finSu) { \
+        return (ret_finSu); \
+    } \
+    __OOC_FUNCTION__CLASS_LEVEL_PLUSPLUS(__OOC_THIS); \
+    if(NULL==St##Type##_static) { \
+        return (-1); \
+    }\
+    if( 0<__OOC_STATIC__CLASS_COUNT(St##Type##_static) ) { \
+        --__OOC_STATIC__CLASS_COUNT(St##Type##_static) ; \
+        if( 0==__OOC_STATIC__CLASS_COUNT(St##Type##_static) ) { \
+        	int ret_delSt=0; \
+            *(__OOC_THIS->St##Type##_static)=NULL; \
+            ret_delSt=delSt##Type(&St##Type##_static,__OOC_PARAMETER); \
+            if(0>ret_delSt) { \
+                return (ret_delSt); \
+            } \
+        } \
+    }\
+    __OOC_FUNCTION__MEMORY_CLEAN(__OOC_CLASS__BODY(__OOC_THIS),sizeof(Type)-__OOC_CLASS__ROOT_HEAD_SIZE); \
+    return (0)
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+////ROOTED CTOR&DTOR STATIC BODY DESIGN
+#define __OOC_CONSTRUCTOR__ROOTED_STATIC_BODY(Type,__OOC_FUNCTION__RELOAD_STATIC) \
+	iFn fn_reloadSt=NULL;\
+	__OOC_FUNCTION__PRINT_CLASS ; \
+	__OOC_FUNCTION__ASSIGN_CLASS_DELETE(Type); \
+	fn_reloadSt=(void *)__OOC_FUNCTION__RELOAD_STATIC; \
+	if(NULL!=fn_reloadSt) { \
+		return fn_reloadSt(__OOC_THIS,__OOC_PARAMETER); \
+	} \
+	return (0)
+
+#define __OOC_CONSTRUCTOR__EXTENDED_ROOTED_STATIC_BODY(Type,SuType,__OOC_FUNCTION__RELOAD_STATIC) \
+	iFn fn_reloadSt=NULL; \
+	int ret_iniSu=0; \
+	__OOC_FUNCTION__PRINT_CLASS ; \
+    ret_iniSu=iniSt##SuType((St##SuType *)(__OOC_THIS),__OOC_PARAMETER); \
+    if(0>ret_iniSu) { \
+        return (ret_iniSu); \
+    }  \
+    __OOC_FUNCTION__ASSIGN_CLASS_DELETE(Type); \
+    fn_reloadSt=(void *)__OOC_FUNCTION__RELOAD_STATIC; \
+	if(NULL!=fn_reloadSt) { \
+		return fn_reloadSt(__OOC_THIS,__OOC_PARAMETER); \
+	} \
+	return (0)
+
+#define __OOC_DESTRUCTOR__ROOTED_STATIC_BODY(Type,__OOC_FUNCTION__UNLOAD_STATIC) \
+	iFn fn_unloadSt=NULL; \
+	__OOC_FUNCTION__PRINT_CLASS ; \
+	fn_unloadSt=(void *)__OOC_FUNCTION__UNLOAD_STATIC; \
+	if(NULL!=fn_unloadSt) { \
+		int ret_unloadSt=fn_unloadSt(__OOC_THIS,__OOC_PARAMETER);\
+		if(0>ret_unloadSt){ \
+			return (ret_unloadSt); \
+		} \
+	} \
+	__OOC_FUNCTION__MEMORY_CLEAN(__OOC_STATIC__BODY(__OOC_THIS),sizeof(St##Type)-__OOC_STATIC__ROOT_HEAD_SIZE); \
+	return (0)
+
+
+#define __OOC_DESTRUCTOR__EXTENDED_ROOTED_STATIC_BODY(Type,SuType,__OOC_FUNCTION__UNLOAD_STATIC) \
+	iFn fn_unloadSt=NULL; \
+	int ret_finSt=0; \
+	__OOC_FUNCTION__PRINT_CLASS ; \
+	fn_unloadSt=(void *)__OOC_FUNCTION__UNLOAD_STATIC; \
+	if(NULL!=fn_unloadSt) { \
+		int ret_unloadSt=fn_unloadSt(__OOC_THIS,__OOC_PARAMETER);\
+		if(0>ret_unloadSt){ \
+			return (ret_unloadSt); \
+		} \
+	} \
+	ret_finSt=finSt##SuType((St##SuType *)(__OOC_THIS),__OOC_PARAMETER); \
+	if(0>ret_finSt){ \
+		return (ret_finSt); \
+	}  \
+	__OOC_FUNCTION__MEMORY_CLEAN(__OOC_STATIC__BODY(__OOC_THIS),sizeof(St##Type)-__OOC_STATIC__ROOT_HEAD_SIZE); \
+	return (0)
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//UTILS FOR ASSEMBLE WITH STATIC
+#define __OOC_CONSTRUCTOR__STATIC_DESIGN(Type) \
+		__OOC_CONSTRUCTOR__CLASS_DESIGN(St##Type)
+
+#define __OOC_DESTRUCTOR__STATIC_DESIGN(Type) \
+		__OOC_DESTRUCTOR__CLASS_DESIGN(St##Type)
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//RAW ASSEMBLE
+#define __OOC_ASSEMBLE__C0(Type,__OOC_FUNCTION__RELOAD,__OOC_FUNCTION__UNLOAD) \
+	__OOC_CONSTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__RAW_CLASS_BODY(Type,__OOC_FUNCTION__RELOAD); \
+	} \
+	__OOC_DESTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__RAW_CLASS_BODY(Type,__OOC_FUNCTION__UNLOAD); \
+	}
+
+#define __OOC_ASSEMBLE__S0(Type,__OOC_FUNCTION__RELOAD,__OOC_FUNCTION__UNLOAD) \
+	__OOC_CONSTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__RAW_STATIC_BODY(Type,__OOC_FUNCTION__RELOAD); \
+	} \
+	__OOC_DESTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__RAW_STATIC_BODY(Type,__OOC_FUNCTION__UNLOAD); \
+	}
+
+#define __OOC_ASSEMBLE__C1(Type,SuType,__OOC_FUNCTION__RELOAD,__OOC_FUNCTION__UNLOAD) \
+	__OOC_CONSTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__EXTENDED_RAW_CLASS_BODY(Type,SuType,__OOC_FUNCTION__RELOAD); \
+	} \
+	__OOC_DESTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__EXTENDED_RAW_CLASS_BODY(Type,SuType,__OOC_FUNCTION__UNLOAD); \
+	}
+
+#define __OOC_ASSEMBLE__S1(Type,SuType,__OOC_FUNCTION__RELOAD,__OOC_FUNCTION__UNLOAD) \
+	__OOC_CONSTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__EXTENDED_RAW_STATIC_BODY(Type,SuType,__OOC_FUNCTION__RELOAD); \
+	} \
+	__OOC_DESTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__EXTENDED_RAW_STATIC_BODY(Type,SuType,__OOC_FUNCTION__UNLOAD); \
+	}
+///////////////////////////////////////////////////////////////////////////////
+//ASSEMBLE WITH STATIC PART
+#define __OOC_ASSEMBLE__00(Type,__OOC_FUNCTION__RELOAD,__OOC_FUNCTION__UNLOAD,__OOC_FUNCTION__RELOAD_STATIC,__OOC_FUNCTION__UNLOAD_STATIC) \
+	__OOC_CONSTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,__OOC_FUNCTION__RELOAD); \
+	} \
+	__OOC_DESTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,__OOC_FUNCTION__UNLOAD); \
+	} \
+	__OOC_CONSTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__ROOTED_STATIC_BODY(Type,__OOC_FUNCTION__RELOAD_STATIC); \
+	} \
+	__OOC_DESTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__ROOTED_STATIC_BODY(Type,__OOC_FUNCTION__UNLOAD_STATIC); \
+	}
+
+#define __OOC_ASSEMBLE__01(Type,SuType,__OOC_FUNCTION__RELOAD,__OOC_FUNCTION__UNLOAD,__OOC_FUNCTION__RELOAD_STATIC,__OOC_FUNCTION__UNLOAD_STATIC) \
+	__OOC_CONSTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,__OOC_FUNCTION__RELOAD); \
+	} \
+	__OOC_DESTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,__OOC_FUNCTION__UNLOAD); \
+	} \
+	__OOC_CONSTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__EXTENDED_ROOTED_STATIC_BODY(Type,SuType,__OOC_FUNCTION__RELOAD_STATIC); \
+	} \
+	__OOC_DESTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__EXTENDED_ROOTED_STATIC_BODY(Type,SuType,__OOC_FUNCTION__UNLOAD_STATIC); \
+	}
+
+#define __OOC_ASSEMBLE__10(Type,SuType,__OOC_FUNCTION__RELOAD,__OOC_FUNCTION__UNLOAD,__OOC_FUNCTION__RELOAD_STATIC,__OOC_FUNCTION__UNLOAD_STATIC) \
+	__OOC_CONSTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__EXTENDED_ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,SuType,__OOC_FUNCTION__RELOAD); \
+	} \
+	__OOC_DESTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__EXTENDED_ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,SuType,__OOC_FUNCTION__UNLOAD); \
+	} \
+	__OOC_CONSTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__ROOTED_STATIC_BODY(Type,__OOC_FUNCTION__RELOAD_STATIC); \
+	} \
+	__OOC_DESTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__ROOTED_STATIC_BODY(Type,__OOC_FUNCTION__UNLOAD_STATIC); \
+	}
+
+#define __OOC_ASSEMBLE__11(Type,SuType,__OOC_FUNCTION__RELOAD,__OOC_FUNCTION__UNLOAD,__OOC_FUNCTION__RELOAD_STATIC,__OOC_FUNCTION__UNLOAD_STATIC) \
+	__OOC_CONSTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__EXTENDED_ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,SuType,__OOC_FUNCTION__RELOAD); \
+	} \
+	__OOC_DESTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__EXTENDED_ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,SuType,__OOC_FUNCTION__UNLOAD); \
+	} \
+	__OOC_CONSTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__EXTENDED_ROOTED_STATIC_BODY(Type,SuType,__OOC_FUNCTION__RELOAD_STATIC); \
+	} \
+	__OOC_DESTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__EXTENDED_ROOTED_STATIC_BODY(Type,SuType,__OOC_FUNCTION__UNLOAD_STATIC); \
+	}
+
+
+#define __OOC_ASSEMBLE__XY(Type,SuType_CLASS,SuType_STATIC,__OOC_FUNCTION__RELOAD,__OOC_FUNCTION__UNLOAD,__OOC_FUNCTION__RELOAD_STATIC,__OOC_FUNCTION__UNLOAD_STATIC) \
+	__OOC_CONSTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__EXTENDED_ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,SuType_CLASS,__OOC_FUNCTION__RELOAD); \
+	} \
+	__OOC_DESTRUCTOR__CLASS_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__EXTENDED_ROOTED_CLASS_BODY_WITH_STATIC_PART(Type,SuType_CLASS,__OOC_FUNCTION__UNLOAD); \
+	} \
+	__OOC_CONSTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_CONSTRUCTOR__EXTENDED_ROOTED_STATIC_BODY(Type,SuType_STATIC,__OOC_FUNCTION__RELOAD_STATIC); \
+	} \
+	__OOC_DESTRUCTOR__STATIC_DESIGN(Type){ \
+		__OOC_DESTRUCTOR__EXTENDED_ROOTED_STATIC_BODY(Type,SuType_STATIC,__OOC_FUNCTION__UNLOAD_STATIC); \
+	}
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+//new macros after 0.12
+
+#define __OOC_CLASS__SUPER_INI(pointer,SuType,parameter) \
+	do{ \
+		if(ini##SuType(&(pointer->SuType),parameter)<0){ \
+			return (-1); \
+		}; \
+	}while(0)
+
+#define __OOC_CLASS__SUPER_FIN(pointer,SuType,parameter) \
+	do{ \
+		if(fin##SuType(&(pointer->SuType),parameter)<0){ \
+			return (-1); \
+		}; \
+	}while(0)
+
+#define __OOC_STATIC__SUPER_INI(pointer,SuType,parameter) \
+	do{ \
+		if(iniSt##SuType(__OOC_CLASS__SUPER_CAST(pointer,St##SuType),parameter)<0){ \
+			return (-1); \
+		}; \
+	}while(0)
+
+#define __OOC_STATIC__SUPER_FIN(pointer,SuType,parameter) \
+	do{ \
+		if(finSt##SuType(__OOC_CLASS__SUPER_CAST(pointer,St##SuType),parameter)<0){ \
+			return (-1); \
+		}; \
+	}while(0)
+//
+#define __OOC_FUNCTION__NEW_EX(Type,num,function,parameter)  ((void *)new##Type##Ex((num),(function),(parameter)))
+#define __OOC_FUNCTION__DEL_EX(pointer,Type,function,parameter) del##Type((struct _##Type**)&(pointer),(function),(parameter))
+#define __OOC_FUNCTION__DELETE_EX(pointer,function,parameter) __OOC_STATIC__CLASS_DELETE(__OOC_CLASS__REAL_STATIC(pointer))(&(pointer),(function),(parameter))
+//
+#define __OOC_FUNCTION__NEW_THREAD_LOCK
+#define __OOC_FUNCTION__NEW_THREAD_UNLOCK
+#define __OOC_FUNCTION__DELETE_THREAD_LOCK
+#define __OOC_FUNCTION__DELETE_THREAD_UNLOCK
+
+//
+#define __OOC_FUNCTION__SWAP(a, b) \
+        do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)

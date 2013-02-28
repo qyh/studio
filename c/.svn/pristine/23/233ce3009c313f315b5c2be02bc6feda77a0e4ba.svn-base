@@ -1,0 +1,152 @@
+/**
+ * Copyright (C)  2011-2011  Jesse Meng (pingf0@gmail.com).
+ *
+ * This file is part of OOC-GCC.
+ *
+ * OOC-GCC is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
+
+//
+#include "OOStd.h"
+CLASS(Human){ 
+    int age;
+    int gender;
+    STATIC(Human);
+    iFn sayHi;
+};
+//ASM(Human,NULL,NULL,NULL,NULL)
+
+CLASS_EX(Kid,Human){
+    STATIC_EX(Kid,Human);
+};
+static int Kid_sayHi(Human * THIS){
+    printf("Hi,Kid  age:%d  gender:%s\n",THIS->age,THIS->gender?"Male":"Female");
+    return 0;
+}
+static int Kid_load(Human * THIS,void *PARAM){
+    printf("%s %p\n",__FUNCTION__,THIS);
+    THIS->age=36;
+    THIS->gender=0;
+    return 0;
+}
+static int Kid_loadSt(StHuman * THIS,void *PARAM){
+    printf("%s %p\n",__FUNCTION__,THIS);
+    THIS->sayHi=(void *)Kid_sayHi;
+    return 0;
+}
+ASM(Kid,Kid_load,NULL,Kid_loadSt,NULL)
+
+CLASS_EX(Man,Kid){
+    int iq;
+    STATIC_EX(Man,Kid);
+};
+
+static int Man_sayHi(Human * THIS){
+    printf("Hi,Kid  age:%d  gender:%s  iq:%d\n"
+    		,THIS->age
+    		,THIS->gender?"male":"female"
+    		,((Man*)THIS)->iq);
+    return 0;
+}
+static int Man_load(Human * THIS,void *PARAM){
+    printf("%s %p\n",__FUNCTION__,THIS);
+    THIS->age=3;
+    THIS->gender=1;
+    ((Man*)THIS)->iq=130;
+    return 0;
+}
+static int Man_loadSt(StHuman * THIS,void *PARAM){
+    printf("%s %p\n",__FUNCTION__,THIS);
+    THIS->sayHi=(void *)Man_sayHi;
+    return 0;
+}
+ 
+ASM_EX(Man,Kid,Man_load,NULL,Man_loadSt,NULL)
+
+CLASS_EX(Worker,Man){
+    char * job;
+    STATIC_EX(Worker,Man);
+};
+static int Worker_sayHi(Human * THIS){
+    printf("Hi,Kid  age:%d  gender:%s  iq:%d  job:%s\n"
+    		,THIS->age
+    		,THIS->gender?"male":"female"
+    		,((Man*)THIS)->iq
+    		,((Worker*)THIS)->job);
+    return 0;
+}
+static int Worker_load(Worker * THIS,void *PARAM){
+    printf("%s %p\n",__FUNCTION__,THIS);
+    THIS->job=(char *)ALLOC(strlen("Programmer")+1);
+    memcpy(THIS->job,"Programmer",strlen("Programmer"));
+    return 0;
+}
+ 
+static int Worker_unload(Worker * THIS,void *PARAM){
+    printf("%s %p\n",__FUNCTION__,THIS);
+    FREE(THIS->job);
+    return 0;
+}
+static int Worker_loadSt(StHuman * THIS,void *PARAM){
+    //do nothing;
+	THIS->sayHi=(void *)Worker_sayHi;
+    return 0;
+}
+//int Worker_unloadSt(StHuman * THIS,void *PARAM){
+//    //do nothing;
+//    return 0;
+//}
+ASM_EX(Worker,Man,Worker_load,Worker_unload,Worker_loadSt,NULL)
+
+int main(){  
+	StHuman *f;
+	Kid *k1,*k2,*k3;
+	Man *m1,*m2,*m3;
+	Worker *w1,*w2,*w3;
+	RESET_MF(malloc,realloc,free);
+    k1=newKid(NULL);
+    f=ST(k1);
+    k2=newKid(NULL);
+    k3=newKid(NULL);
+    f->sayHi(k1);
+    DEL0(k1,Kid);
+    DEL0(k2,Kid);
+    DEL0(k3,Kid);
+
+	printf("\n...............\n");
+    m1=newMan(NULL);
+	//StHuman *
+	f=ST(m1);
+	m2=NEW(Man,NULL);
+	m3=NEW0(Man);
+	f->sayHi(m1);
+
+	w1=newWorker(NULL);
+	//StHuman *
+	f=ST(w1);
+	w2=NEW(Worker,NULL);
+	w3=NEW0(Worker);
+	f->sayHi(w1);
+	delWorker(&w1,NULL);
+	DEL0(w2,Worker);
+	DEL0(w3,Worker);
+
+	delMan(&m1,NULL);
+	DEL0(m2,Man);
+	DEL0(m3,Man);
+	printf("\n...............\n");
+
+    return 0; 
+}

@@ -1,0 +1,53 @@
+/*
+ *
+ * Professional Linux Programming - retrieving values from queries
+ *
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include "libpq-fe.h"
+
+int main(int argc, char **argv)
+{
+   const char *conninfo;
+   PGconn *conn;
+   PGresult *result;
+   char *time, *pi;
+   float fpi;
+
+   conninfo = "hostaddr = 127.0.0.1 dbname = test user = earl password = bigshot";
+   conn = PQconnectdb(conninfo);
+   if (PQstatus(conn) != CONNECTION_OK)
+   {
+      printf("Unable to establish connection: %s", 
+                 PQerrorMessage(conn));
+      return 1;
+   } else
+   {
+      result = PQexec(conn, "SELECT timeofday()");
+      if (PQresultStatus(result) != PGRES_TUPLES_OK)
+      {
+         printf("Problem with command1: %s\n", PQerrorMessage(conn));
+         PQclear(result);
+         return 1;
+      }
+      time = PQgetvalue(result, 0, 0);
+      printf("Time of day: %s\n", time);
+      PQclear(result);
+
+      result = PQexec(conn, "Select pi()");
+      if (PQresultStatus(result) != PGRES_TUPLES_OK)
+      {
+         printf("Problem with command: %s\n", PQerrorMessage(conn));
+         PQclear(result);
+         return 1;
+      }
+      pi = PQgetvalue(result, 0, 0);
+      fpi = atof(pi);
+      printf("The value of pi is: %lf\n", fpi);
+      PQclear(result);
+   }
+
+   PQfinish(conn);
+   return 0;
+}

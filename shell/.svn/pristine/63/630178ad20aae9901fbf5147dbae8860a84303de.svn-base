@@ -1,0 +1,26 @@
+
+
+  Listing 8.3
+
+
+
+
+int
+eep_open(struct inode *inode, struct file *file)
+{
+    /* The EEPROM bank to be opened */
+    n = MINOR(file-&gt;f_dentry-&gt;d_inode-&gt;i_rdev);
+    file-&gt;private_data = (struct ee_bank *)ee_bank_list[n];
+
+    /* Initialize the fields in ee_bank_list[n] such as
+       size, slave address, and the current file pointer */
+
+    /* ... */
+}
+
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

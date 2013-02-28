@@ -1,0 +1,25 @@
+/* A sample gettext program
+ */
+
+#include <stdio.h>
+
+#include <locale.h>	/* LC_ environment variables */
+#include <libintl.h>    /* Internationalized library */
+#include <stdlib.h>
+
+#define _(String) gettext (String)
+#define gettext_noop(String) String
+#define N_(String) gettext_noop (String)
+
+int main(int argc, char **argv)
+{
+
+	setlocale(LC_ALL, "");
+
+	bindtextdomain("gettext_example", ".");
+	textdomain("gettext_example");
+
+	printf("%s\n", gettext("Hello, World!"));
+	
+	return 0;
+}

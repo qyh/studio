@@ -1,0 +1,162 @@
+/*
+ * test_ABCD_EX2.c
+ *
+ *  Created on: 2011-11-17
+ *      Author: Jesse Meng [pingf0@gmail.com]
+ */
+
+#include "OOStd.h"
+void * pnew_A(void *p){
+	printf("%s\n",__FUNCTION__);
+	return NULL;
+}
+int pdel_A(void **s,void *p){
+	printf("%s\n",__FUNCTION__);
+	return 1;
+}
+CLASS(A){
+	STATIC(A);
+};
+static int A_reload(A *THIS,char *name){
+	void *t=NEW_PV(THIS,pnew_A,NULL);;
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int A_unload(A *THIS,void *PARAM){
+	int t=DEL_PV(THIS,pdel_A,NULL);
+	printf("%s\n",__FUNCTION__);
+	return t;
+}
+static int A_reloadSt(StA *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int A_unloadSt(StA *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+ASM(A,A_reload,A_unload,A_reloadSt,A_unloadSt)
+
+
+CLASS_EX(B,A){
+	STATIC_EX(B,A);
+};
+
+void * pnew_B(void *p){
+	printf("%s\n",__FUNCTION__);
+	return NULL;
+}
+int pdel_B(void **s,void *p){
+	printf("%s\n",__FUNCTION__);
+	return 1;
+}
+
+static int B_reload(B *THIS,char *name){
+	void *t=__OOC_FUNCTION__CLASS_PRIVATE_NEW(THIS,pnew_B,NULL);
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int B_unload(B *THIS,void *PARAM){
+	int t=__OOC_FUNCTION__CLASS_PRIVATE_DEL(THIS,pdel_B,NULL);
+	printf("%s\n",__FUNCTION__);
+	return t;
+}
+static int B_reloadSt(StB *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int B_unloadSt(StB *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+ASM_EX(B,A,B_reload,B_unload,B_reloadSt,B_unloadSt)
+
+
+CLASS_EX(C,B){
+	STATIC_EX(C,B);
+};
+static int C_reload(C *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int C_unload(C *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int C_reloadSt(StC *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int C_unloadSt(StC *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+ASM_EX(C,B,C_reload,C_unload,C_reloadSt,C_unloadSt)
+
+
+CLASS_EX(D,C){
+	STATIC_EX(D,C);
+};
+static int D_reload(D *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int D_unload(D *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int D_reloadSt(StD *THIS,char *name){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+static int D_unloadSt(StD *THIS,void *PARAM){
+	printf("%s\n",__FUNCTION__);
+	return 0;
+}
+ASM_EX(D,C,D_reload,D_unload,D_reloadSt,D_unloadSt)
+
+int main(){
+	A *a;B *b;C *c;D *d;
+	printf("\n*****************SIZE TEST\n");
+	printf( "[A]size :%d static size:%d\n"
+			"[B]size :%d static size:%d\n"
+			"[C]size :%d static size:%d\n"
+			"[D]size :%d static size:%d\n",
+			sizeof(A),sizeof(StA),
+			sizeof(B),sizeof(StB),
+			sizeof(C),sizeof(StC),
+			sizeof(D),sizeof(StD));
+	printf("\n*****************NEW A\n");
+	a=NEW0(A);
+	printf("\n*****************NEW B\n");
+	b=NEW0(B);
+	printf("\n*****************NEW C\n");
+	c=NEW0(C);
+	printf("\n*****************DEL C\n");
+	delC(&c,NULL);
+	printf("\n*****************DEL B\n");
+	DEL0(b,B);
+	printf("\n*****************DEL A\n");
+	DEL0(a,A);
+
+
+	printf("\n*****************NEW D\n");
+	d=NEW0(D);
+	printf("\n*****************DEL D\n");
+	DEL0(d,D);
+
+
+	printf("\n*****************NEW C DIFFERENT SEQUENCE\n");
+	c=NEW0(C);
+	printf("\n*****************NEW B DIFFERENT SEQUENCE\n");
+	b=NEW0(B);
+	printf("\n*****************NEW A DIFFERENT SEQUENCE\n");
+	a=NEW0(A);
+	printf("\n*****************DEL A DIFFERENT SEQUENCE\n");
+	DEL0(a,A);
+	printf("\n*****************DEL B DIFFERENT SEQUENCE\n");
+	DEL0(b,B);
+	printf("\n*****************DEL C DIFFERENT SEQUENCE\n");
+	DEL0(c,C);
+	return 0;
+}

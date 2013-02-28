@@ -1,0 +1,51 @@
+
+
+  Listing 19.2
+
+
+
+
+#include &lt;linux/ioport.h&gt;
+
+void
+dump_port( unsigned char addr_port, unsigned char data_port,
+           unsigned short offset, unsigned short length)
+{
+    unsigned char i, *data;
+
+    if (!(data = (unsigned char *)malloc(length))) {
+        perror(&quot;Bad Malloc\n&quot;);
+        exit(1);
+    }
+
+    /* Write the offset to the index port
+       and read data from the data port */
+    for(i=offset; i&lt;offset+length; i++) {
+        outb(i, addr_port );
+        data[i-offset] = inb(data_port);
+    }
+
+    /* Dump */
+    for(i=0; i&lt;length; i++)
+        printf(&quot;%02X &quot;, data[i]);
+
+    free(data);
+}
+
+int
+main(int argc, char *argv[])
+{
+    /* Get access permissions */
+    if( iopl(3) &lt; 0) {
+        perror(&quot;iopl access error\n&quot;);
+        exit(1);
+    }
+    dump_port(0x70, 0x71, 0x0, 1);
+}
+
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

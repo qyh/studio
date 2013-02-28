@@ -1,0 +1,3 @@
+1. Put the output and error information into the same file
+$ kill -HUP 1234 >killouterr.txt 2>&1
+

@@ -1,0 +1,54 @@
+
+
+  Listing 19.3
+
+
+
+
+#include &lt;stdio.h&gt;
+#include &lt;linux/ioctl.h&gt;
+#include &lt;linux/parport.h&gt;
+#include &lt;linux/ppdev.h&gt;
+#include &lt;fcntl.h&gt;
+
+int main(int argc, char *argv[])
+{
+    int led_fd;
+    char data = 0xAA; /* Bit pattern to glow alternate LEDs */
+
+    /* Open /dev/parport0. This assumes that the LED connector board
+       is connected to the first parallel port on your computer */
+    if ((led_fd = open(&quot;/dev/parport0&quot;, O_RDWR)) &lt; 0) {
+        perror(&quot;Bad Open\n&quot;);
+        exit(1);
+    }
+
+    /* Claim the port */
+    if (ioctl(led_fd, PPCLAIM)) {
+        perror(&quot;Bad Claim\n&quot;);
+        exit(2);
+    }
+
+    /* Set pins to forward direction and write a
+       byte to glow alternate LEDs */
+    if (ioctl(led_fd, PPWDATA, &amp;data)) {
+        perror(&quot;Bad Write\n&quot;);
+        exit(3);
+    }
+
+    /* Release the port */
+    if (ioctl(led_fd, PPRELEASE)) {
+        perror(&quot;Bad Release\n&quot;);
+        exit(4);
+    }
+
+    /* Close /dev/parport0 */
+    close(led_fd);
+}
+
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

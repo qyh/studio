@@ -1,0 +1,4 @@
+# Genater by /home/qyh/studio/bin/mintipconf.sh
+auto lo
+iface lo inet loopback
+

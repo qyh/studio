@@ -1,0 +1,8 @@
+# To build this module, use:
+make -C /lib/modules/`uname -r`/build modules M=$PWD
+
+# To show modules information:
+/sbin/modinfo char.ko
+
+# install modules 
+sudo insmod char.ko 

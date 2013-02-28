@@ -1,0 +1,20 @@
+#ifndef HELLO_H
+#define HELLO_H 1
+
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
+#if HAVE_STDIO_H
+#  include <stdio.h>
+#endif
+
+#if STDC_HEADERS
+#  include <stdlib.h>
+#endif
+
+#if HAVE_UNISTD_H
+#  include <unistd.h>
+#endif
+
+#endif /* HELLO_H */

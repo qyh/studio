@@ -1,0 +1,55 @@
+
+
+  Listing 11.1
+
+
+
+
+/* ... */
+/* USB device */
+struct usb_device *udevice;
+
+/* ... */
+
+struct usb_device_descriptor u_d_desc = udevice-&gt;descriptor;
+
+/* Device's active configuration */
+struct usb_host_config *uconfig;
+struct usb_config_desriptor u_c_desc;
+
+/* Interfaces in the active configuration */
+struct usb_interface *uinterface;
+
+/* Alternate Setting for this interface */
+struct usb_host_interface *ualtsetting;
+struct usb_interface_descriptor u_i_desc;
+
+/* Endpoints for this altsetting */
+struct usb_host_endpoint *uendpoint;
+struct usb_endpoint_descriptor u_e_desc;
+
+uconfig  = udevice-&gt;actconfig;
+u_c_desc = uconfig-&gt;desc;
+
+for (i = 0; i &lt; u_c_desc.bNumInterfaces;
+     i++) {
+    uinterface = udevice-&gt;actconfig-&gt;interface[i];
+    for (j = 0; j &lt; uinterface-&gt;num_altsetting; j++) {
+        ualtsetting = &amp;uinterface-&gt;altsetting[j];
+        u_i_desc = ualtsetting-&gt;desc;
+        for (k = 0; k &lt; u_i_desc.bNumEndpoints; k++) {
+            uendpoint = &amp;ualtsetting-&gt;endpoint[k];
+            u_e_desc = uendpoint-&gt;desc;
+            printk (&quot;Endpoint Address = %d\n&quot;,
+                    u_e_desc.bEndpointAddress);
+        }
+    }
+
+    /* ... */      
+}
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

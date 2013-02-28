@@ -1,0 +1,27 @@
+/*
+ * Manually call the sys_time system call.
+ * Jon Masters <jcm@jonmasters.org>
+ */
+
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <syscall.h>
+#include <unistd.h>
+
+#define __NR_time		13 /* normally defined in <asm/unistd.h> */
+_syscall1(long,time,time_t *,tloc);
+
+int main(int argc, char **argv)
+{
+
+	time_t current_time;
+	long seconds;
+
+	seconds = time(&current_time);
+	
+	printf("The current time is : %ld.\n",seconds);
+	
+	exit(0);
+	
+}

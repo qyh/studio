@@ -1,0 +1,477 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stddef.h>
+typedef void (*vFn)(void *,...);
+typedef void * (*vPtFn)(void *,...);
+
+typedef char (*cFn)(void *,...);
+typedef char* (*cPtFn)(void *,...);
+typedef unsigned char (*ucFn)(void *,...);
+typedef unsigned char* (*ucPtFn)(void *,...);
+
+typedef short (*sFn)(void *,...);
+typedef short* (*sPtFn)(void *,...);
+typedef unsigned short (*usFn)(void *,...);
+typedef unsigned short* (*usPtFn)(void *,...);
+
+typedef int (*iFn)(void *,...);
+typedef int* (*ipFn)(void *,...);
+typedef unsigned int (*uiFn)(void *,...);
+typedef unsigned int* (*uipFn)(void *,...);
+
+typedef long (*lFn)(void *,...);
+typedef long* (*lPtFn)(void *,...);
+typedef unsigned long (*ulFn)(void *,...);
+typedef unsigned long* (*ulPtFn)(void *,...);
+
+typedef long long (*llFn)(void *,...);
+typedef long long * (*llPtFn)(void *,...);
+typedef unsigned long long (*ullFn)(void *,...);
+typedef unsigned long long * (*ullPtFn)(void *,...);
+
+typedef float (*fFn)(void *,...);
+typedef float* (*fPtFn)(void *,...);
+
+typedef double (*dFn)(void *,...);
+typedef double* (*dPtFn)(void *,...);
+
+
+typedef struct _A A; typedef struct _A * (*APtFn)(void *,...); int iniA(struct _A * ,void *); int finA(struct _A * ,void *); struct _A * newAEx(unsigned int,int (*)(struct _A *,void *,unsigned int,unsigned int),void *); struct _A * newA(void *); int delAEx(struct _A **,int (*)(struct _A *,void *,unsigned int),void *); int delA(struct _A **,void *); struct _A {
+    size_t __ooc_classSize; size_t __ooc_classLevel; 
+    void * __ooc_private; 
+    struct {
+        void ** A_static;
+    } ;
+}; 
+typedef struct _StA StA; 
+typedef struct _StA * (*StAPtFn)(void *,...); 
+int iniStA(struct _StA * ,void *); 
+int finStA(struct _StA * ,void *); 
+struct _StA * newStAEx(unsigned int,int (*)(struct _StA *,void *,unsigned int,unsigned int),void *); 
+struct _StA * newStA(void *); int delStAEx(struct _StA **,int (*)(struct _StA *,void *,unsigned int),void *); 
+int delStA(struct _StA **,void *); struct _StA {
+    iFn __ooc_classDelete; 
+size_t __ooc_classCount;
+};
+static int A_reload(A *__OOC_THIS,char *name){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int A_unload(A *__OOC_THIS,void *__OOC_PARAMETER){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int A_reloadSt(StA *__OOC_THIS,char *name){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int A_unloadSt(StA *__OOC_THIS,void *__OOC_PARAMETER){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+struct _A * newAEx(unsigned int __OOC_MEMORY_EXTENED,int (*__OOC_EX_FUNCTION)(struct _A *,void *,unsigned int,unsigned int),void *__OOC_PARAMETER) {
+    struct _A *__OOC_THIS=((void *)0); int ret_ini=0; ; ((void)0) ; __OOC_THIS=(struct _A*)calloc(1,sizeof(struct _A)+(__OOC_MEMORY_EXTENED)); if ( ((void *)0)==__OOC_THIS ) {
+        ; return((void *)0);
+    }ret_ini=iniA(__OOC_THIS,__OOC_PARAMETER); if (0>ret_ini) {
+        free(__OOC_THIS); ; return((void *)0);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_ini,__OOC_MEMORY_EXTENED)) {
+            free(__OOC_THIS); ; return((void *)0);
+        }
+    }; return __OOC_THIS;
+} struct _A * newA(void *__OOC_PARAMETER) {
+    return newAEx(0,((void *)0),__OOC_PARAMETER);
+} int iniA(struct _A * __OOC_THIS,void *__OOC_PARAMETER){ static struct _StA * A_static=((void *)0); iFn fn_reload=((void *)0); ((void)0); if (((void *)0)==A_static) {
+        A_static=newStA(__OOC_PARAMETER); if (((void *)0)==A_static) {
+            return(-1);
+        }
+    }__OOC_THIS->A_static=(void **)&(A_static); ++(*(size_t*)((unsigned char *)(A_static)+(sizeof(iFn)))); (*(size_t*)((unsigned char*)__OOC_THIS+(0)))=sizeof(A); fn_reload=(void *)A_reload; if (((void *)0)!=fn_reload) {
+        return fn_reload(__OOC_THIS,__OOC_PARAMETER);
+    }return(0);} int delAEx(struct _A **__OOC_THIS_ADDRESS,int (*__OOC_EX_FUNCTION)(struct _A *,void *,unsigned int),void *__OOC_PARAMETER) { struct _A * __OOC_THIS=*(__OOC_THIS_ADDRESS); int ret_fin=0; ; ((void)0) ; if (((void *)0)==__OOC_THIS_ADDRESS||((void *)0)==__OOC_THIS) {
+        ; return(-1);
+    }ret_fin=finA(*(__OOC_THIS_ADDRESS),__OOC_PARAMETER); if (0>ret_fin) {
+        ; return(-1);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_fin)) {
+            ; return(-1);
+        }
+    }free(*(__OOC_THIS_ADDRESS)); (*(__OOC_THIS_ADDRESS))=((void *)0); ; return(0);} int delA(struct _A **__OOC_THIS_ADDRESS,void *__OOC_PARAMETER) { return delAEx(__OOC_THIS_ADDRESS,((void *)0),__OOC_PARAMETER);} int finA(struct _A *__OOC_THIS,void *__OOC_PARAMETER){ struct _StA * A_static=(*(__OOC_THIS->A_static)); iFn fn_unload=((void *)0); ((void)0) ; fn_unload=(void *)A_unload; if (((void *)0)!=fn_unload) {
+        int ret_unload=fn_unload(__OOC_THIS,__OOC_PARAMETER); if (0>ret_unload) {
+            return(ret_unload);
+        }
+    }if (((void *)0)==A_static) {
+        return(-1);
+    }if ( 0<(*(size_t*)((unsigned char *)(A_static)+(sizeof(iFn)))) ) {
+        --(*(size_t*)((unsigned char *)(A_static)+(sizeof(iFn)))); if ( 0==(*(size_t*)((unsigned char *)(A_static)+(sizeof(iFn)))) ) {
+            int ret_delSt=0; *(__OOC_THIS->A_static)=((void *)0); ret_delSt=delStA(&A_static,__OOC_PARAMETER); if (0>ret_delSt) {
+                return(ret_delSt);
+            }
+        }
+    }memset(((void *)((unsigned char *)__OOC_THIS+(sizeof(size_t)))),'\0',sizeof(A)-(sizeof(size_t)));; return(0);} struct _StA * newStAEx(unsigned int __OOC_MEMORY_EXTENED,int (*__OOC_EX_FUNCTION)(struct _StA *,void *,unsigned int,unsigned int),void *__OOC_PARAMETER) {
+    struct _StA *__OOC_THIS=((void *)0); int ret_ini=0; ; ((void)0) ; __OOC_THIS=(struct _StA*)calloc(1,sizeof(struct _StA)+(__OOC_MEMORY_EXTENED)); if ( ((void *)0)==__OOC_THIS ) {
+        ; return((void *)0);
+    }ret_ini=iniStA(__OOC_THIS,__OOC_PARAMETER); if (0>ret_ini) {
+        free(__OOC_THIS); ; return((void *)0);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_ini,__OOC_MEMORY_EXTENED)) {
+            free(__OOC_THIS); ; return((void *)0);
+        }
+    }; return __OOC_THIS;
+} struct _StA * newStA(void *__OOC_PARAMETER) {
+    return newStAEx(0,((void *)0),__OOC_PARAMETER);
+} int iniStA(struct _StA * __OOC_THIS,void *__OOC_PARAMETER){ iFn fn_reloadSt=((void *)0); ((void)0) ; (*(iFn*)((unsigned char *)__OOC_THIS+(0)))=(void *)delA; fn_reloadSt=(void *)A_reloadSt; if (((void *)0)!=fn_reloadSt) {
+        return fn_reloadSt(__OOC_THIS,__OOC_PARAMETER);
+    }return(0);} int delStAEx(struct _StA **__OOC_THIS_ADDRESS,int (*__OOC_EX_FUNCTION)(struct _StA *,void *,unsigned int),void *__OOC_PARAMETER) { struct _StA * __OOC_THIS=*(__OOC_THIS_ADDRESS); int ret_fin=0; ; ((void)0) ; if (((void *)0)==__OOC_THIS_ADDRESS||((void *)0)==__OOC_THIS) {
+        ; return(-1);
+    }ret_fin=finStA(*(__OOC_THIS_ADDRESS),__OOC_PARAMETER); if (0>ret_fin) {
+        ; return(-1);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_fin)) {
+            ; return(-1);
+        }
+    }free(*(__OOC_THIS_ADDRESS)); (*(__OOC_THIS_ADDRESS))=((void *)0); ; return(0);} int delStA(struct _StA **__OOC_THIS_ADDRESS,void *__OOC_PARAMETER) { return delStAEx(__OOC_THIS_ADDRESS,((void *)0),__OOC_PARAMETER);} int finStA(struct _StA *__OOC_THIS,void *__OOC_PARAMETER){ iFn fn_unloadSt=((void *)0); ((void)0) ; fn_unloadSt=(void *)A_unloadSt; if (((void *)0)!=fn_unloadSt) {
+        int ret_unloadSt=fn_unloadSt(__OOC_THIS,__OOC_PARAMETER); if (0>ret_unloadSt) {
+            return(ret_unloadSt);
+        }
+    }memset(((void *)((unsigned char *)__OOC_THIS+(sizeof(size_t)+sizeof(iFn)))),'\0',sizeof(StA)-(sizeof(size_t)+sizeof(iFn)));; return(0);}
+
+
+typedef struct _B B; typedef struct _B * (*BPtFn)(void *,...); int iniB(struct _B * ,void *); int finB(struct _B * ,void *); struct _B * newBEx(unsigned int,int (*)(struct _B *,void *,unsigned int,unsigned int),void *); struct _B * newB(void *); int delBEx(struct _B **,int (*)(struct _B *,void *,unsigned int),void *); int delB(struct _B **,void *); struct _B {
+    struct _A A; struct {
+        void ** B_static;
+    } ;
+}; typedef struct _StB StB; typedef struct _StB * (*StBPtFn)(void *,...); int iniStB(struct _StB * ,void *); int finStB(struct _StB * ,void *); struct _StB * newStBEx(unsigned int,int (*)(struct _StB *,void *,unsigned int,unsigned int),void *); struct _StB * newStB(void *); int delStBEx(struct _StB **,int (*)(struct _StB *,void *,unsigned int),void *); int delStB(struct _StB **,void *); struct _StB {
+    struct _StA StA;
+};
+static int B_reload(B *__OOC_THIS,char *name){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int B_unload(B *__OOC_THIS,void *__OOC_PARAMETER){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int B_reloadSt(StB *__OOC_THIS,char *name){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int B_unloadSt(StB *__OOC_THIS,void *__OOC_PARAMETER){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+struct _B * newBEx(unsigned int __OOC_MEMORY_EXTENED,int (*__OOC_EX_FUNCTION)(struct _B *,void *,unsigned int,unsigned int),void *__OOC_PARAMETER) {
+    struct _B *__OOC_THIS=((void *)0); int ret_ini=0; ; ((void)0) ; __OOC_THIS=(struct _B*)calloc(1,sizeof(struct _B)+(__OOC_MEMORY_EXTENED)); if ( ((void *)0)==__OOC_THIS ) {
+        ; return((void *)0);
+    }ret_ini=iniB(__OOC_THIS,__OOC_PARAMETER); if (0>ret_ini) {
+        free(__OOC_THIS); ; return((void *)0);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_ini,__OOC_MEMORY_EXTENED)) {
+            free(__OOC_THIS); ; return((void *)0);
+        }
+    }; return __OOC_THIS;
+} struct _B * newB(void *__OOC_PARAMETER) {
+    return newBEx(0,((void *)0),__OOC_PARAMETER);
+} int iniB(struct _B * __OOC_THIS,void *__OOC_PARAMETER){ static struct _StB * B_static=((void *)0); iFn fn_reload=((void *)0); int ret_iniSu=0; ((void)0) ; if (((void *)0)==B_static) {
+        B_static=newStB(__OOC_PARAMETER); if (((void *)0)==B_static) {
+            return(-1);
+        }
+    }__OOC_THIS->B_static=(void **)&(B_static); ++(*(size_t*)((unsigned char *)(B_static)+(sizeof(iFn)))); (*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))++; ret_iniSu=iniA((A *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_iniSu) {
+        return(ret_iniSu);
+    }(*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))--; (*(size_t*)((unsigned char*)__OOC_THIS+(0)))=sizeof(B); fn_reload=(void *)B_reload; if (((void *)0)!=fn_reload) {
+        return fn_reload(__OOC_THIS,__OOC_PARAMETER);
+    }return(0);} int delBEx(struct _B **__OOC_THIS_ADDRESS,int (*__OOC_EX_FUNCTION)(struct _B *,void *,unsigned int),void *__OOC_PARAMETER) { struct _B * __OOC_THIS=*(__OOC_THIS_ADDRESS); int ret_fin=0; ; ((void)0) ; if (((void *)0)==__OOC_THIS_ADDRESS||((void *)0)==__OOC_THIS) {
+        ; return(-1);
+    }ret_fin=finB(*(__OOC_THIS_ADDRESS),__OOC_PARAMETER); if (0>ret_fin) {
+        ; return(-1);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_fin)) {
+            ; return(-1);
+        }
+    }free(*(__OOC_THIS_ADDRESS)); (*(__OOC_THIS_ADDRESS))=((void *)0); ; return(0);} int delB(struct _B **__OOC_THIS_ADDRESS,void *__OOC_PARAMETER) { return delBEx(__OOC_THIS_ADDRESS,((void *)0),__OOC_PARAMETER);} int finB(struct _B *__OOC_THIS,void *__OOC_PARAMETER){ struct _StB * B_static=(*(__OOC_THIS->B_static)); int ret_finSu=0; iFn fn_unload=((void *)0); ((void)0) ; fn_unload=(void *)B_unload; if (((void *)0)!=fn_unload) {
+        int ret_unload=fn_unload(__OOC_THIS,__OOC_PARAMETER); if (0>ret_unload) {
+            return(ret_unload);
+        }
+    }(*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))--; ret_finSu=finA((A *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_finSu) {
+        return(ret_finSu);
+    }(*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))++; if (((void *)0)==B_static) {
+        return(-1);
+    }if ( 0<(*(size_t*)((unsigned char *)(B_static)+(sizeof(iFn)))) ) {
+        --(*(size_t*)((unsigned char *)(B_static)+(sizeof(iFn)))) ; if ( 0==(*(size_t*)((unsigned char *)(B_static)+(sizeof(iFn)))) ) {
+            int ret_delSt=0; *(__OOC_THIS->B_static)=((void *)0); ret_delSt=delStB(&B_static,__OOC_PARAMETER); if (0>ret_delSt) {
+                return(ret_delSt);
+            }
+        }
+    }memset(((void *)((unsigned char *)__OOC_THIS+(sizeof(size_t)))),'\0',sizeof(B)-(sizeof(size_t)));; return(0);} struct _StB * newStBEx(unsigned int __OOC_MEMORY_EXTENED,int (*__OOC_EX_FUNCTION)(struct _StB *,void *,unsigned int,unsigned int),void *__OOC_PARAMETER) {
+    struct _StB *__OOC_THIS=((void *)0); int ret_ini=0; ; ((void)0) ; __OOC_THIS=(struct _StB*)calloc(1,sizeof(struct _StB)+(__OOC_MEMORY_EXTENED)); if ( ((void *)0)==__OOC_THIS ) {
+        ; return((void *)0);
+    }ret_ini=iniStB(__OOC_THIS,__OOC_PARAMETER); if (0>ret_ini) {
+        free(__OOC_THIS); ; return((void *)0);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_ini,__OOC_MEMORY_EXTENED)) {
+            free(__OOC_THIS); ; return((void *)0);
+        }
+    }; return __OOC_THIS;
+} struct _StB * newStB(void *__OOC_PARAMETER) {
+    return newStBEx(0,((void *)0),__OOC_PARAMETER);
+} int iniStB(struct _StB * __OOC_THIS,void *__OOC_PARAMETER){ iFn fn_reloadSt=((void *)0); int ret_iniSu=0; ((void)0) ; ret_iniSu=iniStA((StA *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_iniSu) {
+        return(ret_iniSu);
+    }(*(iFn*)((unsigned char *)__OOC_THIS+(0)))=(void *)delB; fn_reloadSt=(void *)B_reloadSt; if (((void *)0)!=fn_reloadSt) {
+        return fn_reloadSt(__OOC_THIS,__OOC_PARAMETER);
+    }return(0);} int delStBEx(struct _StB **__OOC_THIS_ADDRESS,int (*__OOC_EX_FUNCTION)(struct _StB *,void *,unsigned int),void *__OOC_PARAMETER) { struct _StB * __OOC_THIS=*(__OOC_THIS_ADDRESS); int ret_fin=0; ; ((void)0) ; if (((void *)0)==__OOC_THIS_ADDRESS||((void *)0)==__OOC_THIS) {
+        ; return(-1);
+    }ret_fin=finStB(*(__OOC_THIS_ADDRESS),__OOC_PARAMETER); if (0>ret_fin) {
+        ; return(-1);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_fin)) {
+            ; return(-1);
+        }
+    }free(*(__OOC_THIS_ADDRESS)); (*(__OOC_THIS_ADDRESS))=((void *)0); ; return(0);} int delStB(struct _StB **__OOC_THIS_ADDRESS,void *__OOC_PARAMETER) { return delStBEx(__OOC_THIS_ADDRESS,((void *)0),__OOC_PARAMETER);} int finStB(struct _StB *__OOC_THIS,void *__OOC_PARAMETER){ iFn fn_unloadSt=((void *)0); int ret_finSt=0; ((void)0) ; fn_unloadSt=(void *)B_unloadSt; if (((void *)0)!=fn_unloadSt) {
+        int ret_unloadSt=fn_unloadSt(__OOC_THIS,__OOC_PARAMETER); if (0>ret_unloadSt) {
+            return(ret_unloadSt);
+        }
+    }ret_finSt=finStA((StA *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_finSt) {
+        return(ret_finSt);
+    }memset(((void *)((unsigned char *)__OOC_THIS+(sizeof(size_t)+sizeof(iFn)))),'\0',sizeof(StB)-(sizeof(size_t)+sizeof(iFn)));; return(0);}
+
+
+typedef struct _C C; typedef struct _C * (*CPtFn)(void *,...); int iniC(struct _C * ,void *); int finC(struct _C * ,void *); struct _C * newCEx(unsigned int,int (*)(struct _C *,void *,unsigned int,unsigned int),void *); struct _C * newC(void *); int delCEx(struct _C **,int (*)(struct _C *,void *,unsigned int),void *); int delC(struct _C **,void *); struct _C {
+    struct _B B; struct {
+        void ** C_static;
+    } ;
+}; typedef struct _StC StC; typedef struct _StC * (*StCPtFn)(void *,...); int iniStC(struct _StC * ,void *); int finStC(struct _StC * ,void *); struct _StC * newStCEx(unsigned int,int (*)(struct _StC *,void *,unsigned int,unsigned int),void *); struct _StC * newStC(void *); int delStCEx(struct _StC **,int (*)(struct _StC *,void *,unsigned int),void *); int delStC(struct _StC **,void *); struct _StC {
+    struct _StB StB;
+};
+static int C_reload(C *__OOC_THIS,char *name){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int C_unload(C *__OOC_THIS,void *__OOC_PARAMETER){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int C_reloadSt(StC *__OOC_THIS,char *name){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int C_unloadSt(StC *__OOC_THIS,void *__OOC_PARAMETER){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+struct _C * newCEx(unsigned int __OOC_MEMORY_EXTENED,int (*__OOC_EX_FUNCTION)(struct _C *,void *,unsigned int,unsigned int),void *__OOC_PARAMETER) {
+    struct _C *__OOC_THIS=((void *)0); int ret_ini=0; ; ((void)0) ; __OOC_THIS=(struct _C*)calloc(1,sizeof(struct _C)+(__OOC_MEMORY_EXTENED)); if ( ((void *)0)==__OOC_THIS ) {
+        ; return((void *)0);
+    }ret_ini=iniC(__OOC_THIS,__OOC_PARAMETER); if (0>ret_ini) {
+        free(__OOC_THIS); ; return((void *)0);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_ini,__OOC_MEMORY_EXTENED)) {
+            free(__OOC_THIS); ; return((void *)0);
+        }
+    }; return __OOC_THIS;
+} struct _C * newC(void *__OOC_PARAMETER) {
+    return newCEx(0,((void *)0),__OOC_PARAMETER);
+} int iniC(struct _C * __OOC_THIS,void *__OOC_PARAMETER){ static struct _StC * C_static=((void *)0); iFn fn_reload=((void *)0); int ret_iniSu=0; ((void)0) ; if (((void *)0)==C_static) {
+        C_static=newStC(__OOC_PARAMETER); if (((void *)0)==C_static) {
+            return(-1);
+        }
+    }__OOC_THIS->C_static=(void **)&(C_static); ++(*(size_t*)((unsigned char *)(C_static)+(sizeof(iFn)))); (*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))++; ret_iniSu=iniB((B *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_iniSu) {
+        return(ret_iniSu);
+    }(*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))--; (*(size_t*)((unsigned char*)__OOC_THIS+(0)))=sizeof(C); fn_reload=(void *)C_reload; if (((void *)0)!=fn_reload) {
+        return fn_reload(__OOC_THIS,__OOC_PARAMETER);
+    }return(0);} int delCEx(struct _C **__OOC_THIS_ADDRESS,int (*__OOC_EX_FUNCTION)(struct _C *,void *,unsigned int),void *__OOC_PARAMETER) { struct _C * __OOC_THIS=*(__OOC_THIS_ADDRESS); int ret_fin=0; ; ((void)0) ; if (((void *)0)==__OOC_THIS_ADDRESS||((void *)0)==__OOC_THIS) {
+        ; return(-1);
+    }ret_fin=finC(*(__OOC_THIS_ADDRESS),__OOC_PARAMETER); if (0>ret_fin) {
+        ; return(-1);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_fin)) {
+            ; return(-1);
+        }
+    }free(*(__OOC_THIS_ADDRESS)); (*(__OOC_THIS_ADDRESS))=((void *)0); ; return(0);} int delC(struct _C **__OOC_THIS_ADDRESS,void *__OOC_PARAMETER) { return delCEx(__OOC_THIS_ADDRESS,((void *)0),__OOC_PARAMETER);} int finC(struct _C *__OOC_THIS,void *__OOC_PARAMETER){ struct _StC * C_static=(*(__OOC_THIS->C_static)); int ret_finSu=0; iFn fn_unload=((void *)0); ((void)0) ; fn_unload=(void *)C_unload; if (((void *)0)!=fn_unload) {
+        int ret_unload=fn_unload(__OOC_THIS,__OOC_PARAMETER); if (0>ret_unload) {
+            return(ret_unload);
+        }
+    }(*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))--; ret_finSu=finB((B *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_finSu) {
+        return(ret_finSu);
+    }(*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))++; if (((void *)0)==C_static) {
+        return(-1);
+    }if ( 0<(*(size_t*)((unsigned char *)(C_static)+(sizeof(iFn)))) ) {
+        --(*(size_t*)((unsigned char *)(C_static)+(sizeof(iFn)))) ; if ( 0==(*(size_t*)((unsigned char *)(C_static)+(sizeof(iFn)))) ) {
+            int ret_delSt=0; *(__OOC_THIS->C_static)=((void *)0); ret_delSt=delStC(&C_static,__OOC_PARAMETER); if (0>ret_delSt) {
+                return(ret_delSt);
+            }
+        }
+    }memset(((void *)((unsigned char *)__OOC_THIS+(sizeof(size_t)))),'\0',sizeof(C)-(sizeof(size_t)));; return(0);} struct _StC * newStCEx(unsigned int __OOC_MEMORY_EXTENED,int (*__OOC_EX_FUNCTION)(struct _StC *,void *,unsigned int,unsigned int),void *__OOC_PARAMETER) {
+    struct _StC *__OOC_THIS=((void *)0); int ret_ini=0; ; ((void)0) ; __OOC_THIS=(struct _StC*)calloc(1,sizeof(struct _StC)+(__OOC_MEMORY_EXTENED)); if ( ((void *)0)==__OOC_THIS ) {
+        ; return((void *)0);
+    }ret_ini=iniStC(__OOC_THIS,__OOC_PARAMETER); if (0>ret_ini) {
+        free(__OOC_THIS); ; return((void *)0);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_ini,__OOC_MEMORY_EXTENED)) {
+            free(__OOC_THIS); ; return((void *)0);
+        }
+    }; return __OOC_THIS;
+} struct _StC * newStC(void *__OOC_PARAMETER) {
+    return newStCEx(0,((void *)0),__OOC_PARAMETER);
+} int iniStC(struct _StC * __OOC_THIS,void *__OOC_PARAMETER){ iFn fn_reloadSt=((void *)0); int ret_iniSu=0; ((void)0) ; ret_iniSu=iniStB((StB *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_iniSu) {
+        return(ret_iniSu);
+    }(*(iFn*)((unsigned char *)__OOC_THIS+(0)))=(void *)delC; fn_reloadSt=(void *)C_reloadSt; if (((void *)0)!=fn_reloadSt) {
+        return fn_reloadSt(__OOC_THIS,__OOC_PARAMETER);
+    }return(0);} int delStCEx(struct _StC **__OOC_THIS_ADDRESS,int (*__OOC_EX_FUNCTION)(struct _StC *,void *,unsigned int),void *__OOC_PARAMETER) { struct _StC * __OOC_THIS=*(__OOC_THIS_ADDRESS); int ret_fin=0; ; ((void)0) ; if (((void *)0)==__OOC_THIS_ADDRESS||((void *)0)==__OOC_THIS) {
+        ; return(-1);
+    }ret_fin=finStC(*(__OOC_THIS_ADDRESS),__OOC_PARAMETER); if (0>ret_fin) {
+        ; return(-1);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_fin)) {
+            ; return(-1);
+        }
+    }free(*(__OOC_THIS_ADDRESS)); (*(__OOC_THIS_ADDRESS))=((void *)0); ; return(0);} int delStC(struct _StC **__OOC_THIS_ADDRESS,void *__OOC_PARAMETER) { return delStCEx(__OOC_THIS_ADDRESS,((void *)0),__OOC_PARAMETER);} int finStC(struct _StC *__OOC_THIS,void *__OOC_PARAMETER){ iFn fn_unloadSt=((void *)0); int ret_finSt=0; ((void)0) ; fn_unloadSt=(void *)C_unloadSt; if (((void *)0)!=fn_unloadSt) {
+        int ret_unloadSt=fn_unloadSt(__OOC_THIS,__OOC_PARAMETER); if (0>ret_unloadSt) {
+            return(ret_unloadSt);
+        }
+    }ret_finSt=finStB((StB *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_finSt) {
+        return(ret_finSt);
+    }memset(((void *)((unsigned char *)__OOC_THIS+(sizeof(size_t)+sizeof(iFn)))),'\0',sizeof(StC)-(sizeof(size_t)+sizeof(iFn)));; return(0);}
+
+
+typedef struct _D D; typedef struct _D * (*DPtFn)(void *,...); int iniD(struct _D * ,void *); int finD(struct _D * ,void *); struct _D * newDEx(unsigned int,int (*)(struct _D *,void *,unsigned int,unsigned int),void *); struct _D * newD(void *); int delDEx(struct _D **,int (*)(struct _D *,void *,unsigned int),void *); int delD(struct _D **,void *); struct _D {
+    struct _C C; struct {
+        void ** D_static;
+    } ;
+}; typedef struct _StD StD; typedef struct _StD * (*StDPtFn)(void *,...); int iniStD(struct _StD * ,void *); int finStD(struct _StD * ,void *); struct _StD * newStDEx(unsigned int,int (*)(struct _StD *,void *,unsigned int,unsigned int),void *); struct _StD * newStD(void *); int delStDEx(struct _StD **,int (*)(struct _StD *,void *,unsigned int),void *); int delStD(struct _StD **,void *); struct _StD {
+    struct _StC StC;
+};
+static int D_reload(D *__OOC_THIS,char *name){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int D_unload(D *__OOC_THIS,void *__OOC_PARAMETER){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int D_reloadSt(StD *__OOC_THIS,char *name){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+static int D_unloadSt(StD *__OOC_THIS,void *__OOC_PARAMETER){
+    printf("%s\n",__FUNCTION__);
+    return 0;
+}
+struct _D * newDEx(unsigned int __OOC_MEMORY_EXTENED,int (*__OOC_EX_FUNCTION)(struct _D *,void *,unsigned int,unsigned int),void *__OOC_PARAMETER) {
+    struct _D *__OOC_THIS=((void *)0); int ret_ini=0; ; ((void)0) ; __OOC_THIS=(struct _D*)calloc(1,sizeof(struct _D)+(__OOC_MEMORY_EXTENED)); if ( ((void *)0)==__OOC_THIS ) {
+        ; return((void *)0);
+    }ret_ini=iniD(__OOC_THIS,__OOC_PARAMETER); if (0>ret_ini) {
+        free(__OOC_THIS); ; return((void *)0);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_ini,__OOC_MEMORY_EXTENED)) {
+            free(__OOC_THIS); ; return((void *)0);
+        }
+    }; return __OOC_THIS;
+} struct _D * newD(void *__OOC_PARAMETER) {
+    return newDEx(0,((void *)0),__OOC_PARAMETER);
+} int iniD(struct _D * __OOC_THIS,void *__OOC_PARAMETER){ static struct _StD * D_static=((void *)0); iFn fn_reload=((void *)0); int ret_iniSu=0; ((void)0) ; if (((void *)0)==D_static) {
+        D_static=newStD(__OOC_PARAMETER); if (((void *)0)==D_static) {
+            return(-1);
+        }
+    }__OOC_THIS->D_static=(void **)&(D_static); ++(*(size_t*)((unsigned char *)(D_static)+(sizeof(iFn)))); (*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))++; ret_iniSu=iniC((C *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_iniSu) {
+        return(ret_iniSu);
+    }(*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))--; (*(size_t*)((unsigned char*)__OOC_THIS+(0)))=sizeof(D); fn_reload=(void *)D_reload; if (((void *)0)!=fn_reload) {
+        return fn_reload(__OOC_THIS,__OOC_PARAMETER);
+    }return(0);} int delDEx(struct _D **__OOC_THIS_ADDRESS,int (*__OOC_EX_FUNCTION)(struct _D *,void *,unsigned int),void *__OOC_PARAMETER) { struct _D * __OOC_THIS=*(__OOC_THIS_ADDRESS); int ret_fin=0; ; ((void)0) ; if (((void *)0)==__OOC_THIS_ADDRESS||((void *)0)==__OOC_THIS) {
+        ; return(-1);
+    }ret_fin=finD(*(__OOC_THIS_ADDRESS),__OOC_PARAMETER); if (0>ret_fin) {
+        ; return(-1);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_fin)) {
+            ; return(-1);
+        }
+    }free(*(__OOC_THIS_ADDRESS)); (*(__OOC_THIS_ADDRESS))=((void *)0); ; return(0);} int delD(struct _D **__OOC_THIS_ADDRESS,void *__OOC_PARAMETER) { return delDEx(__OOC_THIS_ADDRESS,((void *)0),__OOC_PARAMETER);} int finD(struct _D *__OOC_THIS,void *__OOC_PARAMETER){ struct _StD * D_static=(*(__OOC_THIS->D_static)); int ret_finSu=0; iFn fn_unload=((void *)0); ((void)0) ; fn_unload=(void *)D_unload; if (((void *)0)!=fn_unload) {
+        int ret_unload=fn_unload(__OOC_THIS,__OOC_PARAMETER); if (0>ret_unload) {
+            return(ret_unload);
+        }
+    }(*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))--; ret_finSu=finC((C *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_finSu) {
+        return(ret_finSu);
+    }(*(size_t*)((unsigned char *)(__OOC_THIS)+(sizeof(size_t))))++; if (((void *)0)==D_static) {
+        return(-1);
+    }if ( 0<(*(size_t*)((unsigned char *)(D_static)+(sizeof(iFn)))) ) {
+        --(*(size_t*)((unsigned char *)(D_static)+(sizeof(iFn)))) ; if ( 0==(*(size_t*)((unsigned char *)(D_static)+(sizeof(iFn)))) ) {
+            int ret_delSt=0; *(__OOC_THIS->D_static)=((void *)0); ret_delSt=delStD(&D_static,__OOC_PARAMETER); if (0>ret_delSt) {
+                return(ret_delSt);
+            }
+        }
+    }memset(((void *)((unsigned char *)__OOC_THIS+(sizeof(size_t)))),'\0',sizeof(D)-(sizeof(size_t)));; return(0);} struct _StD * newStDEx(unsigned int __OOC_MEMORY_EXTENED,int (*__OOC_EX_FUNCTION)(struct _StD *,void *,unsigned int,unsigned int),void *__OOC_PARAMETER) {
+    struct _StD *__OOC_THIS=((void *)0); int ret_ini=0; ; ((void)0) ; __OOC_THIS=(struct _StD*)calloc(1,sizeof(struct _StD)+(__OOC_MEMORY_EXTENED)); if ( ((void *)0)==__OOC_THIS ) {
+        ; return((void *)0);
+    }ret_ini=iniStD(__OOC_THIS,__OOC_PARAMETER); if (0>ret_ini) {
+        free(__OOC_THIS); ; return((void *)0);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_ini,__OOC_MEMORY_EXTENED)) {
+            free(__OOC_THIS); ; return((void *)0);
+        }
+    }; return __OOC_THIS;
+} struct _StD * newStD(void *__OOC_PARAMETER) {
+    return newStDEx(0,((void *)0),__OOC_PARAMETER);
+} int iniStD(struct _StD * __OOC_THIS,void *__OOC_PARAMETER){ iFn fn_reloadSt=((void *)0); int ret_iniSu=0; ((void)0) ; ret_iniSu=iniStC((StC *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_iniSu) {
+        return(ret_iniSu);
+    }(*(iFn*)((unsigned char *)__OOC_THIS+(0)))=(void *)delD; fn_reloadSt=(void *)D_reloadSt; if (((void *)0)!=fn_reloadSt) {
+        return fn_reloadSt(__OOC_THIS,__OOC_PARAMETER);
+    }return(0);} int delStDEx(struct _StD **__OOC_THIS_ADDRESS,int (*__OOC_EX_FUNCTION)(struct _StD *,void *,unsigned int),void *__OOC_PARAMETER) { struct _StD * __OOC_THIS=*(__OOC_THIS_ADDRESS); int ret_fin=0; ; ((void)0) ; if (((void *)0)==__OOC_THIS_ADDRESS||((void *)0)==__OOC_THIS) {
+        ; return(-1);
+    }ret_fin=finStD(*(__OOC_THIS_ADDRESS),__OOC_PARAMETER); if (0>ret_fin) {
+        ; return(-1);
+    }if (((void *)0)!=__OOC_EX_FUNCTION) {
+        if (0>__OOC_EX_FUNCTION(__OOC_THIS,__OOC_PARAMETER,ret_fin)) {
+            ; return(-1);
+        }
+    }free(*(__OOC_THIS_ADDRESS)); (*(__OOC_THIS_ADDRESS))=((void *)0); ; return(0);} int delStD(struct _StD **__OOC_THIS_ADDRESS,void *__OOC_PARAMETER) { return delStDEx(__OOC_THIS_ADDRESS,((void *)0),__OOC_PARAMETER);} int finStD(struct _StD *__OOC_THIS,void *__OOC_PARAMETER){ iFn fn_unloadSt=((void *)0); int ret_finSt=0; ((void)0) ; fn_unloadSt=(void *)D_unloadSt; if (((void *)0)!=fn_unloadSt) {
+        int ret_unloadSt=fn_unloadSt(__OOC_THIS,__OOC_PARAMETER); if (0>ret_unloadSt) {
+            return(ret_unloadSt);
+        }
+    }ret_finSt=finStC((StC *)(__OOC_THIS),__OOC_PARAMETER); if (0>ret_finSt) {
+        return(ret_finSt);
+    }memset(((void *)((unsigned char *)__OOC_THIS+(sizeof(size_t)+sizeof(iFn)))),'\0',sizeof(StD)-(sizeof(size_t)+sizeof(iFn)));; return(0);}
+int main(){
+    A *a;B *b;C *c;D *d;
+    printf("\n*****************SIZE TEST\n");
+    printf( "[A]size :%d static size:%d\n"
+            "[B]size :%d static size:%d\n"
+            "[C]size :%d static size:%d\n"
+            "[D]size :%d static size:%d\n",
+            sizeof(A),sizeof(StA),
+            sizeof(B),sizeof(StB),
+            sizeof(C),sizeof(StC),
+            sizeof(D),sizeof(StD));
+    printf("\n*****************NEW A\n");
+    a=((void *)newA((((void *)0))));
+    printf("\n*****************NEW B\n");
+    b=((void *)newB((((void *)0))));
+    printf("\n*****************NEW C\n");
+    c=((void *)newC((((void *)0))));
+    printf("\n*****************DEL C\n");
+    delC((struct _C**)&(c),(((void *)0)));
+    printf("\n*****************DEL B\n");
+    delB((struct _B**)&(b),(((void *)0)));
+    printf("\n*****************DEL A\n");
+    delA((struct _A**)&(a),(((void *)0)));
+
+
+    printf("\n*****************NEW D\n");
+    d=((void *)newD((((void *)0))));
+    printf("\n*****************DEL D\n");
+    delD((struct _D**)&(d),(((void *)0)));
+
+
+    printf("\n*****************NEW C DIFFERENT SEQUENCE\n");
+    c=((void *)newC((((void *)0))));
+    printf("\n*****************NEW B DIFFERENT SEQUENCE\n");
+    b=((void *)newB((((void *)0))));
+    printf("\n*****************NEW A DIFFERENT SEQUENCE\n");
+    a=((void *)newA((((void *)0))));
+    printf("\n*****************DEL A DIFFERENT SEQUENCE\n");
+    delA((struct _A**)&(a),(((void *)0)));
+    printf("\n*****************DEL B DIFFERENT SEQUENCE\n");
+    delB((struct _B**)&(b),(((void *)0)));
+    printf("\n*****************DEL C DIFFERENT SEQUENCE\n");
+    delC((struct _C**)&(c),(((void *)0)));
+    return 0;
+}
+

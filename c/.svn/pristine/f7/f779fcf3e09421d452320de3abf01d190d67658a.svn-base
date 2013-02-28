@@ -1,0 +1,39 @@
+/*
+ * test_union.c
+ *
+ *  Created on: 2012-1-18
+ *      Author: Administrator
+ */
+#include <stddef.h>
+#include "OOStd.h"
+typedef union{
+	int a;
+	char b;
+	float c;
+	short d;
+	double e;
+	void * f;
+	size_t g;
+	char h;
+}tt;
+
+CLASS(A){
+	int c;
+	tt m;
+	int a;
+	STATIC(A);
+	int aa;
+};
+
+static int A_reloadSt(StA *self,char *name){
+	self->aa=100;
+	return 0;
+}
+ASM(A,NULL,NULL,A_reloadSt,NULL)
+
+int main(){
+	A *a=NEW0(A);
+	printf("%d\n",((StA*)ST(a))->aa);
+	DELETE0(a);
+	return 0;
+}

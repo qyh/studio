@@ -1,0 +1,68 @@
+
+
+  Listing 21.5
+
+
+
+
+#include &lt;linux/kernel.h&gt;
+#include &lt;linux/module.h&gt;
+#include &lt;linux/kprobes.h&gt;
+#include &lt;linux/kallsyms.h&gt;
+
+/* kretprobe at exit from tty_open() */
+static int
+kret_tty_open(struct kretprobe_instance *kreti,
+              struct pt_regs *regs)
+{
+    /* The EAX register contains the function return value
+       on x86 systems */
+    if ((int) regs-&gt;eax) {
+        /* tty_open() failed. Announce the return code */
+        printk(&quot;tty_open returned %d\n&quot;, (int)regs-&gt;eax);
+    }
+
+    return 0;
+}
+
+/* Per-probe structure */
+static struct kretprobe kretprobe_eg = {
+    .handler = (kretprobe_handler_t)kret_tty_open
+};
+
+int
+init_module(void)
+{
+    int retval;
+
+    kretprobe_eg.kp.addr = (kprobe_opcode_t*)
+        kallsyms_lookup_name(&quot;tty_open&quot;);
+    if (!kretprobe_eg.kp.addr) {
+        printk(&quot;Bad Probe Point\n&quot;);
+        return -1;
+    }
+
+    /* Register the kretprobe */
+    if ((retval = register_kretprobe(&amp;kretprobe_eg) &lt; 0)) {
+        printk(&quot;register_kretprobe error, return value=%d\n&quot;,
+               retval);
+        return -1;
+    }
+
+    printk(&quot;kretprobe registered.\n&quot;);
+    return 0;
+}
+
+void module_cleanup(void)
+{
+    unregister_kretprobe(&amp;kretprobe_eg);
+}
+
+MODULE_LICENSE(&quot;GPL&quot;);
+
+
+
+syntax highlighted by Code2HTML, v. 0.9.1
+
+
+lines: 0

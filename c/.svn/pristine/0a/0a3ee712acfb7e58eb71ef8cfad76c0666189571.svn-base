@@ -1,0 +1,21 @@
+#!/bin/sh 
+
+lib="$1"
+if [ "$lib" = "" ]; then
+    echo; echo "usage: $0 dynamic library"; echo 
+    exit 1
+fi
+
+cp -i "$lib" /usr/lib/ 
+lib=${lib##*/}
+lib=${lib%.so*}
+val=`grep $lib /etc/ld.so.conf.d/mylib.conf`
+
+echo "$lib"
+
+if [ "$val" = "" ]; then
+    echo "/usr/lib/$lib">>/etc/ld.so.conf.d/mylib.conf
+fi
+ldconfig
+
+exit 0

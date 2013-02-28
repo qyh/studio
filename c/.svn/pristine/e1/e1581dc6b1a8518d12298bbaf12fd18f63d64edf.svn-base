@@ -1,0 +1,87 @@
+/*
+ * sfs.c - Demonstrate creating entries in sysfs.
+ *
+ * Copyright (C) 2006 Jon Masters <jcm@jonmasters.org>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation.
+ *
+ */
+
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/proc_fs.h>
+
+/* function prototypes */
+
+/* global variables */
+
+static struct kobject sfs_kobj;
+static struct class *plp_class;
+static struct attribute sfs_hello_attr;
+static struct attribute sfs_bye_attr;
+
+static struct attribute *sfs_attrs[] = {
+	&sfs_hello_attr,
+	&sfs_bye_attr,
+};
+
+static struct sysfs_ops sfs_ops = {
+	//.show          = sfs_show,
+	//.store         = sfs_store,
+};
+
+static struct kobj_type ktype_sfs = {
+	.release       = NULL,
+	.sysfs_ops     = &sfs_ops,
+	.default_attrs = sfs_attrs,
+};
+
+static struct proc_dir_entry *procfs_file;
+
+/*
+ * sfs_init: initialize the phony device
+ * Description: This function allocates some sysfs entries.
+ */
+
+
+static int __init sfs_init(void)
+{
+
+	plp_class = class_create(THIS_MODULE, "plp");
+	if (IS_ERR(plp_class)) {
+		printk(KERN_ERR "Error creating PLP class.\n");
+		return 1;
+	}
+	
+	kobject_init(&sfs_kobj);
+	if (kobject_set_name(&sfs_kobj, "sfs_kobj") < 0)
+		return -ENOMEM;
+	sfs_kobj
+	kobject_add(&sfs_kobj);
+	
+	return 0;
+}
+
+/*
+ * sfs_exit: uninitialize the phony device
+ * Description: This function frees up sysfs entries.
+ */
+
+
+static void __exit sfs_exit(void)
+{
+	kobject_del(&sfs_kobj);
+}
+
+/* declare init/exit functions here */
+
+module_init(sfs_init);
+module_exit(sfs_exit);
+
+/* define module meta data */
+
+MODULE_AUTHOR("Jon Masters <jcm@jonmasters.org>");
+MODULE_DESCRIPTION("A simple driver populating sysfs files");
+MODULE_LICENSE("GPL");

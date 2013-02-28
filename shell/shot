@@ -1,0 +1,11 @@
+#! /bin/sh 
+
+opt="$1"
+
+if [ "$opt" = "" ]; then
+    opt="-a"
+fi
+
+exec "shot_bin" &
+
+exit 0

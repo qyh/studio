@@ -1,0 +1,20 @@
+/*
+ * Adaptee.c
+ *
+ *  Created on: 2011-11-20
+ *      Author: Jesse Meng [pingf0@gmail.com]
+ */
+#include "Adaptee.h"
+int Adaptee_reload(Adaptee *self,char *p){
+	if(NULL==p) self->name="anonymous";
+	else self->name=p;
+	return 0;
+}
+int Adaptee_reloadSt(StAdaptee *self,void *p){
+	char * doAction(Adaptee *self){
+		return self->name;
+	}
+	self->doAction=(void *)doAction;
+	return 0;
+}
+ASM(Adaptee,Adaptee_reload,NULL,Adaptee_reloadSt,NULL)

@@ -1,0 +1,10 @@
+# Which database
+database = mydb
+# Server host
+server_host=127.0.0.1
+# User name
+username = root
+# Password
+password = root
+# Port
+port = 3306
