@@ -1,0 +1,13 @@
+实现免密码登录远程主机
+(1)在本地主机生成私钥和公钥
+# ssh-keygen -t rsa
+(2)将公钥上传至远程主机
+# ssh remote_user@remote_host "cat >> ~/.ssh/authorized_keys" < ~/.ssh/id_rsa.pub
+(3)根据提示输入remote_user密码
+
+利用scp传输文件
+download:
+scp remote_username@host:/dir/filename localdir/
+
+upload:
+scp localdir/filename remote_username@host:/dir/

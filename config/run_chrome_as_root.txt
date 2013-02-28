@@ -1,0 +1,7 @@
+find chrome install directory and find the google-chrome file
+and last line 'exec -a "$0" "$HERE/chrome" "$@"' and add the following
+statment to the end.
+
+--user-data-dir
+
+example: exec -a "$0" "$HERE/chrome" "$@" --user-data-dir

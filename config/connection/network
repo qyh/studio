@@ -1,0 +1,3 @@
+NETWORKING=yes
+HOSTNAME=redhatlinux6
+GATEWAY=192.168.1.1

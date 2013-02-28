@@ -1,0 +1,329 @@
+听说vsftp是linux 上很有名，Ftp安全性是蛮重要，  
+  
+冲着这个名号 Very Security Ftp，所以就试了一下  
+1. 首先查看我的Redhat5上是否已经安装  
+rpm -qa| grep vsftpd  
+如果已经安装就会出现vstfp的版本号相关的信息，如果没有出现就是没有安装  
+  
+2. 如果没有安装话，就要选择一种方式安装  
+可以到官方网站去下载  
+http://vsftpd.beasts.org  
+也可以用光盘安装，RedHat 5的安盘里自带的，所以我选择光盘安装  
+(1)先把光盘挂载到系统上：  
+mount /dev/cdrom /mnt  
+这样光盘的内容就被挂载到/mnt的设备上，现在可以通过/mnt访问光盘上的内容了  
+(2)在光盘上安装vsftp,并且启动vsftp  
+rpm  -ivh vsftpd*  
+(3)修改启动方式，改为系统启动时，自动启动  
+chkconfig vsftpd on  
+也可以查看启动方式  
+chkconfig --list |grep vsftpd  
+只要在第2--5为on就能随机启动  
+(4)启动ftp  
+service vsftpd start  
+(5)连接测试  
+vsftp默认安装目录是:/etc/vsftpd  
+默认有一个ftp目录:var/ftp  
+vsftp默认是用允许匿名用户【anonymous】登陆，允许下载，但是不允许上传  
+  
+如果连不上，可能是linux 防火墙的原因  
+停止防火墙：service iptables stop  
+开启防火墙：service iptables start  
+  
+3 VsFtp的配置文件 ：  
+/etc/vsftpd/vsftpd.conf----------主配置文件  
+/etc/rc.d/init.d/vsftpd  ----------启动脚本  
+/etc/pam.d/vsftpd     ----------- PAM认证文件（此文件中file=/etc/vsftpd/ftpusers字段，指明阻止访问的用户来自/etc/vsftpd/ftpusers文件中的用户）  
+/etc/vsftpd/ftpusers -------------禁止使用vsftpd的用户列表文件。记录不允许访问FTP服务器的用户名单，管理员可以把一些对系统安全有威胁的用户账号记录在此文件中，以免用户从FTP登录后获得大于上传下载操作的权利，而对系统造成损坏。  
+/etc/vsftpd/user_list-------------禁止或允许使用vsftpd的用户列表文件。这个文件中指定的用户缺省情况（即在/etc/vsftpd/vsftpd.conf中设置userlist_deny=YES）下也不能访问FTP服务器，在设置了userlist_deny=NO时,仅允许user_list中指定的用户访问FTP服务器。  
+/var/ftp  -----------------------------匿名用户主目录；本地用户主目录为：/home/用户主目录，即登录后进入自己家目录  
+/var/ftp/pub------------------------匿名用户的下载目录，此目录需赋权根chmod 1777 pub（1为特殊权限，使上载后无法删除）  
+/etc/logrotate.d/vsftpd.log--- Vsftpd的日志文件  
+  
+4 由以上可知/etc/vsftpd/vsftpd.conf为VsFTP的主要配置文件 ，可以对此文件进行修改，但是修改前最好要备份  
+下面对这份文件的一些细节进行介绍  
+  
+# Example config file /etc/vsftpd/vsftpd.conf  
+  
+# The default compiled in settings are fairly paranoid. This sample file  
+  
+# loosens things up a bit, to make the ftp daemon more usable.  
+  
+# Please see vsftpd.conf.5 for all compiled in defaults.  
+  
+# READ THIS: This example file is NOT an exhaustive list of vsftpd options.  
+  
+# Please read the vsftpd.conf.5 manual page to get a full idea of vsftpd's  
+  
+# capabilities.  
+  
+# Allow anonymous FTP? (Beware - allowed by default if you comment this out).  
+  
+anonymous_enable=YES （ 是否允许 匿名登录FTP 服务器，默认设置为YES 允许，即用户可使用用户名ftp 或anonymous 进行ftp 登录，口令为用户的E-mail 地址。如不允许匿名访问去掉前面# 并设置为NO ）  
+  
+# Uncomment this to allow local users to log in.  
+  
+local_enable=YES （是否允许本地用户 ( 即 linux 系统中的用户帐号) 登录FTP服务器，默认设置为YES允许， 本地用户登录后会进入用户主目录，而匿名用户登录后进入匿名用户的下载目录/var/ftp/pub ；若只允许匿名用户访问，前面加上#，可 阻止本地用户访问FTP 服务器。）  
+  
+# Uncomment this to enable any form of FTP write command.  
+  
+write_enable=YES   （ 是否允许本地用户对 FTP 服务器文件具有写权限 ， 默认设置为 YES 允许 ）  
+  
+# Default umask for local users is 077. You may wish to change this to 022,  
+  
+# if your users expect that (022 is used by most other ftpd's)  
+  
+# local_umask=022 （或其它值，设置本地用户的文件掩码 为缺省022 ，也可根据个人喜好将其设置为其他值，默认值为077）  
+  
+# Uncomment this to allow the anonymous FTP user to upload files. This only  
+  
+# has an effect if the above global write enable is activated. Also, you will  
+  
+# obviously need to create a directory writable by the FTP user.  
+  
+#anon_upload_enable=YES （ 是否允许匿名用户上传文件 ， 须将 write_enable=YES ， 默认设置为 YES 允许 ）  
+  
+# Uncomment this if you want the anonymous FTP user to be able to create  
+  
+# new directories.  
+  
+#anon_mkdir_write_enable=YES   （ 是否允许匿名用户创建新文件夹 ， 默认设置为 YES 允许 ）  
+  
+# Activate directory messages - messages given to remote users when they  
+  
+# go into a certain directory.  
+  
+#dirmessage_enable=YES （ 是否激活目录欢迎信息功能 ， 当用户用 CMD 模式首次访问服务器上某个目录时 ，FTP 服务器将显示欢迎信息 ， 默认情况下 ， 欢迎信息是通过 该 目录下的 .message 文件获得的，此文件保存自定义的欢迎信息，由用户自己建立）  
+  
+# Activate logging of uploads/downloads.  
+  
+xferlog_enable=YES （ 默认值为 NO 如果启用此选项，系统将会维护记录服务器上传和下载情况的日志文件，默认情况该日志文件为/var/log/vsftpd.log, 也可以通过下面的 xferlog_file 选项对其进行设定。）  
+  
+# Make sure PORT transfer connections originate from port 20 (ftp-data).  
+  
+connect_from_port_20=YES （ 设定 FTP 服务器将启用 FTP 数据端口的连接请求 ,ftp-data 数据传输 ，21 为连接控制端口 ）  
+  
+# If you want, you can arrange for uploaded anonymous files to be owned by  
+  
+# a different user. Note! Using "root" for uploaded files is not  
+  
+# recommended!-注意，不推荐使用 root 用户上传文件  
+  
+#chown_uploads=YES （ 设定是否允许 改变 上传文件的属主 ， 与下面一个设定项配合使用 ）  
+  
+#chown_username=whoeve r （ 设置想要改变的上传文件的属主 ， 如果需要 ， 则输入一个系统用户名 ， 例如可以把上传的文件都改成 root 属主。whoever ：任何人）  
+  
+# You may override where the log file goes if you like. The default is shown  
+  
+# below.  
+  
+#xferlog_file=/var/log/vsftpd.log ( 设定系统维护记录FTP 服务器上传和下载情况的日志文件，/var/log/vsftpd.log 是默认的，也可以另设其它)  
+  
+# If you want, you can have your log file in standard ftpd xferlog format  
+  
+#xferlog_std_format=YES （ 如果启用此选项 ， 传输日志文件将以标准 xferlog 的格式书写，该格式的日志文件默认为/var/log/xferlog, 也可以通过xferlog_file 选项对其进行设定，默认值为NO ）  
+  
+#dual_log_enable ( 如果添加并启用此选项，将生成两个相似的日志文件，默认在/var/log/xferlog 和/var/log/vsftpd.log 目录下。前者是wu_ftpd 类型的传输日志，可以利用标准日志工具对其进行分析；后者是vsftpd 类型的日志)  
+  
+#syslog_enable ( 如果添加并启用此选项，则原本应该输出到/var/log/vsftpd.log 中的日志，将输出到系统日志中)  
+# You may change the default value for timing out an idle session.  
+  
+#idle_session_timeout=600 （设置数据传输中断间隔时间，此语句表示空闲的用户会话中断时间为600秒，即当数据传输结束后，用户连接FTP服务器的时间不应超过600秒，可以根据实际情况对该值进行修改）  
+  
+# You may change the default value for timing out a data connection.  
+  
+#data_connection_timeout=120 （ 设置数据连接超时时间 ， 该语句表示数据连接超时时间为 120 秒 ， 可根据实际情况对其个修改 ）  
+  
+# It is recommended that you define on your system a unique user which the  
+  
+# ftp server can use as a totally isolated and unprivileged user.  
+  
+#nopriv_user=ftpsecure （ 运行 vsftpd 需要的非特权系统用户，缺省是nobody ）  
+# Enable this and the server will recognise asynchronous ABOR requests. Not  
+  
+# recommended for security (the code is non-trivial). Not enabling it,  
+  
+# however, may confuse older FTP clients.  
+  
+#async_abor_enable=YES （ 如果 FTP client 会下达“async ABOR ”这个指令时，这个设定才需要启用，而一般此设定并不安全，所以通常将其取消）  
+  
+# By default the server will pretend to allow ASCII mode but in fact ignore  
+  
+# the request. Turn on the below options to have the server actually do ASCII  
+  
+# mangling on files when in ASCII mode.  
+  
+# Beware that on some FTP servers, ASCII support allows a denial of service  
+  
+# attack (DoS) via the command "SIZE /big/file" in ASCII mode. vsftpd  
+  
+# predicted this attack and has always been safe, reporting the size of the  
+  
+# raw file.  
+  
+# ASCII mangling is a horrible feature of the protocol.  
+  
+#ascii_upload_enable=YES （ 大多数 FTP 服务器都选择用 ASCII 方式传输数据 ， 将 # 去掉就能实现用 ASCII 方式上传和下载文件 ）  
+  
+#ascii_download_enable=YES （ 将 # 去掉就能实现用 ASCII 方式下载文件 ）  
+  
+# You may fully customise the login banner string:  
+  
+#ftpd_banner=Welcome to blah FTP service. （将#去掉可设置登录FTP服务器时显示的欢迎信息，可以修改=后的欢迎信息内容。另外如在需要设置更改目录欢迎信息的目录下创建名为 .message 的文件，并写入欢迎信息保存后，在进入到此目录会显示自定义欢迎信息 ）  
+  
+# You may specify a file of disallowed anonymous e-mail addresses. Apparently  
+  
+# useful for combatting certain DoS attacks.  
+  
+#deny_email_enable=YES （ 可将某些特殊的 email address 抵挡住。如果以anonymous 登录服务器时，会要求输入密码，也就是您的email address, 如果很讨厌某些email address ，就可以使用此设定来取消他的登录权限，但必须与下面的设置项配合 ）  
+  
+# (default follows)  
+  
+#banned_email_file=/etc/vsftpd/banned_emails （当上面的 deny_email_enable=YES 时，可以利用这个设定项来规定那个email address 不可登录vsftpd 服务器，此文件需用户自己创建，一行一个email address 即可！ ）  
+# You may specify an explicit list of local users to chroot() to their home  
+  
+# directory. If chroot_local_user is YES, then this list becomes a list of  
+  
+# users to NOT chroot().  
+  
+#chroot_list_enable=YES （ 设置为 NO 时，用户登录FTP 服务器后具有访问自己目录以外的其他文件的权限， 设置为 YES 时 ， 用户被锁定在自己的 home 目录中，vsftpd 将在下面 chroot_list_file 选项值的位置寻找 chroot_list 文件，此文件需用户建立, 再将需锁定在自己home 目录的用户列入其中，每行一个用户）  
+# (default follows)  
+  
+#chroot_list_file=/etc/vsftpd/chroot_list （ 此文件需自己建立 ， 被列入此文件的用户 ， 在登录后将不能切换到自己目录以外的其他目录 ， 由 FTP 服务器自动地 chrooted 到用户自己的home 目录下，使得 chroot_list 文件中的用户不能随意转到其他用户的FTP home 目录下，从而有利于FTP 服务器的安全管理和隐私保护）  
+# You may activate the "-R" option to the builtin ls. This is disabled by  
+  
+# default to avoid remote users being able to cause excessive I/O on large  
+  
+# sites. However, some broken FTP clients such as "ncftp" and "mirror" assume  
+  
+# the presence of the "-R" option, so there is a strong case for enabling it.  
+  
+#ls_recurse_enable=YES （ 是否允许递归查询 ， 大型站点的 FTP 服务器启用此项可以方便远程用户查询 ）  
+  
+# When "listen" directive is enabled, vsftpd runs in standalone mode and  
+  
+# listens on IPv4 sockets. This directive cannot be used in conjunction  
+  
+# with the listen_ipv6 directive.  
+  
+listen=YES （ 如果设置为 YES ， 则 vsftpd 将以独立模式运行，由vsftpd 自己监听和处理连接请求）  
+  
+# This directive enables listening on IPv6 sockets. To listen on IPv4 and IPv6  
+  
+# sockets, you must run two copies of vsftpd whith two configuration files.  
+  
+# Make sure, that one of the listen options is commented !!  
+  
+#listen_ipv6=YES ( 设定是否支持IPV6)  
+#pam_service_name=vsftpd （ 设置 PAM 外挂模块提供的认证服务所使用的配置文件名 ，即/etc/pam.d/vsftpd 文件，此文件中file=/etc/vsftpd/ftpusers 字段，说明了PAM 模块能抵挡的帐号内容来自文件/etc/vsftpd/ftpusers 中）  
+#userlist_enable=YES/NO （此选项默认值为NO , 此时ftpusers 文件中的用户禁止登录FTP 服务器；若此项设为YES ，则 user_list 文件中的用户允许登录 FTP 服务器，而如果同时设置了 userlist_deny=YES ，则 user_list 文件中的用户将不允许登录FTP 服务器，甚至连输入密码提示信息都没有，直接被FTP 服务器拒绝）  
+#userlist_deny=YES/NO （此项默认为YES ，设置是否阻扯user_list 文件中的用户登录FTP 服务器）  
+tcp_wrappers=YES （ 表明服务器使用 tcp_wrappers 作为主机访问控制方式，tcp_wrappers 可以实现linux 系统中网络服务的基于主机地址的访问控制，在/etc 目录中的hosts.allow 和hosts.deny 两个文件用于设置tcp_wrappers 的访问控制，前者设置允许访问记录，后者设置拒绝访问记录。例如想限制某些主机对FTP 服务器192.168.57.2 的匿名访问，编缉/etc/hosts.allow 文件，如在下面增加两行命令：vsftpd:192.168.57.1:DENY 和vsftpd:192.168.57.9:DENY 表明限制IP 为192.168.57.1/192.168.57.9 主机访问IP 为192.168.57.2 的FTP 服务器，此时FTP 服务器虽可以PING 通，但无法连接）  
+  
+  
+5 在FTP服务器的管理中无论对本地用户还是匿名用户，对于FTP服务器资源的使用都需要进行控控制， 避免由于负担过大造成FTP 服务器运行异常， 可以添加以下配置项对FTP客户机使用FTP服务器资源进行控制：  
+  
+max_client 设置项用于设置FTP 服务器所允许的最大客户端连接数，值为0 时表示不限制。例如max_client=100 表示FTP 服务器的所有客户端最大连接数不超过100 个。  
+  
+max_per_ip 设置项用于设置对于同一IP 地址允许的最大客户端连接数，值为0 时表示不限制。例如max_per_ip=5 表示同一IP 地址的FTP 客户机与FTP 服务器建立的最大连接数不超过5 个。  
+  
+local_max_rate 设置项用于设置本地用户的最大传输速率，单位为B/s ，值为0 时表示不限制。例如local_max_rate=500000 表示FTP 服务器的本地用户最大传输速率设置为500KB/s.  
+  
+ano-n_max_rate 设置项用于设置匿名用户的最大传输速率，单位为B/s, 值为0 表示不限制。例如ano_max_rate=200000 ，表示FTP 服务器的匿名用户最大传输速率设置为200KB/s.  
+  
+6 vsftpd.user_list 文件需要与vsftpd.conf 文件中的配置项结合来实现对于vsftpd.user_list 文件中指定用户账号的访问控制：  
+  
+(1) 设置禁止登录的用户账号  
+  
+  
+当vsftpd.conf 配置文件中包括以下设置时，vsftpd.user_list 文件中的用户账号被禁止进行FTP 登录：  
+  
+userlist_enable=YES  
+  
+userlist_deny=YES  
+  
+userlist_enable 设置项设置使用vsftpd.user_list 文件，userlist_deny 设置为YES 表示vsftpd.user_list 文件用于设置禁止的用户账号。  
+  
+(2)  设置只允许登录的用户账号  
+  
+  
+当vsftpd.conf 配置文件中包括以下设置时，只有vsftpd.user_list 文件中的用户账号能够进行FTP 登录：  
+  
+userlist_enable=YES  
+  
+userlist_deny=NO  
+  
+userlist_enable 设置项设置使用vsftpd.user_list 文件，userlist-_deny 设置为NO 表示vsftpd.usre_list 文件用于设置只允许登录的用户账号，文件中未包括的用户账号被禁止FTP 登录。  
+  
+userlist_deny 和 userlist_enabl e 选项限制用户登录 FTP 服务器 （使用 userlist_deny 选项和 user_list 文件一起能有效阻止 root,apache,www 等系统用户登录 FTP 服务器，从而保证 FTP 服务器的分级安全性） ：  
+Userlist_enable=YES  
+ Ftpusers 中用户允许访问  
+  
+User_list 中用户允许访问  
+   
+Userlist_enable=NO  
+ Ftpusers 中用户禁止访问  
+  
+User_list 中用户允许访问  
+   
+Userlist_deny=YES  
+ Ftpusers 中用户禁止访问（登录时可以看到密码输入提示，但仍无法访问）  
+  
+user_list 中用户禁止访问  
+   
+Userlist_deny=NO  
+ ftpusers 中用户禁止访问  
+  
+user_list 中用户允许访问  
+   
+Userlist_enable=YES 并且  
+Userlist_deny=YES  
+ Ftpusers 中用户禁止访问  
+  
+User_list 中用户禁止访问（登录时不会出现密码提示，直接被服务器拒绝）  
+   
+Userlist_enable=YES 并且  
+Userlist_deny=NO  
+ Ftpusers 中用户禁止访问  
+  
+User_list 中用户允许访问  
+   
+  
+  
+7 配置FTP 服务器的虚拟用户  
+在vsftpd 服务器中支持匿名用户，本地用户，和虚拟用户3 类用户账号，用途及区别如下：  
+  
+匿名用户 是名为anonymous 或ftp 的FTP 用户，匿名FTP 用户登录后将FTP 服务器中的/var/ftp 作为FTP 根目录。匿名用户通常用于提供公共文件的下载，如架设公共软件下载的FTP 服务器，所有人都可以使用匿名用户进行软件下载。  
+  
+本地用户 账号是FTP 服务器中的系统用户账号，使用FTP 本地用户账号登录FTP 服务器后，登录目录为本地用户的宿主目录。本地FTP 用户账号通常和Web 服务器一起提供虚拟主机服务，作为网页虚拟主机更新网页的途径。  
+  
+虚拟用户 账号是为了保证FTP 服务器的安全性，由vsftpd 服务器提供的非系统用户账号。虚拟用户FTP 登录后将把指定的目录作为FTP 根目录。虚拟用户与本地用户具有类似的功能，由于虚拟用户相对安全，因此正逐步替代本地用户账号。  
+  
+由于虚拟用户账号具有较高的安全性，可以替代本地用户账号使用，下面是vsftpd 虚拟用户账号设置的几个步骤：  
+  
+以设置miket 和 john 两个虚拟用户帐号为例来配置vsftpd 服务器  
+  
+(1) 建立虚拟用户口令库文件  
+  
+建立虚拟用户的口令文件，文件中奇数行设置虚拟用户的用户名，偶数行设置用户的口令。例如，使用vi 编辑器建立名为logins.txt 的用户口令库文件，在文件中设置用户mike 的口令为pwabcd, 用户john 的口令是pw1234:  
+  
+#vi logins.txt  
+  
+mike        ( 奇数行设置虚拟用户名)  
+  
+pwabcd   （偶数行设置用户口令）  
+  
+john  
+  
+pw1234  
+  
+:wq ( 保存退出)  
+  
+(2) 生成vsftpd 的认证文件  
+  
+使用db_load 命令生成认证文件。“-f ”命令选项设置的值是虚拟用户的口令库文件，即上面创建的logins.txt 。命令的参数设置为需要生成的认证文件名如 vsftpd_login.db ，该文件放置在目录/etc/vsftpd/ 下：  
+  
+#db_load  -T  -t hash  – f  logins.txt  /etc/vsftpd_login.db  
+  
+  
+本文来自CSDN博客，转载请标明出处：http://blog.csdn.net/zifeng858/archive/2009/08/05/4413584.aspx
