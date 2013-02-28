@@ -1,9 +1,0 @@
-/*
- * A simple message printing routine
- */
-
-void print_message(char *msg)
-{
-	printf("The message was %s\n", msg);
-
-}

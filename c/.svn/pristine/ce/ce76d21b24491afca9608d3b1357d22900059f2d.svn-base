@@ -1,9 +1,0 @@
-# A simple Automake example
-
-bin_PROGRAMS		= hello
-
-hello_SOURCES		= hello.c
-hello_LDADD		= libhello.la
-
-lib_LTLIBRARIES		= libhello.la
-libhello_la_SOURCES	= hello_msg.c

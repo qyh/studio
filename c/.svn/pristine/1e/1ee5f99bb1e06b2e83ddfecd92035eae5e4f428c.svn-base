@@ -1,2 +1,0 @@
-hello_msg.lo hello_msg.o : hello_msg.c
-hello_msg.c :

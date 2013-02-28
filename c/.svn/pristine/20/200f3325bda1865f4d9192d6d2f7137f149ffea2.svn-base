@@ -1,3 +1,0 @@
-# A simple Automake example
-
-SUBDIRS		= src
