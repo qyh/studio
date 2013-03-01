@@ -1,0 +1,226 @@
+最近在学习Linux，发现了这篇不错的LAMP配置文章，简洁实用。于是收藏于此。另外，文中提到的软件，我已经下载整理到了我的SKYDRIVER网盘，需要的朋友可以直接去下载，地址如下
+LAMP_FILE
+mysql5.0太大了，没有办法传到网盘上去，我把下载地址整理了一下，官方的
+Linux (non RPM packages)  MySQL 5.0 Downloads
+Linux (x86, glibc-2.2, "standard" is static)  5.0.67 112.2M
+MD5: 71f7281262f54d2674392e6ef7c7d18f 
+http://dev.mysql.com/get/Downloads/MySQL-5.0/mysql-5.0.67-linux-i686.tar.gz/from/http://mysql.stu.edu.tw/
+
+Linux (x86)  5.0.67 99.1M
+MD5: 3756f1b3580c65e1a9a1daf7a6ec9870 
+http://dev.mysql.com/get/Downloads/MySQL-5.0/mysql-5.0.67-linux-i686-glibc23.tar.gz/from/http://mysql.stu.edu.tw/
+
+Linux (AMD64 / Intel EM64T)  5.0.67 102.3M 
+MD5: b9669163c318580b6b411239868b3f28
+http://dev.mysql.com/get/Downloads/MySQL-5.0/mysql-5.0.67-linux-x86_64-glibc23.tar.gz/from/http://mysql.stu.edu.tw/
+
+Linux (POWER / PowerPC, 32-bit)  5.0.67 174.7M
+MD5: 747271ac9e06c4c89ce87727a032b3a2
+http://dev.mysql.com/get/Downloads/MySQL-5.0/mysql-5.0.67-linux-powerpc-
+glibc23.tar.gz/from/http://mysql.stu.edu.tw/
+
+Linux (S/390X)  5.0.67 101.5M
+MD5: 6c7d0c31aa73a57a97c70a54ba9d8a5f
+http://dev.mysql.com/get/Downloads/MySQL-5.0/mysql-5.0.67-linux-s390x.tar.gz/from/http://mysql.stu.edu.
+ 
+linux+apache+php+mysql 源码安装
+天下文章一大抄，看你会不会抄，偶也来发表一篇文章
+
+一：准备软件包，存放/home/xiutuo/software/目录下。 
+
+主要软件包，
+1. httpd-2.2.6.tar.gz 
+2. mysql-5.0.45-linux-i686-glibc23.tar.gz  (这个版本是已编译好的压缩包，解压后稍做配置即可使用)
+3. php-5.2.5.tar.gz 
+
+安装php所需的软件包（其中libxml2是安装php5必须的.） 
+1. libxml2-(version).tar.gz  --->  [url]http://ftp.gnome.org/pub/GNOME/sources/libxm2[/url]
+2. libxslt-(version).tar.gz  --->  [url]http://ftp.gnome.org/pub/GNOME/sources/libxslt[/url]
+3. curl-(version).tar.gz     --->  [url]http://curl.haxx.se/download[/url]
+
+GD库所需要软件包（有人说PHP源码包里自带了GD2.0.28和zlib，只要安装GD的三个支持包：jpg,png和freetype，但是我们还是下载） 
+1. gd-(version).tar.gz       --->  [url]http://www.libgd.org/Main_Page[/url]  or  [url]http://www.libgd.org/releases/[/url] 
+2. freetype-(version).tar.gz --->  [url]http://sourceforge.net/projects/freetype[/url]
+3. jpegsrc.v6b.tar.gz        --->  [url]http://ijg.org/files/jpegsrc.v6b.tar.gz[/url]
+4. libpng-(version).tar.gz   --->  [url]http://www.libpng.org/pub/png/libpng.html[/url]
+5. zlib-1.2.3.tar.gz         --->  [url]http://www.zlib.net[/url]
+
+把以上所有软件包下载到：/root/Software/目录下.
+
+二：安装mysql
+
+# tar -zvxf mysql-5.0.45-linux-i686-glibc23.tar.gz  
+# mkdir -p /usr/local/mysql 
+# cp -r mysql-5.0.45 /usr/local/mysql 
+# cp /usr/local/mysql/support-files/mysql.server /etc/rc.d/init.d/mysql //开机启动mysql
+# cp /usr/local/mysql/support-files/my-medium.cnf /etc/my.cnf 
+
+添加mysql用户及用户组 
+# groupadd mysql 
+# useradd -g mysql mysql 
+修改mysql目录权限 
+# chown -R root /usr/local/mysql 
+# chgrp -R mysql /usr/local/mysql 
+# chown -R mysql /usr/local/mysql/data 
+生成mysql系统数据库 
+# /usr/local/mysql/.s/mysql_install_db --user=mysql&  //启动mysql服务 
+# /usr/local/mysql/bin/mysqld_safe --user=mysql& 
+如出现 Starting mysqld daemon with databases from /usr/local/mysql/data 代表正常启动mysql服务了.
+按Ctrl + C 跳出修改 mysql 的 root 密码 
+# /usr/local/mysql/bin/mysqladmin -u root -p password "123456"
+
+三：安装GD库(让PHP支持GIF,PNG,JPEG) 
+a.安装 jpeg6 建立目录： 
+# mkdir -p /usr/local/jpeg6 
+# mkdir -p /usr/local/jpeg6/bin 
+# mkdir -p /usr/local/jpeg6/lib 
+# mkdir -p /usr/local/jpeg6/include 
+# mkdir -p /usr/local/jpeg6/man 
+# mkdir -p /usr/local/jpeg6/man1 
+# mkdir -p /usr/local/jpeg6/man/man1 
+# cd /root/Software/ 
+# tar -zvxf jpegsrc.v6b.tar.gz 
+# cd jpeg6 
+# ./configure --prefix=/usr/local/jpeg6/ --enable-shared --enable-static 
+# make
+# make install 
+
+b.libpng包(支持PNG)
+# cd /root/Software/ 
+# tar -zvxf libpng-(version).tar.gz
+# cd libpng-(version)
+# ./configure --prefix=/usr/local/libpng
+# make
+#> make install
+
+c.安装 freetype 
+# cd /root/Software/ 
+# tar -zvxf freetype-(version).tar.gz 
+# cd freetype-(version) 
+# mkdir -p /usr/local/freetype 
+# ./configure --prefix=/usr/local/freetype 
+# make
+# make install 
+
+d.安装zlib 
+# cd /root/Software/ 
+# tar -zxvf zlib-1.2.3.tar.gz 
+# cd zlib.1.2.3
+# mkdir /usr/local/zlib 
+# ./configure --prefix=/usr/local/zlib
+# make
+# make install 
+
+e.安装GD库 
+# cd /root/Software/ 
+# tar -zvxf gd-(version).tar.gz 
+# mkdir -p /usr/local/gd2 
+# cd gd-(version) 
+# ./configure --prefix=/usr/local/gd2 --with-jpeg=/usr/local/jpeg6 --with-zlib-dir=/usr/local/zlib --with-png=/usr/local/libpng --with-freetype=/usr/local/freetype 
+# make
+# make install 
+
+e.安装Curl库 
+# cd /root/Software/ 
+# tar -zxf curl-(version).tar.gz 
+# mkdir -p /usr/local/curl 
+# ./configure --prefix=/usr/local/curl 
+# make
+# make install 
+
+四：安装apache2
+# cd /roo/Software/ 
+# tar -zvxf httpd-2.2.6.tar.gz 
+# cd httpd-2.2.6 
+# mkdir -p /usr/local/apache2 
+# ./configure --prefix=/usr/local/apache --enable-modules=so --enable-rewrite 
+# make
+# make install  
+# /usr/local/apache2/bin/apachectl -k start //启动apahce
+用浏览器查看[url]http://localhost[/url],得到it works，说明apache已经配置成功了.
+# /usr/local/apache2/bin/apachectl -k stop  //停止apache 
+
+五：安装php5，php5必须有libxml2支持!
+a. 安装libxml2 
+# cd /root/Software/ 
+# tar -zvxf libxml2-(version).tar.gz 
+# cd libxml2-(version)
+# mkdir -p /usr/local/libxml2 
+# ./configure --prefix=/usr/local/libxml2 
+# make
+# make install 
+
+b.安装 libxslt (可选安装，你可以不安装) 
+# cd /root/Software/ 
+# tar -zvxf libxslt-(version).tar.gz 
+# mkdir -p /usr/local/libxslt 
+# cd libxslt-(version) 
+# ./configure --prefix=/usr/local/libxslt --with-libxml-prefix=/usr/local/libxml2 
+# make
+# make install 
+
+c.安装php5 
+# cd /root/Software/ 
+# tar -zvxf php-(version).tar.gz 
+# mkdir -p /usr/local/php5 
+# cd php-(version) 
+# ./configure --prefix=/usr/local/php5 --with-apxs2=/usr/local/apache2/bin/apxs \
+>--with-gd=/usr/local/gd2 --with-jpeg-dir=/usr/local/jpeg6 \
+>--with-zlib-dir=/usr/local/zlib \
+>--with-png-dir=/usr/local/libpng \
+>--with-freetype-dir=/usr/local/freetype -\
+>--enable-trace-vars --with-mysql=/usr/local/mysql \
+>--enable-mbstring=all --with-curl=/usr/local/curl --enable-mbregex \
+>--with-config-file-path=/usr/local/php5 --enable-ftp \
+>--enable-soap --with-xsl=/usr/local/libxslt
+
+# make 
+# make install 
+# cp php.ini-dist /usr/local/php5/php.ini  （别忘记了呵呵）
+
+六：重新配置apache2让他支持php
+
+# cd /usr/local/apache2/conf
+# vim httpd.conf
+在LoadModule php5_module modules/libphp5.so
+添加AddType application/x-httpd-php  .php
+
+OK,基本的安装已经完成.
+重新起动APACHE:
+# /usr/local/apache2/bin/apachectl start 
+如果重新起动APACHE出现:
+Syntax error . line 232 of /usr/local/apache2/conf/httpd.conf: Cannot load /usr/local/apache2/modules/libphp5.so into server: 
+/usr/local/apache2/modules/libphp4.so: cannot restore segment prot after reloc: Permission denied
+那就要按照下面的方法解决:
+
+1.chcon  -t  texrel_shlib_t  /usr/local/apache2/modules/*.so
+
+2.编辑/etc/selinux/config，找到这段：
+# This file controls the state of SELinux . the system.
+# SELINUX= can take .e of these three values:
+# enforcing - SELinux security policy is enforced.
+# permissive - SELinux prints warnings instead of enforcing.
+# disabled - SELinux is fully disabled.
+SELINUX=enforcing 
+
+把 SELINUX=enforcing 注释掉：#SELINUX=enforcing ，然后新加一行为：
+SELINUX=disabled
+保存，关闭。
+
+编辑/etc/sysconfig/selinux，找到:
+# This file controls the state of SELinux . the system.
+# SELINUX= can take .e of these three values:
+# enforcing - SELinux security policy is enforced.
+# permissive - SELinux prints warnings instead of enforcing.
+# disabled - SELinux is fully disabled.
+SELINUX=enforcing 
+
+如果SELINUX已经是 SELINUX=disabled，那么就不用改了，否则就把SELINUX=enforcing 注释掉，新加一行：
+SELINUX=disabled
+保存，退出。
+
+ok，web环境apache2+mysql5+php5就介绍到这里。更详细的apache2的配置和mysql配置和php.ini的配置参考相应文档
+ 
+ 
+方便大家收藏，我已制作成PDF文档，可以下载附件中的，方便单机学习
+http://img1.51cto.com/attachment/200901/233677_1231136297.pdf

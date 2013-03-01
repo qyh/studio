@@ -1,0 +1,232 @@
+PHP 的安装 
+
+由于php是一个zip文件(非install版),安装较为简单 
+解压就行.把解压的 php-5.2.1-Win32 重命名为 php5.并复制到C盘目录下.即安装路径为 c:\php5  
+
+1  找到php目录下的 php.ini.recommended (或者php.ini-dist)文件,重命名为 php.ini 
+并复制到系统盘的windows目录下(以c:\windows为例).  
+
+2  再把php目录下的php5ts.dll,libmysql.dll复制到目录 c:\windows\system32下. 
+
+3  把php5\ext目录下的php_gd2.dll,php_mysql.dll,php_mbstring.dll文件复制到c:\windows\system32下  
+注意:不要把 php_mysql.dll 和 php_mssql.dll 混淆 
+如果没有加载 php_gd2.dll  php将不能处理图像.没有加载php_mysql.dll php将不支持mysql函数库 
+php_mbstring.dll在后面使用phpmyadmin时支持宽字符 
+
+
+配置php并关联MySQL 
+
+打开c:\windows\php.ini文件 
+1 设置扩展路径 
+查找 extension_dir 有这么一行 
+extension_dir = "./" 
+将此行改成 
+extension_dir = "C:\php5\ext"  
+其中C:\php5是你安装php的路径.路径不正确将无法加载dll  
+(注意:有些php版本是 ;extension_dir = "./" 要把前面的分号去掉) 
+
+2 分别查找  
+;extension=php_mbstring.dll 
+;extension=php_gd2.dll 
+;extension=php_mysql.dll 
+把上面3项前面的分号去掉,这样apache启动时就可以加载这些dll了 
+注意不要把 ;extension=php_mysql.dl  和 ;extension=php_mssql.dl 混淆  
+当然前面我们也把这些dll复制到system32下了.(大家在安装的过程中都注意到如何把一些dll加载入来了. 
+以后要加载一些dll,比如说php_mysqli.dll,也就懂得怎么加载了) 
+
+3 设置会话保存路径 
+查找session.save_path 有这么一行 
+;     session.save_path = "N;/path" 
+在此行后加入一行(注意是加入一行,不是加到后面) 
+session.save_path = "C:\WINDOWS\Temp"  
+保存到你的临时目录下,这里完全可以保存到windows临时目录Temp下  
+
+4 还有比较值得注意的是 short_open_tag .有一些php版本默认是Off的. 
+也就是说 php不能使用短标记如 <? ?> 必须使用<?php ?> 
+由于短标记使用方便,并且很多程序也是用短短标记来写,如discuz等 
+如果不把 short_open_tag 改成On将出现的症状将很难判断是上面原因,这里建议修改  
+查找 
+short_open_tag = Off 
+改为 
+short_open_tag = On  
+
+5 是否显示错误 display_errors  
+出于安全性考虑,display_errors 有些版本也默认为 Off. 
+就是说在调试时,如果php代码有误,就只出现一个空白页.而不会显示出错原因和出错行数. 
+这样调试起来将非常不便,建议根据自己需要修改 
+查找 
+display_errors = Off           (注意不是 ; - display_errors = Off           [Security]) 
+改成 
+display_errors = On  
+
+6 显示NOTICE敬告提示 
+第五步虽然打开了出错提示,但出错报告还受到 error_reporting 的控制. 
+php5默认关闭NOTICE敬告提示,如果是在本地调试,建议打开NOTICE敬告提示. 
+查找 
+error_reporting  =  E_ALL 
+改成 
+error_reporting  =  7 
+
+另外提示一下,在程序中也可以通过error_reporting()控制错误报告输出,具体怎么用大家参考下手册. 
+
+7 register_globals 
+出于安全性考虑它默认也是Off 
+当register_globals=Off的时候,下一个程序接收的时候应该用$_POST['user_name']和$_POST['user_pass']）  
+当register_globals=On的时候,下一个程序可以直接使用$user_name和$user_pass来接受值.  
+建议根据自己需要修改,为了兼容问题,我还是把它改成On了. 
+
+8 php5时差问题 
+<?php echo date("Y-m-d H:i:s");?>时间相差八小时 
+为什么呢?PHP5系列版本新增了时区设置,默认为格林威治时间,与中国所在的东8区正好相差8个小时 
+查找date.timezone有这么一行 
+;date.timezone = 
+将;去掉,改成 
+date.timezone = PRC  
+其中PRC：People's Republic of China 中华人民共和国,  
+
+9 php5上传文件问题 
+a. 一般的文件上传,除非文件很小.就像一个5M的文件,很可能要超过一分钟才能上传完. 
+但在php中,默认的该页最久执行时间为 30 秒.就是说超过30秒,该脚本就停止执行. 
+这就导致出现 无法打开网页的情况.这时我们可以修改 max_execution_time 
+
+在php.ini里查找  
+max_execution_time 
+默认是30秒.改为 
+max_execution_time = 0  
+0表示没有限制 
+
+另一种方法是可以在php程序中加入 
+set_time_limit(); 
+来设定页面最久执行时间. 
+set_time_limit(0);//0表示没有限制 
+
+b. 修改 post_max_size 设定 POST 数据所允许的最大大小。此设定也影响到文件上传。 
+php默认的post_max_size 为2M.如果 POST 数据尺寸大于 post_max_size $_POST 和 $_FILES superglobals 便会为空. 
+查找 post_max_size .改为 
+post_max_size = 150M 
+
+c. 很多人都会改了第二步.但上传文件时最大仍然为 8M. 
+为什么呢.我们还要改一个参数upload_max_filesize 表示所上传的文件的最大大小。  
+查找upload_max_filesize,默认为8M改为 
+upload_max_filesize = 100M 
+
+另外要说明的是,post_max_size 大于 upload_max_filesize 为佳. 
+
+
+Apache整合PHP 
+
+1 打开apache配置文档，以作者的电脑为例：D:\myphp\apache2.2\conf\httpd.conf 
+
+2 修改网站根目录 
+查找DocumentRoot有这么一行 
+DocumentRoot "C:/Program Files/Apache Software Foundation/Apache2.2/htdocs" 
+这就是你网站的根目录,你可以修改,也可以用默认的.如果改,还要修改下面这项,否则可能会出现 403 错误 
+查找  This should be changed to whatever you set DocumentRoot to 
+在它下面两行有 
+<Directory "C:/Program Files/Apache Software Foundation/Apache2.2/htdocs"> 
+把上面两项的 C:/Program Files/Apache Group/Apache2/htdocs 改成你想要的目录 
+
+3 查找  DirectoryIndex index.html 
+修改成 
+DirectoryIndex index.html index.html.var index.php  
+这样index.php 可以充当默认页面了  
+
+4 Apache中模块化安装php 
+查找 # LoadModule foo_module modules/mod_foo.so 
+在此行后加入一行 
+LoadModule php5_module C:/php5/php5apache2_2.dll 
+（上述是apache2.2版本，如果是apache2就是C:/php5/php5apache2.dll ）
+(其中C:/php5/php5apache2_2.dll是你安装php的相应路径. 
+注意不要把php5apache2_2.dll,php5apache2.dll和php5apache.dll混淆.php5apache.dll只适用于apache 版本1的. 
+PHP5压缩包里的php5apache2.dll只适用于apache2.0.*版本,如果是2.2.*以上版本,必须使用php5apache2_2.dll.否则就可能会出现 
+"Cannot load C:/php/php5apache2.dll into server: The specified module could not be found." 
+或者: 
+"The requested operation has failed" 
+的情况. 
+不过php5apache2_2.dll出来之后也就没有多少参考价值了) 
+
+5 查找 AddType application/x-gzip .gz .tgz 
+在此行后加入一行 
+AddType application/x-httpd-php .php  
+这样apache就可以解释php文件了  
+到这里配置基本完成了  
+
+6 重启apache，在网站根目录下创建一个 phpinfo.php 文件 
+
+<?php 
+phpinfo(); 
+?>  
+
+在浏览器中打开。如果能正常看到php的信息，则说明php已经配置好了。
+
+/**
+ *
+ *  让apache 去持path_info
+ *
+ */
+
+
+
+从APACH2.0.30以上服务器中去掉了acceptpathinfo;如果需要的话需要在http.conf中添加AcceptPathInfo On这一条。即原来的
+
+
+
+Options FollowSymLinks includes 
+AllowOverride None
+
+改成
+
+Options FollowSymLinks includes 
+AllowOverride None
+　AcceptPathInfo On
+
+
+此指令决定了是否接受包含在某确定文件（或是某现有目录的一个不存在的文件）后附加的路径信息。此路径信息将在脚本里以PATH_INFO环境变量的形式出现。
+
+比如说，假设/test/所指向的目录下只包括一个文件：here.html。那么对/test/here.html/more和/test/nothere.html/more的请求都会得到/more这样的PATH_INFO变量。
+
+AcceptPathInfo指令的三个参数为：
+
+off
+仅当一个请求映射到一个真实存在的路径时，它才会被接受。这样，如上述/test/here.html/more这样的在真实文件名后跟随一个路径名的请求将会返回一个404 NOT FOUND错误。
+on
+如果前面的路径映射到一个真实存在的文件，此请求将被接受。如果/test/here.html映射着一个有效的文件，上例中/test/here.html/more这个请求就会被接受。
+default
+对于附加路径名的请求的处理方式由其对应的处理器来决定。对应普通文本的核心处理器默认会拒绝PATH_INFO。而用于伺服脚本的处理器，比如cgi-script和isapi-isa，默认会接受PATH_INFO。
+
+=======================================
+PHP中的全局变量$_SERVER['PATH_INFO']是一个很有用的参数，众多的CMS系统在美化自己的URL的时候，都用到了这个参数。
+
+对于下面这个网址：
+
+http://www.test.com/index.php/foo/bar.html?c=index&m=search
+
+我们可以得到 $_SERVER['PATH_INFO'] ＝ ‘/foo/bar.html’,而此时 $_SERVER['QUERY_STRING'] = 'c=index&m=search';
+
+通常，我们最初开始PHP程序编写的时候，都会使用诸如： http://www.test.com/index.php?c=search&m=main 这样的URL，这种URL不仅看起来非常奇怪，而且对于搜索引擎也是非常不友好的。很多搜索引擎收录的时候，都会忽略Query String之后的内容，google虽然不会忽略Query String，但是对于其他不含Query String的页面，会给于比较高的PR值。
+
+下面是一段解析PATH_INFO的非常简单的代码：
+
+
+<?php
+
+if( !isset( $_SERVER['PATH_INFO'] ) ){
+$pathinfo = 'default';
+}else{
+$pathinfo = explode('/', $_SERVER['PATH_INFO']);
+}
+
+if( is_array($pathinfo) AND !empty($pathinfo) ){
+$page = $pathinfo[1];
+}else{
+$page = 'a.php';
+}
+
+require "$page.php";
+
+?>
+
+
+
+
+
