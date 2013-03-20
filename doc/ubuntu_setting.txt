@@ -1,0 +1,103 @@
+linux的各大发行版，都有些不必要的服务被默认开启了，针对ubuntu，我们可以采用选择性关闭的方法加速起动，提高系统性能。 
+
+这里我们安装一个软件： 
+
+sudo apt-get install sysv-rc-conf 
+
+然后这样起动： 
+
+sudo sysv-rc-conf 
+
+在这个软件里，可以用键盘的方向键移动，用空格选取，也可以直接用鼠标选取，最后用q保存退出，一下列出服务的名称和基本的解释。 
+
+acpi-support 这个是关于电源支持的默认是1,2,3,4,5下启动，我认为你可以把它调整到s级别。 
+acpid acpi的守护程序，默认是2－5开启，我认为可以不用管。 
+alsa alsa声音子系统，应该不用开启它。 
+alsa-utils 这个服务似乎取代了alsa，所以开启这个就可以了，我在S级别开启它。 
+anacron 这是一个用于执行到时间没有执行的程序的服务，我认为它无所谓，所以关了它，这个可以随便。 
+apmd 也是一种电源管理，我认为电脑如果不是很老，它就没有开启的必要了。 
+atd 和anacron类似，我把它关了。 
+bluez-utiles 传说中的蓝牙服务，然后遗憾我没有，所以关了。 
+bootlogd 似乎使用来写log的，安全期间开着他也许比较好。 
+cron 指定时间运行程序的服务，所以开着比较好的。 
+cupsys 打印机服务，所以如果你有，就开启吧。 
+dbus 消息总线系统，非常重要，一定要开。 
+dns-clean 拨号连接用的，如果不用，就关了它。 
+evms 企业卷管理系统，由于我并不明白什么叫做企业卷，所以我关了它。 
+fetchmail 用于邮件守护，我关了它。 
+gdm gnome桌面管理器，我关了它，然后用startx启动gnome。 
+halt 关机用的，不要更改 
+hdparm 这个我刚才有讲，如果没有ide硬盘也就不用开启它了。 
+hotkey-setup 这个是给某些品牌笔记本设计的热键映射，台式机用户请关了它 
+hotplug 这个是用于热插拔的，我已经测试过了，在某些电脑上关闭它会使声卡无效，请在S级别开启它。 
+hplip hp打印机专用的，应该可以关了它。 
+ifrename 网络接口重命名，好像没用，关了。 
+ifupdown 这个使用来打开网络的，开着它。 
+ifupdown-clean 同上。 
+klogd linux守护程序，接受来自内核和发送信息到syslogd的记录，并记录为一个文件，所以请开着它。 
+linux-restricted-modules-common 这个使用来使用受限制的模块的，你可以从/lib/linux-restricted-modules下查看，如果没有什么，你可以关掉它。 
+lvm 逻辑卷管理器，如果你没有请关了它。 
+makedev 用来创建设备到/dev/请不要动他。 
+mdamd 管理raid用，如果你没有请关闭它。 
+module-init-tools 从/etc/modules 加在扩展模块的，这个一般开着。 
+networking 增加网络接口和配置dns用，将它开启。 
+ntp-server 与ubuntu时间服务器进行同步的，关了。 
+pcmcia 激活pcmica设备，遗憾我有生以来都没有见过这样的设备，关了它。 
+powernowd 用于管理cpu的客户端程序，如果有变频功能，比如amd的quite' cool 那么就开启它吧。 
+ppp 拨号用的，我关了它。 
+ppp-dns 一样，也关了。 
+readahead 预加载服务，让我想起了win的预读，当然他们不同，它会使启动变慢3－4妙，所以我关了它。 
+reboot 重启用的，不要动。 
+rmnologin 如果发现nologin，就去除它，在笔记本上不用开启。 
+rsync rsync协议守护，请视情况而定。 
+screen-cleanup 一个清除开机屏幕的脚本，随便。 
+sendsigs 重启和关机时向所有进程发送消息。所以不要管它。 
+single 激活但用户模式，不用管它。 
+stop-bootlogd 从2,3,4,5级别停止bootlogd,不用管它。 
+sudo 这个不用说吧，不用管它。 
+sysklogd 用于记录系统日志信息，不用管它。 
+udev 用户空间dev文件系统，不用管它。 
+udev-mab 同上。 
+umountfs 用来卸载文件卷的，不用管它。 
+urandom 生成随即数的，不知道怎么用，不用管它。 
+usplash 那个漂亮的启动画面，但是我关了它，它也存在，所以想关他需要把内核起动参数中的splash一句删掉。 
+vbesave 显卡bios配置工具，不用管它。 
+xorg-common 设置x服务ice socket。不用管它。
+
+
+redhat下常用的一些服务
+anacron 不考虑系统downtime期间的cron服务
+
+amd 自动安装NFS守候进程
+
+apmd 高级电源管理
+
+arpwatch 记录日志并构建一个在LAN接口上看到的以太网地址和IP地址对数据库
+
+atd 用于at和batch的服务
+
+autofs 自动安装管理进程automount,与NFS相关,依赖于NIS
+
+crond 为Linux下自动安排的进程提供运行服务.
+
+Gpm 提供字符模式下对鼠标的支持.
+
+Keytable 用于装载键盘镜像
+
+Kudzu 硬件探测器
+
+Netfs 安装和卸载NFS、SAMBA和NETWARE网络文件系统
+
+Network 激活已配置网络接口的脚本程序
+
+Nfslock NFS锁定
+
+Pcmcia 安装pcmcia卡（一般用于笔记本电脑）
+
+Sshd OpenSSH服务器
+
+Syslog 一个让系统引导时启动syslog和klogd系统日志守候里程的脚本
+
+Xfs Xwindow字型服务器，为本地和远程X服务器提供字型集
+
+Xinetd 支持多种网络服务的核心守候程序。
