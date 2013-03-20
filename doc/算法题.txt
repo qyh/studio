@@ -1,0 +1,186 @@
+﻿1. 算法的强大——快速计算一个正二进制整数中包含多少个1
+原题：一个正整数，转成二进制后，这个二进制数包含多少个1？
+
+　　这个问题在网上看过多次，几番思考，也没有什么好的办法。采用最基本的办法，逐位判断，是1的统计加1，最后将统计数返回。
+
+　　以下是这个思路的VB2008代码，不失一般性，将正整数的范围控制在（1~231-1）
+
+　　Private Function GetCount1OfValue(ByVal Value As Integer) As Integer
+　　　　Dim i As Integer, Count As Integer = 0
+　　　　For i = 0 To 30
+　　　　　　If (Value And 2 ^ i) = 2 ^ i Then Count += 1
+　　　　Next
+　　　　Return Count
+　　End Function
+
+
+
+　　但是近日，在网上发现一个很巧妙的算法，能够快速实现上述的计算功能。代码贴于下方
+
+　　Private Function GetCount1OfValue(ByVal Value As Integer) As Integer　　
+
+　　　　Dim Count As Integer = 0
+
+　　　　Do While Value > 0
+
+　　　　　　Value = Value And (Value - 1)
+
+　　　　　　Count +=1
+
+　　　　Loop
+
+　　　　Return Count
+
+　　End Function
+
+
+
+　　这段代码的精髓就是在这一句：Value = Value And (Value - 1)
+
+　　曾经用过类似语句的在我的博客“判断是否是2的N次方——证明x & (x - 1)==0的正确性”
+
+　　那么这句语句到底起到什么作用呢？看下面的分析
+
+　　假设Value=X1X2……Xn-1Xn，其中Xi(1≤i≤n)为1或0
+
+　　不妨设Xi是最右边的1，那么Value就可以写成如下的形式
+
+　　Value=X1X2……Xi-1Xi0……0，其中(1≤i≤n)，Xi后面有n-i个0
+
+　　因为Xi=1，所以Value=X1X2……Xi-110……0，其中(1≤i≤n)，1后面有n-i个0
+
+　　则Value-1=X1X2……Xi-101……1，其中(1≤i≤n)，0后面有n-i个1
+
+　　则Value And (Value-1)=X1X2……Xi-100……0，其中(1≤i≤n)，Xi-1后面有n-i+1个0
+
+　　
+
+　　因此，Value And (Value-1)的效果把最右边的1变成0
+
+　　在上面的代码中，每把最右边的1变成0，则统计数加1，直到所有的1变成0为止。
+
+　　这两个算法，第一个算法的循环次数是固定的，是31次，无论数值是多少（必须在范围之内）。而第二个算法和Value中的1的个数有关，循环的次数就是1的个数，可见该算法之妙
+
+=================================================================================================================================================================
+
+2. 算法：将数组中的整数进行排列，奇数在左边，偶数在右边
+
+将数组中的整数进行排列，奇数在左边，偶数在右边
+
+应用快速排序算法的划分算法的思想，先从数组左侧寻找，遇到奇数，则左侧索引l加1，遇到偶数，就将其放入到临时空间x。然后再从右边寻找，遇到偶数，右侧索引r减1，遇到奇数，就将其放入到左侧搜到的偶数的位置，并把临时空间的奇数放入该位置。直到左右索引相遇，则排列结束。该算法有一个不足的地方，就是每次都会从最左边和最右边开始找。可以做些改进。
+[cpp] view plaincopy
+void sort(int arr[],int n)  
+{  
+    int l=0,r=n-1;  
+    int x=arr[0];  
+    while (l<r) {  
+        while(l<r&&arr[l]%2!=0) l++;  
+        if(l<r)x=arr[l];  
+        while(l<r&&arr[r]%2==0)r--;  
+        if(l<r){arr[l]=arr[r];  
+            arr[r]=x;}  
+           }  
+      
+}  
+  
+  
+int main(int argc,const char *argv[])  {  
+    int arr[6]={2,5,4,6,8,1};  
+    sort(arr, 6);  
+    for (int i=0; i<6; i++) {  
+        printf("%d\n",arr[i]);  
+    }  
+
+改进一：在每次排列后，将左右指针分别加减1。
+[cpp] view plaincopy
+void sort(int arr[],int n)  
+{  
+    int l=0,r=n-1;  
+    int x=arr[0];  
+    while (l<r) {  
+        while(l<r&&arr[l]%2!=0) l++;  
+        if(l<r)x=arr[l];  
+        while(l<r&&arr[r]%2==0)r--;  
+        if(l<r){arr[l]=arr[r];  
+            arr[r]=x;}  
+        l++;r--;  
+    }  
+      
+}  
+  
+  
+int main(int argc,const char *argv[])  {  
+    int arr[6]={2,5,4,6,8,1};  
+    sort(arr, 6);  
+    for (int i=0; i<6; i++) {  
+        printf("%d\n",arr[i]);  
+    }  
+
+改进二：在左右侧完成一次搜索后就分别修改索引。
+[cpp] view plaincopy
+void sort(int arr[],int n)  
+{  
+    int l=0,r=n-1;  
+    int x=arr[0];  
+    while (l<r) {  
+        while(l<r&&arr[l]%2!=0) l++;  
+        if(l<r){x=arr[l];l=l+1;}  
+        while(l<r&&arr[r]%2==0)r--;  
+        if(l<r){arr[l-1]=arr[r];  
+            arr[r]=x;r=r-1;}  
+     }  
+      
+}  
+  
+  
+int main(int argc,const char *argv[])  {  
+    int arr[6]={2,5,4,6,8,1};  
+    sort(arr, 6);  
+    for (int i=0; i<6; i++) {  
+        printf("%d\n",arr[i]);  
+    }  
+
+==========================================================================
+
+3. 在二叉查找树中找到两个结点的最低公共祖先 Lowest Common Ancestor
+分类： 面试题 2012-03-18 05:44 404人阅读 评论(0) 收藏 举报
+prototype算法searchfunctiontreego
+本文来自《 programming interviews exposed》一书
+题目：
+Given the value of two nodes in a binary search tree, find the lowest common ancestor. You may assume that both values already exist in the tree.
+The function prototype is as follows:
+
+[cpp] view plaincopy
+int findLowestCommonAncestor(node* root, int value 1, int value2);  
+
+
+                               20
+                            /        \
+                        8             22
+                     /     \
+                    4         12
+                             /   \
+                         10       14
+
+比如在上面这个二叉搜索树中，要找4和14的lowest common ancestor, 就应该是8.
+
+算法描述：
+因为根节点是所有节点的祖先，又因为二叉树自身的性质，我们会得到，当两个目标节点都比当前节点小的时候，我们走左节点，当两个目标节点都比当前节点大的时候，我们走右节点。第一个碰到的节点的值在两个目标节点之间的节点就是 lowest common ancestor
+
+[cpp] view plaincopy
+int findLowestCommonAncestor(node* root, int value1, int value2) {  
+    node* curNode = root;  
+    while(1) {  
+         // go to the left child  
+         if(curNode->value>value1 && curNode->value>value2)   
+             curNode = curNode->left;  
+         // go to the right child  
+         else if (curNode->value < value1 && curNode->value < value2)  
+              curNode = curNode->right;  
+         else  
+              return curNode->value;  
+    }  
+}  
+
+
+算法的时间复杂度是O(logn)
