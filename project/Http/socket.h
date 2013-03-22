@@ -26,7 +26,7 @@
 #define INVALID_SOCKET -1
 #endif
 #include <exception>
-
+#include <string.h>
 #include "chars.h"
 
 // The class Socket does not provide a connect 

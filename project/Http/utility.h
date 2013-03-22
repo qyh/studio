@@ -6,6 +6,8 @@
 #define strcasecmp stricmp
 #define atoll _atoi64
 #pragma warning(disable:4996)
+#else 
+ #include <unistd.h>
 #endif
 
 #include <string>
