@@ -165,7 +165,11 @@ int findLowestCommonAncestor(node* root, int value 1, int value2);
 比如在上面这个二叉搜索树中，要找4和14的lowest common ancestor, 就应该是8.
 
 算法描述：
-因为根节点是所有节点的祖先，又因为二叉树自身的性质，我们会得到，当两个目标节点都比当前节点小的时候，我们走左节点，当两个目标节点都比当前节点大的时候，我们走右节点。第一个碰到的节点的值在两个目标节点之间的节点就是 lowest common ancestor
+因为根节点是所有节点的祖先，又因为二叉树自身的性质，
+我们会得到，当两个目标节点都比当前节点小的时候，
+我们走左节点，当两个目标节点都比当前节点大的时候，
+我们走右节点。第一个碰到的节点的值在两个目标节点之间的节点就是 
+lowest common ancestor
 
 [cpp] view plaincopy
 int findLowestCommonAncestor(node* root, int value1, int value2) {  

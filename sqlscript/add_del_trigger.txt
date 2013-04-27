@@ -85,3 +85,69 @@ trigger_stmt：执行语句(可以是复合语名)，使用别名OLD和NEW，能
   10. END IF;   
   11. END;//   
   12. delimiter ; 
+  
+  
+  当执行delete、update或insert操作时，可以使用触发器来触发某些操作。
+ 
+创建触发器：
+CREATE TRIGGER trigger_name trigger_time trigger_event   ON tbl_name 
+ 
+FOR EACH ROW trigger_stmt
+ 
+其中 trigger_name是触发器名，
+trigger_time:BEFORE,AFTER
+trigger_event:INSERT、UPDATE、DELETE
+tbl_name:关联的表名
+注意，INSERT除了插入操作，load data也能激活该事件。对于同一trigger_event,不能有两个相同trigger_time的触发器。
+trigger_stmt：触发器被激活时执行的语句，可以使用单条语句，也可以使用BEGIN——END这样的复合语句。
+ 
+例如：
+mysql> CREATE TABLE account (acct_num INT, amount DECIMAL(10,2));
+ 
+mysql> CREATE TRIGGER ins_sum BEFORE INSERT ON account
+ 
+    -> FOR EACH ROW SET @sum = @sum + NEW.amount;
+ 
+mysql> SET @sum = 0;
+mysql> INSERT INTO account values(5,12.5);
+mysql> SELECT @num;
+ 
+在该例子中，关键字NEW.col_name在INSERT触发程序中引用；
+另外一个关键字OLD.col_name可用于DELETE中
+NEW和OLD均可用于UPDATE触发程序中。
+ 
+old命令的列为只读的，new命名的列，如果具有select权限，可引用它，如果在before出发程序中，具有update权限，可使用set new.col_name = value的方法，在插入前更改值
+ 
+另一个例子：
+mysql> delimiter //
+ 
+mysql> CREATE TRIGGER upd_check BEFORE UPDATE ON account
+ 
+    -> FOR EACH ROW
+ 
+    -> BEGIN
+ 
+    ->     IF NEW.amount < 0 THEN
+ 
+    ->         SET NEW.amount = 0;
+ 
+    ->     ELSEIF NEW.amount > 100 THEN
+ 
+    ->         SET NEW.amount = 100;
+ 
+    ->     END IF;
+ 
+    -> END;//
+ 
+mysql> delimiter ;
+ 
+当然，这里可以先定义存储程序，然后在触发器内call存储程序，这样就可以对存储程序进行复用。
+ 
+删除触发器：
+DROP TROGGER trigger_name
+ 
+--------------------------------------------------------------------------
+需要注意以下几点：
+1.MySQL触发器针对行来操作，因此当处理大数据集的时候可能效率很低。
+2.触发器不能保证原子性，例如在MYISAM中，当一个更新触发器在更新一个表后，触发对另外一个表的更新，若触发器失败，不会回滚第一个表的更新。InnoDB中的
+ 触发器和操作则是在一个事务中完成，是原子操作。
