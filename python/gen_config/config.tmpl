@@ -1,0 +1,38 @@
+root = "./"
+thread = 8
+logpath = "./log"
+harbor = 0
+start = "room_challenge/main_room"
+bootstrap = "snlua bootstrap"	-- The service for bootstrap
+luaservice = root.."bin/?.lua;"..root.."service/?.lua;"..root.."bin/room_challenge/?.lua;"..root.."bin/common/?.lua;"
+lualoader = "lualib/loader.lua"
+preload = root.."bin/room_challenge/preload.lua"	-- run preload.lua before every lua service run
+snax = root.."bin/?.lua;"..root.."examples/?.lua;"..root.."test/?.lua"
+-- snax_interface_g = "snax_g"
+cpath = root.."cservice/?.so"
+-- daemon = "./skynet_room_challenge.pid"
+cluster = root.."bin/clustername.lua"
+name = "win_challenge"
+logger = "./log/"..name..".log"
+------------------------debut port distribute----------------------------
+-- center: 10000;	db: 10001;	redis: 10002;	gate: 10101 ~ 10200;	login: 10201 ~ 10300;	room: 10501 ~ 
+debug_port = 12500
+rate = 1000
+maxClient = 1200
+maxAgent = 1200 
+maxDesk = 400 
+perDeskAgentNum = 3					
+addAiTime = 5            --增加AI的时间  
+roomAiNum = 200 
+lostCount = 4          --玩家连败的控制线 大于该值开始控制 控制内容，有三级AI的胡牌优势
+
+firstTimePoint = 25    --第一次倒计时时间
+timePoint = 20         --倒计时时间
+aiTimePoint = 5        --AI等待时间（最大值）
+
+aiControl = 0          --是否全部配AI（只能和AI配桌），0 为否 ，1 为是    * 注意调整AI数量 roomAiNum *
+putDeskLimit = 3       --配桌限制 0 ：没有限制 ， 1 ：输和输配 赢和赢配 ，2 ：不能和上一局相同的玩家配，3 ：1和2两个条件都要满足 
+lockedMatchConfigFile = "./bin/room_challenge/config/config_room_challenge"             -- 配锁定比赛的配置文件名
+lockedMatch = false -- 是否锁定比赛. true: 锁定； false: 未锁定
+enableAi=1
+runEnv=""

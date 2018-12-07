@@ -1,0 +1,8 @@
+config_room_challenge1:
+  debug_port: 12501
+config_room_challenge2:
+  debug_port: 12502
+  enableAi: 1
+  luaservice: root.."bin/common/?.lua;"
+config_room_challenge3:
+  debug_port: 12503
