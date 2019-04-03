@@ -81,10 +81,8 @@ static const struct luaL_Reg arraylib_f[] = {
 	{NULL, NULL}
 };
 static const struct luaL_Reg arraylib_m[] = {
-	{"set", setarray},
-	{"get", getarray},
-	{"size", getsize},
 	{"__newindex", setarray},
+	{"__index", getarray},
 	{"__len", getsize},
 	{"__tostring", array2string},
 	{NULL, NULL}
@@ -94,17 +92,6 @@ static const struct luaL_Reg arraylib_m[] = {
 int luaopen_array(lua_State *L) {
 	/*create metatable of the array*/
 	luaL_newmetatable(L, "LuaBook.array");
-
-	/* metatable.__index = metatable */
-	lua_pushvalue(L, -1); /* duplicates the metatable */
-
-	/**
-	 * Does the equivalent to t[k] = v, where t is the value at the given index 
-	 * and v is the value at the top of the stack. 
-	 * This function pops the value from the stack. 
-	 * As in Lua, this function may trigger a metamethod for the "newindex" event (see §2.4). 
-	 */
-	lua_setfield(L, -2, "__index");
 
 	/**
 	 * Registers all functions in the array l (see luaL_Reg) into the table on the top of the stack 
