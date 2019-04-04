@@ -9,6 +9,8 @@ const char* LIB_NAME = "_sqlite3";
 
 typedef struct sqlite_t {
 	sqlite3 *db;
+	int lua_callback;
+	lua_State* l;
 }sqlite_t;
 
 static int newsqlite(lua_State* L) {
@@ -30,8 +32,67 @@ static sqlite_t* checkarg(lua_State* L) {
 	luaL_argcheck(L, ud != NULL, 1, "sqlite_t expected");
 	return (sqlite_t*)ud;
 }
+
+static int _exec_callback(void* data, int argc, char **argv, char **columnName) {
+	int i = 0;
+	sqlite_t *ud = (sqlite_t*)data;
+	if (ud) {
+		lua_rawgeti(ud->l, LUA_REGISTRYINDEX, ud->lua_callback);
+		lua_newtable(ud->l);
+		for (i=0; i<argc; i++) {
+			lua_pushstring(ud->l, columnName[i]);
+			lua_pushstring(ud->l, argv[i]);
+			lua_settable(ud->l, -3);
+		}
+		lua_pcall(ud->l, 1, 0, 0);
+	}
+	return 0;
+}
+
+static int _exec (lua_State* L) {
+	char *errMsg = 0;
+	int rv = 0;
+	sqlite_t* ud = checkarg(L);
+	ud->lua_callback = luaL_ref(L, LUA_REGISTRYINDEX);
+	ud->l = L;
+	const char* sql = lua_tostring(L, 2);
+	if (sql == NULL) {
+		luaL_error(L, "sql is NULL");
+		lua_pushinteger(L, -1);
+		return 1;
+	}
+	rv = sqlite3_exec(ud->db, sql, _exec_callback, (void*)ud, &errMsg);
+	if (rv != SQLITE_OK) {
+		luaL_error(L, errMsg);
+		sqlite3_free(errMsg);
+		lua_pushinteger(L, rv);
+		return 1;
+	}
+	lua_pushinteger(L, rv);
+	return 1;
+}
 static int _test(lua_State* L) {
 	sqlite_t* ud = checkarg(L);	
+
+	int lua_callback = luaL_ref(L, LUA_REGISTRYINDEX);
+	if (lua_callback != LUA_REFNIL) {
+		lua_rawgeti(L, LUA_REGISTRYINDEX, lua_callback);
+		/**
+		 * lua_newtable(L); // 创建一个table
+		 * lua_pushstring(L, "intVal");  //key为intVal
+		 * lua_pushinteger(L,1234);      //值为1234
+		 * lua_settable(L, -3);          //写入table
+		 */
+		lua_newtable(L);
+		int i = 0;
+		for (i=1; i<10; i++) {
+			lua_pushinteger(L, i);
+			lua_pushstring(L, "hello");
+			lua_settable(L, -3);
+		}
+		/* call with 1 argument and 0 result */
+		lua_pcall(L, 1, 0, 0);
+	}
 	lua_pushstring(L, "test func success");
 	return 1;
 }
@@ -55,6 +116,7 @@ static const struct luaL_Reg lib_f[] = {
 static const struct luaL_Reg lib_m[] = {
 	{"test", _test},
 	{"__gc", _gc},
+	{"exec", _exec},
 	{NULL, NULL}
 };
 int luaopen_sqlite(lua_State *L) {
