@@ -8,7 +8,6 @@ print(o:test(a, function(t)
 		print(k, v)
 	end
 end))
-
 local r = o:exec("select * from user;", function(rv) 
 	print('on call back :')
 	if rv then
@@ -18,3 +17,17 @@ local r = o:exec("select * from user;", function(rv)
 	end
 end)
 print('exec return :', r)
+local r = o:exec_batch("select * from user;", function(t) 
+	print('on batch call back:', t)
+	if t then
+		for k, v in pairs(t) do
+			print(k)
+			if type(v) == 'table' then
+				for kk, vv in pairs(v) do
+					print(kk, vv)
+				end
+			end
+		end
+	end
+end)
+print('exec_bach:', r)

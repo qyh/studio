@@ -48,7 +48,6 @@ static int _exec_callback(void* data, int argc, char **argv, char **columnName) 
 	}
 	return 0;
 }
-
 static int _exec (lua_State* L) {
 	char *errMsg = 0;
 	int rv = 0;
@@ -68,6 +67,54 @@ static int _exec (lua_State* L) {
 		lua_pushinteger(L, rv);
 		return 1;
 	}
+	lua_pushinteger(L, rv);
+	return 1;
+}
+
+static int _exec_batch_callback(void* data, int argc, char **argv, char **columnName) {
+	int i = 0;
+	sqlite_t *ud = (sqlite_t*)data;
+	if (ud) {
+		lua_newtable(ud->l);
+		for (i=0; i<argc; i++) {
+			/* key */
+			lua_pushstring(ud->l, columnName[i]); 
+			/* value */
+			lua_pushstring(ud->l, argv[i]);       
+			lua_settable(ud->l, -3);
+		}
+		size_t size = lua_rawlen(ud->l, -2);
+		lua_pushinteger(ud->l, size+1);
+		lua_insert(ud->l, -2);  /* switch index -2 and -1*/
+		lua_settable(ud->l, -3);
+	}
+	return 0;
+}
+static int _exec_batch (lua_State* L) {
+	char *errMsg = 0;
+	int rv = 0;
+	sqlite_t* ud = checkarg(L);
+	ud->lua_callback = luaL_ref(L, LUA_REGISTRYINDEX);
+	ud->l = L;
+	const char* sql = lua_tostring(L, 2);
+	if (sql == NULL) {
+		luaL_error(L, "sql is NULL");
+		lua_pushinteger(L, -1);
+		return 1;
+	}
+	/* push lua callback function to stack */
+	lua_rawgeti(ud->l, LUA_REGISTRYINDEX, ud->lua_callback);
+	/* push result table */
+	lua_newtable(L);
+	rv = sqlite3_exec(ud->db, sql, _exec_batch_callback, (void*)ud, &errMsg);
+	if (rv != SQLITE_OK) {
+		luaL_error(L, errMsg);
+		sqlite3_free(errMsg);
+		lua_pushinteger(L, rv);
+		return 1;
+	}
+	/* invoke the lua callback function */
+	lua_pcall(ud->l, 1, 0, 0);
 	lua_pushinteger(L, rv);
 	return 1;
 }
@@ -117,6 +164,7 @@ static const struct luaL_Reg lib_m[] = {
 	{"test", _test},
 	{"__gc", _gc},
 	{"exec", _exec},
+	{"exec_batch", _exec_batch},
 	{NULL, NULL}
 };
 int luaopen_sqlite(lua_State *L) {
