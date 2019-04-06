@@ -48,7 +48,7 @@ static int _exec_callback(void* data, int argc, char **argv, char **columnName) 
 	}
 	return 0;
 }
-static int _exec (lua_State* L) {
+static int _sqlite3_exec (lua_State* L) {
 	char *errMsg = 0;
 	int rv = 0;
 	sqlite_t* ud = checkarg(L);
@@ -90,7 +90,7 @@ static int _exec_batch_callback(void* data, int argc, char **argv, char **column
 	}
 	return 0;
 }
-static int _exec_batch (lua_State* L) {
+static int _exec(lua_State* L) {
 	char *errMsg = 0;
 	int rv = 0;
 	sqlite_t* ud = checkarg(L);
@@ -163,8 +163,8 @@ static const struct luaL_Reg lib_f[] = {
 static const struct luaL_Reg lib_m[] = {
 	{"test", _test},
 	{"__gc", _gc},
+	{"sqlite3_exec", _sqlite3_exec},
 	{"exec", _exec},
-	{"exec_batch", _exec_batch},
 	{NULL, NULL}
 };
 int luaopen_sqlite(lua_State *L) {
