@@ -13,7 +13,7 @@ typedef struct sqlite_t {
 	lua_State* l;
 }sqlite_t;
 
-static int newsqlite(lua_State* L) {
+static int _open(lua_State* L) {
 	const char* filename = luaL_checkstring(L, 1);
 	luaL_argcheck(L, filename != NULL, 1, "database name expected");
 	sqlite_t* ud = (sqlite_t*)lua_newuserdata(L, sizeof(struct sqlite_t));
@@ -188,7 +188,7 @@ static int _gc(lua_State* L) {
 }
 
 static const struct luaL_Reg lib_f[] = {
-	{"new", newsqlite},
+	{"open", _open},
 	{NULL, NULL}
 };
 static const struct luaL_Reg lib_m[] = {

@@ -1,6 +1,6 @@
 local sqlite = require "sqlite"
 print('test.lua')
-local o = sqlite.new("./testDB.db");
+local o = sqlite.open("./testDB.db");
 print(o:test(a, function(t)
 	print('on callback function')
 	print(string.format('a:%s', a))
@@ -8,6 +8,8 @@ print(o:test(a, function(t)
 		print(k, v)
 	end
 end))
+
+
 local r = o:sqlite3_exec("select * from user;", function(rv) 
 	print('on call back :')
 	if rv then
@@ -17,7 +19,7 @@ local r = o:sqlite3_exec("select * from user;", function(rv)
 	end
 end)
 print('exec return :', r)
-print(o:exec("update user set gold=900 where ID=3;"))
+print(o:exec("update user set gold=900 where ID=3"))
 
 local r = o:exec("select * from user;", function(t) 
 	print('on batch call back:', t)
