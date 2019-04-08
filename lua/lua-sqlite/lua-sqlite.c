@@ -52,23 +52,37 @@ static int _sqlite3_exec (lua_State* L) {
 	char *errMsg = 0;
 	int rv = 0;
 	sqlite_t* ud = checkarg(L);
-	ud->lua_callback = luaL_ref(L, LUA_REGISTRYINDEX);
-	ud->l = L;
 	const char* sql = lua_tostring(L, 2);
 	if (sql == NULL) {
 		luaL_error(L, "sql is NULL");
 		lua_pushinteger(L, -1);
 		return 1;
 	}
-	rv = sqlite3_exec(ud->db, sql, _exec_callback, (void*)ud, &errMsg);
-	if (rv != SQLITE_OK) {
-		luaL_error(L, errMsg);
-		sqlite3_free(errMsg);
+	int ltype = lua_type(L, 3);
+	if (ltype == LUA_TFUNCTION) {
+		ud->lua_callback = luaL_ref(L, LUA_REGISTRYINDEX);
+		ud->l = L;
+		rv = sqlite3_exec(ud->db, sql, _exec_callback, (void*)ud, &errMsg);
+		if (rv != SQLITE_OK) {
+			luaL_error(L, errMsg);
+			sqlite3_free(errMsg);
+			lua_pushinteger(L, rv);
+			return 1;
+		}
+		luaL_unref(L, LUA_REGISTRYINDEX, ud->lua_callback);
+		lua_pushinteger(L, rv);
+		return 1;
+	} else {
+		rv = sqlite3_exec(ud->db, sql, NULL, (void*)ud, &errMsg);
+		if (rv != SQLITE_OK) {
+			luaL_error(L, errMsg);
+			sqlite3_free(errMsg);
+			lua_pushinteger(L, rv);
+			return 1;
+		}
 		lua_pushinteger(L, rv);
 		return 1;
 	}
-	lua_pushinteger(L, rv);
-	return 1;
 }
 
 static int _exec_batch_callback(void* data, int argc, char **argv, char **columnName) {
@@ -94,29 +108,46 @@ static int _exec(lua_State* L) {
 	char *errMsg = 0;
 	int rv = 0;
 	sqlite_t* ud = checkarg(L);
-	ud->lua_callback = luaL_ref(L, LUA_REGISTRYINDEX);
-	ud->l = L;
 	const char* sql = lua_tostring(L, 2);
 	if (sql == NULL) {
 		luaL_error(L, "sql is NULL");
 		lua_pushinteger(L, -1);
 		return 1;
 	}
-	/* push lua callback function to stack */
-	lua_rawgeti(ud->l, LUA_REGISTRYINDEX, ud->lua_callback);
-	/* push result table */
-	lua_newtable(L);
-	rv = sqlite3_exec(ud->db, sql, _exec_batch_callback, (void*)ud, &errMsg);
-	if (rv != SQLITE_OK) {
-		luaL_error(L, errMsg);
-		sqlite3_free(errMsg);
+	int ltype = lua_type(L, 3);
+	if (ltype == LUA_TFUNCTION) {
+		/*printf("LUA_TFUNCTION");*/
+		ud->lua_callback = luaL_ref(L, LUA_REGISTRYINDEX);
+		ud->l = L;
+		/* push lua callback function to stack */
+		lua_rawgeti(ud->l, LUA_REGISTRYINDEX, ud->lua_callback);
+		/* push result table */
+		lua_newtable(L);
+		rv = sqlite3_exec(ud->db, sql, _exec_batch_callback, (void*)ud, &errMsg);
+		if (rv != SQLITE_OK) {
+			luaL_error(L, errMsg);
+			sqlite3_free(errMsg);
+			lua_pushinteger(L, rv);
+			return 1;
+		}
+		/* invoke the lua callback function */
+		lua_pcall(ud->l, 1, 0, 0);
+		lua_pushinteger(L, rv);
+		luaL_unref(L, LUA_REGISTRYINDEX, ud->lua_callback);
+		return 1;
+	} else {
+		/*printf("not LUA_TFUNCTION\n");*/
+		rv = sqlite3_exec(ud->db, sql, NULL, (void*)ud, &errMsg);
+		if (rv != SQLITE_OK) {
+			luaL_error(L, errMsg);
+			sqlite3_free(errMsg);
+			lua_pushinteger(L, rv);
+			return 1;
+		}
+		/* invoke the lua callback function */
 		lua_pushinteger(L, rv);
 		return 1;
 	}
-	/* invoke the lua callback function */
-	lua_pcall(ud->l, 1, 0, 0);
-	lua_pushinteger(L, rv);
-	return 1;
 }
 static int _test(lua_State* L) {
 	sqlite_t* ud = checkarg(L);	

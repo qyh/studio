@@ -17,6 +17,8 @@ local r = o:sqlite3_exec("select * from user;", function(rv)
 	end
 end)
 print('exec return :', r)
+print(o:exec("update user set gold=900 where ID=3;"))
+
 local r = o:exec("select * from user;", function(t) 
 	print('on batch call back:', t)
 	if t then
@@ -31,3 +33,5 @@ local r = o:exec("select * from user;", function(t)
 	end
 end)
 print('exec_bach:', r)
+
+
