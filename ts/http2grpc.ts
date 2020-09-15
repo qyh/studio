@@ -1,12 +1,12 @@
 import { setInterval, setTimeout } from "timers";
 const fetch = require('node-fetch');
 import { URLSearchParams } from 'url';
-//import lodash from 'lodash';
-//import _ from 'lodash';
+import lodash from 'lodash';
+import _ from 'lodash';
 let token = "fASIa70Gnzn05CreWD6nhow08my2zia8"
 let host = "http://ingress.gllkgame.com:50050"
-
-
+let argv = process.argv
+let env = argv[2] || "dev"
 class Http {
     public async httpPost(host, body, header?:{}) {
         let content = null
@@ -40,11 +40,16 @@ class Request {
     constructor() {
         this.http = new Http()
     }
-    public async doRequest(env, service, path, data) {
+    public async doRequest(env, service, path, data, metadata?) {
         let header = {
             'Content-Type':'application/json',
             'env': env,
             'authcode': token,
+        }
+        if (metadata) {
+            for (let k in metadata) {
+                header[k] = metadata[k]
+            }
         }
         let body = {
         }
@@ -67,69 +72,72 @@ class Client {
     constructor(args) {
         this.param = args
         this.run = this.run.bind(this)
+        this.req= this.req.bind(this)
         this.request = new Request()
     }
     public async run(req, data) {
         let res = await this.request.doRequest(this.param.env, req.service, req.path, data)
         return res
     }
+
+    public async req(service, path, data, metadata?) {
+        console.log("request:", service, path, data)
+        let res = await this.request.doRequest(this.param.env, service, path, data, metadata)
+        console.log("response:", res)
+        return res
+    }
 }
 
 function main() {
-    let env = "dev"
     let uid = 1792262 
     let gameId = 101
     let platformId = 999
-    //商城统一下单
-    let unifiedOrder = {
-        service: "mall",
-        path: "unifiedOrder",
-        data: {
-            userInfo : {
-                uid : 1792262,
-                nickName : "qyh",
-            },
-            mallId: 19,
-            payItemId: 108,
-            num: 2,
-        }
-    }
-    //getGoodsList
-    let getGoodsList = {
-        service: "mall",
-        path: "getGoodsList",
-        data: {
-            uid: 1792262,
-            gameId: 101,
-            platformId: 999,
-        }
-    }
-    // im.test
-    let im_test = {
-        service: "im",
-        path: "test",
-        data: {
-            test:"hello"
-        }
-    }
     let reqs = new Array()
-    reqs.push(im_test)
-    reqs.push(getGoodsList)
-    //reqs.push(unifiedOrder)
     setTimeout(async function(){
+        ///////////////////////
+        let http = new Http()
+        let header = {
+            'Content-Type':'application/json',
+            'env': env,
+            'authcode': token,
+        }
+        //通知connector重载接口权限配置
+        http.httpPost("http://ingress.gllkgame.com:50050/connector/loadAuthorizations", "", header)
+        ///////////////////////
         let client = new Client({
             env: env,
             uid: uid,
             gameId: gameId,
             platformId: platformId,
         })
-        console.log("env:", env)
-        for (let i in reqs) {
-            let req = reqs[i]
-            console.log(`request ${i}: `, req)
-            let rv = await client.run(req, req.data)
-            console.log(`response ${i}: `, rv)
+        await client.req("mall", "reloadConfig", {
+            configName: "all"
+        }, {})
+        let res = await client.req("mall", "getGoodsList", {
+            guid : "5121-10001",
+            gameId : 101,
+            channelId: 999,
+        }, {channelId: 999, platformId:10001}) 
+        //console.log("goodsList:", res)
+        for (let goods of res.goodsList) {
+            console.log("goodsId:", goods.mallId, goods.region)
         }
+
+        res = await client.req("mall", "getRegionInfo", {
+        }, {channelId:101, platformId:10000})
+        console.log("getRegionInfo:", res)
+
+        res = await client.req("mall", "unifiedOrder", {
+            userInfo: {guid: "5121-10001", nickName: "robot121"},
+            kind: 101,
+            mallId: 26,
+            appId: "wxebee255d2d4891ff",
+            payItemId: 108,
+            num : 1,
+            channelId: 999
+        })
+        console.log("res", res)
+        
     }, 1)
 }
 
